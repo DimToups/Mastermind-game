@@ -2,52 +2,74 @@
 skinparam classAttributeIconSize 0
 
 enum Couleur{
-
+   Sans_Couleur
+  ROUGE, BLEU, VERT, JAUNE // ... ect
 }
 
 enum Indice {
-
+BIEN_PLACE, MAL_PLACE, ABSENT
 }
 
 class Joueur{
-
+  - nom: String
 }
 
 class Partie{
-
+  + commencerManche(joueur: Joueur): void
+  + terminerManche(): void
+  - tailleCombi : Integer
+  - nbManche : Integer
+  - nbTentative : Integer
+  + getManche(index: Integer) : Manche
+  + SetManche(index: Integer ,
 }
 
 class Manche{
+  - tailleCombi : Integer
+  - nbTentative : Integer
+  + genererCombinaisonAleatoire(): Combinaison
+  + prochaineTentative(): void
+  + terminerManche(): void
+  +getCombinaisonSecret():Combinaison
+  + getTentaive(index: Integer) : Tentative
 
 }
 
 class Combinaison{
-
+    + getCouleurCombinaison(index: Integer): Couleur
+    + setCouleurCombinaison (index:Integer , couleur: Couleur)
+    + GetCombinaison(): Combinaison
+    + estComplet():Boolean
 }
 
 class Tentative{
-
+  - tailleCombi : Integer
+    + ajoutCouleur(index: Integer, couleur : Couleur)
+     + evaluerTentative(combinaisonSecrete: Combinaison): void
 }
 
 class LigneIndice{
-
+    + getIndice(index : Integer) : Indice
+    + setIndice(indice : Indice, index : Integer)
+    + mettreIndices(bien_placer : Integer , mal_placer : Integer
 }
 
 class GestionnaireJeu{
-
+  + demarrerPartie(joueur: Joueur): void
+  + terminerPartie(): void
 }
 
 Partie "1" *--> "*\n- _manches" Manche
 
-GestionnaireJeu "1" *--> "1\n- _partie" Partie
-GestionnaireJeu "1" *--> "1\n- _joueur" Joueur
+GestionnaireJeu "1" *---> "1\n- _partie" Partie
+GestionnaireJeu "1" *---> "1\n- _joueur" Joueur
 
-Manche "1" --> "*\n- _tentatives" Tentative
+Manche "1" ---> "*\n- _tentatives" Tentative
 Manche "1" *--> "1\n- _combinaisonSecrete" Combinaison
 
-Tentative "1" --> "1\n- _ligneIndice" LigneIndice
-Tentative "1" o-l> "1\n- _combinaisonEntree" Combinaison
-Combinaison "1" o--> "4\n- _couleurs" Couleur
-LigneIndice "1" o--> "4\n- _indices" Indice
+Tentative "1" ----> "1\n- _ligneIndice" LigneIndice
+Tentative "1" o----> "1\n- _combinaisonEntree" Combinaison
+Combinaison "1" o--> "*\n- _couleurs" Couleur
+LigneIndice "1" o---> "*\n- _indices" Indice
 
 @enduml
