@@ -2,74 +2,105 @@
 skinparam classAttributeIconSize 0
 
 enum Couleur{
-   Sans_Couleur
-  ROUGE, BLEU, VERT, JAUNE // ... ect
+    ..Values..
+    RIEN
+    ROUGE
+    BLEU
+    VERT
+    JAUNE
 }
 
 enum Indice {
-BIEN_PLACE, MAL_PLACE, ABSENT
-}
-
-class Joueur{
-  - nom: String
-}
-
-class Partie{
-  + commencerManche(joueur: Joueur): void
-  + terminerManche(): void
-  - tailleCombi : Integer
-  - nbManche : Integer
-  - nbTentative : Integer
-  + getManche(index: Integer) : Manche
-  + SetManche(index: Integer ,
-}
-
-class Manche{
-  - tailleCombi : Integer
-  - nbTentative : Integer
-  + genererCombinaisonAleatoire(): Combinaison
-  + prochaineTentative(): void
-  + terminerManche(): void
-  +getCombinaisonSecret():Combinaison
-  + getTentaive(index: Integer) : Tentative
-
-}
-
-class Combinaison{
-    + getCouleurCombinaison(index: Integer): Couleur
-    + setCouleurCombinaison (index:Integer , couleur: Couleur)
-    + GetCombinaison(): Combinaison
-    + estComplet():Boolean
-}
-
-class Tentative{
-  - tailleCombi : Integer
-    + ajoutCouleur(index: Integer, couleur : Couleur)
-     + evaluerTentative(combinaisonSecrete: Combinaison): void
-}
-
-class LigneIndice{
-    + getIndice(index : Integer) : Indice
-    + setIndice(indice : Indice, index : Integer)
-    + mettreIndices(bien_placer : Integer , mal_placer : Integer
+    ..Values..
+    BIEN_PLACE
+    MAL_PLACE
+    ABSENT
 }
 
 class GestionnaireJeu{
-  + demarrerPartie(joueur: Joueur): void
-  + terminerPartie(): void
+    ..Methods..
+    + demarrerPartie(joueur: Joueur)
+    + terminerPartie()
 }
 
-Partie "1" *--> "*\n- _manches" Manche
+class Joueur{
+    ..Fields..
+    - nom : String
+    - scores : Integer[]
+    ..Methods..
+    + <<create>> Joueur(nom : String)
+    + getNom() : String
+    + getScores() : Integer[]
+    + ajoutScorePartie(score : Integer)
+}
 
-GestionnaireJeu "1" *---> "1\n- _partie" Partie
-GestionnaireJeu "1" *---> "1\n- _joueur" Joueur
+class Partie{
+    ..Fields..
+    - tailleCombi : Integer
+    - nbManche : Integer
+    - nbTentative : Integer
+    - score : Integer
+    ..Methods..
+    + <<create>> Partie(nbManche : Integer, tailleCombi : Integer, nbTentatives : Integer)
+    + commencerManche(joueur: Joueur)
+    + mancheSuivante()
+    + getManche(index: Integer) : Manche
+    + setManche(index: Integer)
+}
 
-Manche "1" ---> "*\n- _tentatives" Tentative
-Manche "1" *--> "1\n- _combinaisonSecrete" Combinaison
+class Manche{
+    ..Fields..
+    - tentativeActuelle : Integer
+    - nbTentatives : Integer
+    ..Methods..
+    + <<create>> Manche(tailleCombi : Integer, nbTentatives : Integer)
+    + prochaineTentative()
+    + terminerManche() : Integer
+    + getCombinaisonSecrete() : Combinaison
+    + getTentative(index: Integer) : Tentative
+}
 
-Tentative "1" ----> "1\n- _ligneIndice" LigneIndice
+class Tentative{
+    ..Fields..
+    ..Methods..
+    + <<create>> Tentative(tailleCombi : Integer)
+    + ajoutCouleur(index : Integer, couleur : Couleur)
+    + evaluerTentative(combinaisonSecrete : Combinaison) : Boolean
+    + calculerScore() : Integer
+}
+
+class Combinaison{
+    ..Fields..
+    - combinaisonSecrete : Combinaison {static}
+    - tailleCombi : Integer
+    ..Methods..
+    + <<create>> Combinaison(tailleCombi : Integer)
+    + genererCombinaisonSecrete() {static}
+    + getCouleurCombinaison(index : Integer) : Couleur
+    + setCouleurCombinaison (index :Integer, couleur : Couleur)
+    + getCombinaison() : Combinaison
+    + getTailleCombi() : Integer
+    + estComplet() : Boolean
+}
+
+class LigneIndice{
+    ..Methods..
+    + getIndice(index : Integer) : Indice
+    + setIndice(indice : Indice, index : Integer)
+    + getIndices() : Integer[]
+}
+
+Partie "1" o--> "3 : 5\n- _manches" Manche
+Partie "1" o-> "1\n- _joueur" Joueur
+
+GestionnaireJeu "1" o--> "1\n- _partie" Partie
+GestionnaireJeu "1" o--> "1\n- _joueur" Joueur
+
+Manche "1" o---> "10 : 12\n- _tentatives" Tentative
+
+Tentative "1" o----> "1\n- _ligneIndice" LigneIndice
 Tentative "1" o----> "1\n- _combinaisonEntree" Combinaison
-Combinaison "1" o--> "*\n- _couleurs" Couleur
-LigneIndice "1" o---> "*\n- _indices" Indice
+Combinaison "1" o--> "4 : 6\n- _couleurs" Couleur
+LigneIndice "1" o--> "4 : 6\n- _indices" Indice
 
 @enduml
