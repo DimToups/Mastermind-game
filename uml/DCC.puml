@@ -19,8 +19,12 @@ enum Indice {
 
 class GestionnaireJeu{
     ..Methods..
-    + demarrerPartie(joueur: Joueur)
-    + terminerPartie()
+    - creerJoueur() : Joueur
+    - getNbManche() : Integer
+    - getTailleCombi() : Integer
+    - getNbTentatives() : Integer
+    - getModeJeu() : ModeJeu
+    + demarrerPartie()
 }
 
 class Joueur{
@@ -40,12 +44,11 @@ class Partie{
     - nbManche : Integer
     - nbTentative : Integer
     - score : Integer
+    - mancheActive : Integer
     ..Methods..
-    + <<create>> Partie(nbManche : Integer, tailleCombi : Integer, nbTentatives : Integer)
-    + commencerManche(joueur: Joueur)
-    + mancheSuivante()
+    + <<create>> Partie(joueur: Joueur, nbManche : Integer, tailleCombi : Integer, nbTentatives : Integer)
+    + lancerPartie()
     + getManche(index: Integer) : Manche
-    + setManche(index: Integer)
 }
 
 class Manche{
@@ -54,16 +57,16 @@ class Manche{
     - nbTentatives : Integer
     ..Methods..
     + <<create>> Manche(tailleCombi : Integer, nbTentatives : Integer)
-    + prochaineTentative()
-    + terminerManche() : Integer
+    + jouerManche() : Integer
+    - calculerScore() : Integer
     + getCombinaisonSecrete() : Combinaison
     + getTentative(index: Integer) : Tentative
 }
 
 class Tentative{
-    ..Fields..
     ..Methods..
     + <<create>> Tentative(tailleCombi : Integer)
+    + lancerTentative()
     + ajoutCouleur(index : Integer, couleur : Couleur)
     + evaluerTentative(combinaisonSecrete : Combinaison) : Boolean
     + calculerScore() : Integer
@@ -84,23 +87,52 @@ class Combinaison{
 }
 
 class LigneIndice{
+    ..Fields..
+    - tailleCombi : Integer
     ..Methods..
+    + getTailleCombi() : Integer
     + getIndice(index : Integer) : Indice
     + setIndice(indice : Indice, index : Integer)
     + getIndices() : Integer[]
+    '+ finirTentative()
 }
 
-Partie "1" o--> "3 : 5\n- _manches" Manche
-Partie "1" o-> "1\n- _joueur" Joueur
+interface ModeJeu{
+    + afficherIndices() {abstract}
+}
 
-GestionnaireJeu "1" o--> "1\n- _partie" Partie
-GestionnaireJeu "1" o--> "1\n- _joueur" Joueur
+class Facile implements ModeJeu{
+    ..Methods..
+    + afficherIndices()
+}
 
-Manche "1" o---> "10 : 12\n- _tentatives" Tentative
+class Classique implements ModeJeu{
+    ..Methods..
+    + afficherIndices()
+}
 
-Tentative "1" o----> "1\n- _ligneIndice" LigneIndice
-Tentative "1" o----> "1\n- _combinaisonEntree" Combinaison
-Combinaison "1" o--> "4 : 6\n- _couleurs" Couleur
-LigneIndice "1" o--> "4 : 6\n- _indices" Indice
+class Numerique implements ModeJeu{
+    ..Methods..
+    + afficherIndices()
+}
+
+Partie "1" o--> "3 : 5\n- _manches" Manche : <<possède>>
+Partie "1" o-> "1\n- _joueur" Joueur : <<joue la partie>>
+
+GestionnaireJeu "1" o--> "1\n- _partie" Partie : <<lance>>
+GestionnaireJeu ..> Joueur : <<utilises>>
+
+Manche "1" o---> "10 : 12\n- _tentatives" Tentative : <<possède>>
+
+Tentative "1" o----> "1\n- _ligneIndice" LigneIndice : <<possède>>
+Tentative "1" o----> "1\n- _combinaisonEntree" Combinaison : <<possède>>
+
+Combinaison "1" o--> "4 : 6\n- _couleurs" Couleur : <<possède>>
+
+LigneIndice "1" o--> "4 : 6\n- _indices" Indice : <<possède>>
+
+ModeJeu "1\n- modeJeu" <--o "1" Partie
+ModeJeu "1\n- modeJeu" <--o "1" Manche
+ModeJeu "1\n- modeJeu" <--o "1" Tentative
 
 @enduml

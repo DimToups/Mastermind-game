@@ -1,8 +1,8 @@
 # Tâches à faire
 ## Prochaine séance
-- Revoir le déroulé d'une partie
-- Mettre les verbes sur les flèches
-- Gérer la gestion des scores
-- Retravailler les stratégies
+- ~~ Revoir le déroulé d'une partie ~~
+- ~~ Retravailler les stratégies ~~
+- ~~ Gérer la gestion des scores ~~
+- ~~ Mettre les verbes sur les flèches ~~
 ## Global
 
