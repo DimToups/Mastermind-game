@@ -23,8 +23,8 @@ public class Tentative {
             System.out.println("*************************************************************************************************");
 
 
-            modeJeu.afficherCouleurs(combinaisonEntree,"votre combinaison actuelle ");
-            System.out.println("valider(oui) ou sinon veuiller mettre un index entre 0 et "+(combinaisonEntree.getTailleCombi()-1));
+            combinaisonEntree.afficherCouleurs("votre combinaison actuelle ");
+            System.out.println("valider(oui) ou sinon veuiller mettre un index entre 0 et "+(combinaisonEntree.getTailleCombinaison()-1));
             Scanner in = new Scanner(System.in);
             String mot = in.nextLine();
             if (Objects.equals(mot, "oui"))
@@ -58,7 +58,7 @@ public class Tentative {
     }
 
     public void ajoutCouleur(int index, Couleur couleur) {
-        combinaisonEntree.setCouleurCombinaison(index,couleur);
+        combinaisonEntree.setClouleur(index,couleur);
     }
 
     public boolean evaluerTentative(Combinaison combinaisonSecrete) {
@@ -66,9 +66,9 @@ public class Tentative {
         if (combinaisonEntree.estComplet()) {
             boolean estCorrecte = true ;
 
-            for (int i = 0; i < combinaisonEntree.getTailleCombi(); i++) {
+            for (int i = 0; i < combinaisonEntree.getTailleCombinaison(); i++) {
 
-                if (combinaisonSecrete.getCouleurCombinaison(i) != combinaisonEntree.getCouleurCombinaison(i)) {
+                if (combinaisonSecrete.getCouleur(i) != combinaisonEntree.getCouleur(i)) {
                     estCorrecte = false;
                 } else {
                     ligneIndice.setIndice(Indice.BIEN_PLACE, i);
@@ -76,11 +76,11 @@ public class Tentative {
                 }
             }
             List<Integer> contienDeja=new ArrayList<Integer>();
-            for (int i = 0; i < combinaisonEntree.getTailleCombi(); i++) {
+            for (int i = 0; i < combinaisonEntree.getTailleCombinaison(); i++) {
                 if (ligneIndice.getIndice(i) != Indice.BIEN_PLACE) {
-                    for (int j = 0; j < combinaisonEntree.getTailleCombi(); j++) {
+                    for (int j = 0; j < combinaisonEntree.getTailleCombinaison(); j++) {
                             if (ligneIndice.getIndice(j) != Indice.BIEN_PLACE) {
-                                if (combinaisonSecrete.getCouleurCombinaison(j) == combinaisonEntree.getCouleurCombinaison(i)) {
+                                if (combinaisonSecrete.getCouleur(j) == combinaisonEntree.getCouleur(i)) {
                                     if (!contienDeja.contains(j)) {
                                         ligneIndice.setIndice(Indice.MAL_PLACE, i);
                                         contienDeja.add(j);
@@ -92,9 +92,8 @@ public class Tentative {
                 }
             }
             System.out.println("");
-            System.out.println("");
-            modeJeu.afficherCouleurs(combinaisonEntree,"Combinaison final");
-            modeJeu.afficherIndex(ligneIndice,"votre ligne d'indice ");
+            combinaisonEntree.afficherCouleurs("Combinaison final");
+            modeJeu.afficherIndices(ligneIndice,"votre ligne d'indice ");
 
             return estCorrecte;
         }

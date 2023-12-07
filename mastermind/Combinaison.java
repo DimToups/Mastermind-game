@@ -28,18 +28,18 @@
                     int n = r.nextInt(7);
                      ;
                     Couleur[] couleur = Couleur.values();
-                    secret.setCouleurCombinaison(i, couleur[n+1]);
+                    secret.setClouleur(i, couleur[n+1]);
                 }
                 return secret;
             }
 
             // Méthode pour obtenir la couleur d'une position spécifique dans la combinaison
-            public Couleur getCouleurCombinaison(int index) {
+            public Couleur getCouleur(int index) {
                 return combinaison.get(index);
             }
 
             // Méthode pour définir la couleur à une position spécifique dans la combinaison
-            public void setCouleurCombinaison(int index, Couleur couleur) {
+            public void setClouleur(int index, Couleur couleur) {
                 combinaison.set(index, couleur);
             }
 
@@ -49,7 +49,7 @@
             }
 
             // Méthode pour obtenir la taille de la combinaison
-            public int getTailleCombi() {
+            public int getTailleCombinaison() {
                 return tailleCombi;
             }
 
@@ -62,6 +62,14 @@
                 }
                 return true;
             }
+        public void afficherCouleurs(String titre) {
+            System.out.print(titre + " : ");
+            for (int i = 0; i < this.getTailleCombinaison(); i++) {
+                System.out.print(this.getCouleur(i) + " ");
+            }
+            System.out.println(); // Pour passer à la ligne après l'affichage des couleurs
         }
+
+    }
 
 

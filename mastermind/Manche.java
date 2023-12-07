@@ -11,16 +11,14 @@ public class Manche {
     private Combinaison combinaisonSecrete ;
 
     // Constructeur
-    public Manche(int tailleCombi, int nbTentativesn ,ModeJeu modeJeu) {
+    public Manche(int tailleCombi, int nbTentatives ,ModeJeu modeJeu) {
         this.tentativeActuelle = 0;
-        this.nbTentatives = nbTentativesn;
+        this.nbTentatives = nbTentatives;
         this.tentatives = new ArrayList<>();
-        combinaisonSecrete=getCombinaisonSecrete(tailleCombi);
-
-        modeJeu.afficherCouleurs(combinaisonSecrete,"pour t'aider si ta la flemme de fair le jeu et que tu veux voir si les classe fonctionne(つ^ᴗ^)つ･:*☆ Combinaison secret :" );
-
+        combinaisonSecrete=Combinaison.genererCombinaisonSecrete(tailleCombi);
+        combinaisonSecrete.afficherCouleurs("pour t'aider si ta la flemme de fair le jeu et que tu veux voir si les classe fonctionne(つ^ᴗ^)つ･:*☆ Combinaison secret :" );
         // Initialiser les tentatives
-        for (int i = 0; i < nbTentativesn; i++) {
+        for (int i = 0; i < nbTentatives; i++) {
             this.tentatives.add(new Tentative(tailleCombi, modeJeu));
         }
     }
@@ -29,26 +27,12 @@ public class Manche {
     public void jouerManche() {
         boolean fini=false;
         while (!fini) {
-
             Tentative tentative = tentatives.get(tentativeActuelle);
             tentative.lancerTentative();
-            if (tentative.evaluerTentative(combinaisonSecrete))
-            {
-                fini=true;
-            } else if (tentativeActuelle > nbTentatives) {
-                fini=true;
-
-            } else {
-                tentativeActuelle++;
-            }
-
-
-
-
-
+            if (tentative.evaluerTentative(combinaisonSecrete)) {fini=true;}
+            else if (tentativeActuelle > nbTentatives) {fini=true;}
+            else {tentativeActuelle++;}
         }
-
-
     }
 
     // Méthode pour calculer le score de la manche
@@ -59,7 +43,7 @@ public class Manche {
 
     // Méthode pour obtenir la combinaison secrète de la manche
     public Combinaison getCombinaisonSecrete(int taille) {
-        return Combinaison.genererCombinaisonSecrete(taille);
+        return combinaisonSecrete;
     }
 
     // Méthode pour obtenir une tentative spécifique
