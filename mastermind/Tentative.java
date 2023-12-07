@@ -20,8 +20,8 @@ public class Tentative {
 
 
         while (fini) {
-            System.out.println("");
-            System.out.println("");
+            System.out.println("*************************************************************************************************");
+
 
             modeJeu.afficherCouleurs(combinaisonEntree,"votre combinaison actuelle ");
             System.out.println("valider(oui) ou sinon veuiller mettre un index entre 0 et "+(combinaisonEntree.getTailleCombi()-1));
@@ -43,8 +43,8 @@ public class Tentative {
             {
 
                 int index = Integer.parseInt(mot);
-                System.out.println("Entrez une combinaison, Couleur par Couleur.");
-                mot = in.nextLine();
+                System.out.println("Entrez une  Couleur.");
+                mot = in.nextLine().toUpperCase();
                 this.ajoutCouleur(index, Couleur.valueOf(mot));
 
 

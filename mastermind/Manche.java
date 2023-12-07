@@ -17,6 +17,8 @@ public class Manche {
         this.tentatives = new ArrayList<>();
         combinaisonSecrete=getCombinaisonSecrete(tailleCombi);
 
+        modeJeu.afficherCouleurs(combinaisonSecrete,"pour t'aider si ta la flemme de fair le jeu et que tu veux voir si les classe fonctionne(つ^ᴗ^)つ･:*☆ Combinaison secret :" );
+
         // Initialiser les tentatives
         for (int i = 0; i < nbTentativesn; i++) {
             this.tentatives.add(new Tentative(tailleCombi, modeJeu));
@@ -27,6 +29,7 @@ public class Manche {
     public void jouerManche() {
         boolean fini=false;
         while (!fini) {
+
             Tentative tentative = tentatives.get(tentativeActuelle);
             tentative.lancerTentative();
             if (tentative.evaluerTentative(combinaisonSecrete))

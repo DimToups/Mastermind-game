@@ -15,7 +15,7 @@
                 this.tailleCombi = tailleCombi;
                 for (int i =0;i<tailleCombi;i++)
                 {
-                    this.combinaison.add(Couleur.Absent);
+                    this.combinaison.add(Couleur.ABSENT);
                 }
             }
 
@@ -56,7 +56,7 @@
             // Méthode pour vérifier si la combinaison est complète
             public boolean estComplet() {
                 for (Couleur couleur : combinaison) {
-                    if (couleur == Couleur.Absent) {
+                    if (couleur == Couleur.ABSENT) {
                         return false;
                     }
                 }

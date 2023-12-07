@@ -6,19 +6,21 @@ public class Main {
 
 
     public static void main(String[] args) {
+        GestionnaireJeu jeu = new GestionnaireJeu();
+        jeu.demarrerPartie();
 
 
-        // Définir la taille de la combinaison
+    /*    // Définir la taille de la combinaison
         int tailleCombi = 4;
         int nbTentative=11;
 
-        //Créer un manche
+      //////////////////////////////////////////////  //Créer un manche
         Manche manche= new Manche(tailleCombi,nbTentative,new Classique());
         manche.jouerManche();
 
         System.out.println("voitre score : "+manche.calculerScore());
 
-        /* main pour tentative
+        //////////////////////////////// main pour tentative
         //Créer une tentative
         Tentative tent=new Tentative(tailleCombi , new Classique());
 

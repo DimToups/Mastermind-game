@@ -1,5 +1,5 @@
 package mastermind;
 
 public enum Couleur {
-    Absent,Bleu, Jaune, Rouge,Vert, Orange,Violet,Blanc,Noir
+    ABSENT,BLEU,JAUNE,ROUGE,VERT,ORANGE,VIOLET,BLANC,NOIR
 }
