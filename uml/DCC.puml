@@ -65,7 +65,7 @@ class Manche{
 
 class Tentative{
     ..Methods..
-    + <<create>> Tentative(tailleCombi : Integer)
+    + <<create>> Tentative(tailleCombi : Integer; mode:Modejeu)
     + lancerTentative()
     + ajoutCouleur(index : Integer, couleur : Couleur)
     + evaluerTentative(combinaisonSecrete : Combinaison) : Boolean
