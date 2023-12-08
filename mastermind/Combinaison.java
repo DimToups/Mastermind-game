@@ -26,7 +26,6 @@
                 for (int i =0;i<taille;i++)
                 {
                     int n = r.nextInt(7);
-                     ;
                     Couleur[] couleur = Couleur.values();
                     secret.setClouleur(i, couleur[n+1]);
                 }
@@ -43,10 +42,6 @@
                 combinaison.set(index, couleur);
             }
 
-            // Méthode pour obtenir la combinaison complète
-            public Combinaison getCombinaison() {
-                return this;
-            }
 
             // Méthode pour obtenir la taille de la combinaison
             public int getTailleCombinaison() {
