@@ -3,11 +3,14 @@
 
     enum Couleur{
         ..Values..
-        RIEN
+        ABSENT
         ROUGE
         BLEU
         VERT
         JAUNE
+        NOIR
+        ORANGE
+        BLANC
     }
 
     enum Indice {
