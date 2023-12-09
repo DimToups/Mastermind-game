@@ -1,4 +1,4 @@
-package mastermind;
+package model;
 public interface ModeJeu {
 
 

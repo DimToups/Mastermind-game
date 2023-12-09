@@ -1,4 +1,4 @@
-package mastermind;
+package model;
 
 public enum Couleur {
     ABSENT,BLEU,JAUNE,ROUGE,VERT,ORANGE,VIOLET,BLANC,NOIR

@@ -1,4 +1,4 @@
-package mastermind;
+import controller.GestionnaireJeu;
 
 import javax.print.attribute.standard.PrinterInfo;
 

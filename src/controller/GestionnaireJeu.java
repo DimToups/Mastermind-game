@@ -1,6 +1,7 @@
-package mastermind;
+package controller;
 
-import java.util.Objects;
+import model.*;
+
 import java.util.Scanner;
 
 public class GestionnaireJeu {
