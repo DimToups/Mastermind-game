@@ -16,7 +16,7 @@ public class Manche {
         this.nbTentatives = nbTentatives;
         this.tentatives = new ArrayList<>();
         combinaisonSecrete=Combinaison.genererCombinaisonSecrete(tailleCombi);
-        combinaisonSecrete.afficherCouleurs("pour t'aider si ta la flemme de fair le jeu et que tu veux voir si les classe fonctionne(つ^ᴗ^)つ･:*☆ Combinaison secret :" );
+        combinaisonSecrete.afficherCouleurs("pour t'aider si ta la flemme de fair tt le  jeu et que tu veux voir si les classe fonctionne   Combinaison secret :" );
         // Initialiser les tentatives
         for (int i = 0; i < nbTentatives; i++) {
             this.tentatives.add(new Tentative(tailleCombi, modeJeu));
@@ -42,7 +42,7 @@ public class Manche {
     }
 
     // Méthode pour obtenir la combinaison secrète de la manche
-    public Combinaison getCombinaisonSecrete(int taille) {
+    public Combinaison getCombinaisonSecrete() {
         return combinaisonSecrete;
     }
 
