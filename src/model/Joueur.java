@@ -1,25 +1,21 @@
 package model;
 
-public class Joueur {
-    private String nom;
-    private  int score;
+import java.util.ArrayList;
+import java.util.List;
 
+public class Joueur {
+    private final String nom;
+    private List<Integer> score = new ArrayList<>(1);
     public Joueur(String nom) {
         this.nom = nom;
-        // Initialisation du tableau des scores
-        this.score = 0;
     }
-
     public String getNom() {
         return nom;
     }
-
-    public Integer getScores() {
+    public List<Integer> getScores() {
         return score;
     }
-
     public void ajoutScorePartie(Integer score) {
-        // Logique pour ajouter un score à la liste des scores
-      this.score=this.score+score;
+      this.score.add(score);
     }
 }
