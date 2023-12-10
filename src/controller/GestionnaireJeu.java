@@ -1,6 +1,9 @@
 package src.controller;
 
 import src.model.*;
+import src.view.Classique;
+import src.view.Facile;
+import src.view.Numerique;
 
 import java.util.Scanner;
 

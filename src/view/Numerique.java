@@ -1,6 +1,9 @@
-package src.model;
+package src.view;
 
-public class Numerique implements ModeJeu{
+import src.model.LigneIndice;
+import src.model.ModeJeu;
+
+public class Numerique implements ModeJeu {
     public  void afficherIndices(LigneIndice ligne) {
         System.out.println("Vous avez "
             + ligne.getIntIndices()[0]

@@ -2,6 +2,7 @@ package src.model;
 
 import src.model.enums.Couleur;
 import src.model.enums.Indice;
+import src.view.Classique;
 
 import java.util.*;
 

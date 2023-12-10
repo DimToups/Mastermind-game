@@ -46,9 +46,4 @@ public class Combinaison {
                 return false;
         return true;
     }
-    public void afficherCouleurs() {
-        for (int i = 0; i < this.getTailleCombinaison(); i++)
-            System.out.print(this.getCombinaison().get(i) + " ");
-        System.out.println(); // Pour passer à la ligne après l'affichage des couleurs
-    }
 }

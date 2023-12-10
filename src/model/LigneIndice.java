@@ -6,19 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LigneIndice {
-    private final int tailleCombi;
+    private final int tailleCombinaison;
     private List<Indice> indices = new ArrayList<>();
     public LigneIndice(int tailleCombi) {
-        this.tailleCombi = tailleCombi;
+        this.tailleCombinaison = tailleCombi;
         for (int i = 0; i < tailleCombi; i++)
             this.indices.add(Indice.ABSENT);
     }
-    public int getTailleCombi() {
-        return tailleCombi;
-    }
-    // Méthode pour définir l'indice à une position spécifique dans la ligne
-    public void setIndice(Indice indice, int index) {
-        indices.set(index, indice);
+    public int getTailleCombinaison() {
+        return tailleCombinaison;
     }
     // Méthode pour obtenir tous les indices de la ligne
     public int[] getIntIndices() {

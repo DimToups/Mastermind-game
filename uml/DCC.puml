@@ -1,141 +1,152 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-enum Couleur{
-    ..Values..
-    ABSENT
-    ROUGE
-    BLEU
-    VERT
-    JAUNE
-    NOIR
-    ORANGE
-    BLANC
+package src{
+    package model{
+        package enums{
+            enum Couleur{
+                ..Values..
+                ABSENT
+                BLEU
+                JAUNE
+                ROUGE
+                VERT
+                ORANGE
+                VIOLET
+                TURQUOISE
+                ROSE
+                ..Mehtods..
+                + getVraiesCouleurs() : Couleur[] {static}
+            }
+            enum Indice{
+                ..Values..
+                Bien_PLACE
+                MAL_PLACE
+                ABSENT
+            }
+        }
+        class Combinaison{
+            ..Fields..
+            tailleCombi : Integer
+            ..Methods..
+            + <<create>> Combinaison(tailleCombi : Integer)
+            + genererCombinaison(taille : Integer) : Combinaison {static}
+            + getCombinaison() : Couleur[]
+            + setCouleur(index : Integer, couleur : Couleur)
+            + getTailleCombinaison() : Integer
+            + estComplet() : Boolean
+        }
+        class Joueur{
+            ..Fields..
+            - nom : String
+            - score : Integer[]
+            ..Methods..
+            + <<create>> Joueur(nom : String)
+            + getNom() : String
+            + getScores() : Integer[]
+            + ajouterScorePartie(score : Integer)
+        }
+        class LigneIndice{
+            ..Fields..
+            - tailleCombi : Integer
+            ..Methods..
+            + <<create>> LigneIndice(tailleCombi : Integer)
+            + getTailleCombinaison() : Integer
+            + getIntIndices() : Integer[]
+            + getIndices() : Indice[]
+            + calculerScore() : Integer
+        }
+        class Manche{
+            ..Fields..
+            - tentativeActuelle : Integer
+            - nbTentatives : Integer
+            ..Methods..
+            + <<create>> Manche(tailleCombi : Integer, nbTentatives : Integer, modeJeu : ModeJeu)
+            + jouerManche()
+            + calculerScore() : Integer
+            + getCombinaisonSecrete() : Combinaison
+            + getNbTentative() : Integer
+            + getTentativeActuelle() : Integer
+            + GetTentatives() : Tentative[]
+        }
+        interface ModeJeu <<interface>>{
+            ..Methods..
+            afficherIndices(ligne : LigneIndice)
+        }
+        class Partie{
+            ..Fields..
+            - score : Integer
+            ..Methods..
+            + <<create>> Partie(joueur : Joueur, nbManche : Integer, tailleCombi : Integer, nbTentatives : Integer, modeJeu : ModeJeu)
+            + lancerPartie()
+            + getManches() : Manche[]
+            + finirPartie()
+        }
+        class Tentative{
+            ..Methods..
+            + <<create>> Tentative(taille : Integer, modeJeu : ModeJeu)
+            + lancerTentative()
+            + ajoutCouleur(index : Integer, couleur : Couleur)
+            + evaluerTentative(combinaisonSecrete : Combinaison) : Boolean
+            + getCombinaisonEntree() : Combinaison
+            + getLigneIndice() : LigneIndice
+            + calculBonus() : Integer
+            + calculerScore() : Integer
+        }
+    }
+    package view{
+        class Classique{
+            ..Methods..
+            afficherIndices(ligne : LigneIndice)
+        }
+        class Facile{
+            ..Methods..
+            afficherIndices(ligne : LigneIndice)
+        }
+        class Numerique{
+            ..Methods..
+            afficherIndices(ligne : LigneIndice)
+        }
+    }
+    package controller{
+        class GestionnaireJeu{
+            ..Methods..
+            + demarrerPartie()
+            - creerJoueur() : Joueur
+            - getNbManche() : Integer
+            - getTailleCombinaison() : Integer
+            - getNbTentatives() : Integer
+            - getModeJeu() : ModeJeu
+        }
+    }
 }
 
-enum Indice {
-    ..Values..
-    BIEN_PLACE
-    MAL_PLACE
-    ABSENT
-}
+src.controller.GestionnaireJeu ..> src.model.Partie : <<utilises>>
 
-class GestionnaireJeu{
-    ..Methods..
-    - creerJoueur() : Joueur
-    - getNbManche() : Integer
-    - getTailleCombi() : Integer
-    - getNbTentatives() : Integer
-    - getModeJeu() : ModeJeu
-    + demarrerPartie()
-}
 
-class Joueur{
-    ..Fields..
-    - nom : String
-    - scores : Integer[]
-    ..Methods..
-    + <<create>> Joueur(nom : String)
-    + getNom() : String
-    + getScores() : Integer[]
-    + ajoutScorePartie(score : Integer)
-}
+src.model.Combinaison "1" o--> "4..6" src.model.enums.Couleur
 
-class Partie{
-    ..Fields..
-    - tailleCombi : Integer
-    - nbManche : Integer
-    - nbTentative : Integer
-    - score : Integer
-    - mancheActive : Integer
-    ..Methods..
-    + <<create>> Partie(joueur: Joueur, nbManche : Integer, tailleCombi : Integer, nbTentatives : Integer)
-    + lancerPartie()
-    + getManche(index: Integer) : Manche
-}
+src.model.LigneIndice "1" o--> "4..6" src.model.enums.Indice
 
-class Manche{
-    ..Fields..
-    - tentativeActuelle : Integer
-    - nbTentatives : Integer
-    ..Methods..
-    + <<create>> Manche(tailleCombi : Integer, nbTentatives : Integer)
-    + jouerManche() : Integer
-    - calculerScore() : Integer
-    + getCombinaisonSecrete() : Combinaison
-    + getTentative(index: Integer) : Tentative
-}
+src.model.Manche "1" o--> "10..12" src.model.Tentative
+src.model.Manche "1" o--> "1" src.model.Combinaison
 
-class Tentative{
-    ..Methods..
-    + <<create>> Tentative(tailleCombi : Integer; mode:Modejeu)
-    + lancerTentative()
-    + ajoutCouleur(index : Integer, couleur : Couleur)
-    + evaluerTentative(combinaisonSecrete : Combinaison) : Boolean
-    + calculerScore() : Integer
-}
+src.model.ModeJeu ...> src.model.LigneIndice : <<utilises>>
+src.model.ModeJeu <|.. src.view.Classique
+src.model.ModeJeu <|.. src.view.Facile
+src.model.ModeJeu <|.. src.view.Numerique
 
-class Combinaison{
-    ..Fields..
-    - combinaisonSecrete : Combinaison {static}
-    - tailleCombi : Integer
-    ..Methods..
-    + <<create>> Combinaison(tailleCombi : Integer)
-    + genererCombinaisonSecrete() {static}
-    + getCouleurCombinaison(index : Integer) : Couleur
-    + setCouleurCombinaison (index :Integer, couleur : Couleur)
-    + getCombinaison() : Combinaison
-    + getTailleCombi() : Integer
-    + estComplet() : Boolean
-}
+src.model.Partie "1" o-> "1" src.model.Joueur
+src.model.Partie "1" o--> "3..5" src.model.Manche
+src.model.Partie .> src.model.ModeJeu
 
-class LigneIndice{
-    ..Fields..
-    - tailleCombi : Integer
-    ..Methods..
-    + getTailleCombi() : Integer
-    + getIndice(index : Integer) : Indice
-    + setIndice(indice : Indice, index : Integer)
-    + getIndices() : Integer[]
-    '+ finirTentative()
-}
+src.model.Tentative "1" o--> "1" src.model.Combinaison
+src.model.Tentative "1" o--> "1" src.model.LigneIndice
+src.model.Tentative "1" o-> "1" src.model.ModeJeu
 
-interface ModeJeu{
-    + afficherIndices() {abstract}
-}
 
-class Facile implements ModeJeu{
-    ..Methods..
-    + afficherIndices()
-}
-
-class Classique implements ModeJeu{
-    ..Methods..
-    + afficherIndices()
-}
-
-class Numerique implements ModeJeu{
-    ..Methods..
-    + afficherIndices()
-}
-
-Partie "1" o--> "3 : 5\n- _manches" Manche : <<possède>>
-Partie "1" o-> "1\n- _joueur" Joueur : <<joue la partie>>
-
-GestionnaireJeu "1" o--> "1\n- _partie" Partie : <<lance>>
-GestionnaireJeu ..> Joueur : <<utilises>>
-
-Manche "1" o---> "10 : 12\n- _tentatives" Tentative : <<possède>>
-
-Tentative "1" o----> "1\n- _ligneIndice" LigneIndice : <<possède>>
-Tentative "1" o----> "1\n- _combinaisonEntree" Combinaison : <<possède>>
-
-Combinaison "1" o--> "4 : 6\n- _couleurs" Couleur : <<possède>>
-
-LigneIndice "1" o--> "4 : 6\n- _indices" Indice : <<possède>>
-
-ModeJeu "1\n- modeJeu" <--o "1" Partie
-ModeJeu "1\n- modeJeu" <--o "1" Manche
-ModeJeu "1\n- modeJeu" <--o "1" Tentative
+src.view.Classique ..> src.model.LigneIndice : <<utilises>>
+src.view.Facile ..> src.model.LigneIndice : <<utilises>>
+src.view.Numerique ..> src.model.LigneIndice : <<utilises>>
 
 @enduml
