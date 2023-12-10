@@ -6,15 +6,17 @@ import java.util.List;
 public class Manche {
     private int tentativeActuelle = 0;
     private final int nbTentatives;
-    private List<Tentative> tentatives = new ArrayList<>();
-    private final Combinaison combinaisonSecrete ;
-    public Manche(int tailleCombi, int nbTentatives, ModeJeu modeJeu) {
+    private final List<Tentative> tentatives = new ArrayList<>();
+    private final Combinaison combinaisonSecrete;
+    private final MastermindObserver observer;
+    public Manche(MastermindObserver observer, int tailleCombi, int nbTentatives, ModeJeu modeJeu) {
+        this.observer = observer;
         this.nbTentatives = nbTentatives;
         this.combinaisonSecrete = Combinaison.genererCombinaison(tailleCombi);
 
         // Initialisation des tentatives
         for (int i = 0; i < nbTentatives; i++)
-            this.tentatives.add(new Tentative(tailleCombi, modeJeu));
+            this.tentatives.add(new Tentative(observer, tailleCombi, modeJeu));
     }
     // Méthode pour jouer la manche
     public void jouerManche() {

@@ -7,78 +7,31 @@ import src.view.Classique;
 import java.util.*;
 
 public class Tentative {
-    private Combinaison combinaisonEntree;
-    private LigneIndice ligneIndice;
+    private final Combinaison combinaisonEntree;
+    private final LigneIndice ligneIndice;
     private final ModeJeu modeJeu;
-    public Tentative(int tailleCombi, ModeJeu modeJeu) {
+    private final MastermindObserver observer;
+    public Tentative(MastermindObserver observer, int tailleCombi, ModeJeu modeJeu) {
+        this.observer = observer;
         this.combinaisonEntree = new Combinaison(tailleCombi);
         this.ligneIndice = new LigneIndice(tailleCombi);
         this.modeJeu = modeJeu;
     }
     public void lancerTentative() {
-        Scanner in = new Scanner(System.in);
         boolean fini = false;
 
         while (!fini) {
             //Affichage de la combinaison entrée de la tentative
-            System.out.println("\nVoici votre combinaison :");
-            for(int i = 0; i < combinaisonEntree.getCombinaison().size(); i++)
-                System.out.print(i + " : "
-                        + combinaisonEntree.getCombinaison().get(i).name().substring(0, 1).toUpperCase()
-                        + combinaisonEntree.getCombinaison().get(i).name().substring(1).toLowerCase()
-                        + "  | ");
-            System.out.println();
-
-            // Début de la tentative
-            String reponse = "";
-            int reponseInt = -1;
+            observer.affichageTentative(combinaisonEntree);
 
             //Gestion du cas où la combinaison est complète
             if(this.combinaisonEntree.estComplet()){
-                while(!reponse.equals("oui") && !reponse.equals("non")) {
-                    System.out.println("Votre combinaison est complète. Voulez vous la valider ?\n - oui\n - non");
-                    reponse = in.nextLine().toLowerCase().strip();
-
-                    //Gestion d'une mauvaise réponse
-                    if(!reponse.equals("oui") && !reponse.equals("non"))
-                        System.out.println("La valeur entrée est invalide.");
-                }
-                if(reponse.equals("oui"))
-                    fini = true;
+                fini = this.observer.afficherTentativeComplete();
             }
 
             //Gestion du cas où le joueur veut modifier sa combinaison
-            if(!reponse.equals("oui")){
-                //Obtention de la réponse de l'utilisateur
-                while(reponseInt < 0 || reponseInt >= combinaisonEntree.getTailleCombinaison()) {
-                    try{
-                        System.out.println("Veuillez entrer l'index de la combinaison à modifier.");
-                        reponseInt = Integer.parseInt(in.nextLine().strip());
-                    }
-                    catch (Exception e){
-                        System.out.println("La valeur entrée est invalide.");
-                    }
-                }
-
-                // Obtention de la couleur à placer et placement de cette couleur
-                boolean estPlace = false;
-                while (!estPlace) {
-                    System.out.print("Quelle couleur voulez-vous placer ?\nCouleurs disponibles : \n");
-                    for (Couleur couleurValides : Couleur.getVraiesCouleurs())
-                        System.out.print(couleurValides.name().substring(0,1).toUpperCase()
-                                + couleurValides.name().substring(1).toLowerCase()
-                                + " | ");
-                    System.out.println();
-
-                    try {
-                        Couleur couleurChoisie = Couleur.valueOf(in.nextLine().strip().toUpperCase());
-                        combinaisonEntree.setCouleur(reponseInt, couleurChoisie);
-                        estPlace = true;
-                    }
-                    catch (Exception e){
-                        System.out.println("La valeur entrée est invalide.");
-                    }
-                }
+            if(!fini){
+                this.observer.changerCouleur(this.combinaisonEntree);
             }
         }
     }
@@ -117,16 +70,10 @@ public class Tentative {
                 this.ligneIndice.getIndices().set(i, Indice.ABSENT);
 
         //Affichage de la combinaison
-        System.out.println("Combinaison entrée :");
-        for(int i = 0; i < combinaisonEntree.getCombinaison().size(); i++)
-            System.out.print(combinaisonEntree.getCombinaison().get(i).name().substring(0, 1).toUpperCase()
-                    + combinaisonEntree.getCombinaison().get(i).name().substring(1).toLowerCase()
-                    + "  | ");
-        System.out.println("\n");
+        this.observer.affichageTentative(combinaisonEntree);
 
         //Affichage des indices
-        System.out.println("Voici les indices :");
-        modeJeu.afficherIndices(ligneIndice);
+        this.observer.afficherIndices(this.ligneIndice);
 
         //Vérification des indices
         for(int i = 0; i < this.ligneIndice.getIndices().size(); i++){

@@ -5,13 +5,15 @@ import java.util.List;
 
 public class Partie {
     private int score = 0;
-    private Joueur joueur;
-    private List<Manche> manches = new ArrayList<>();
-    public Partie(Joueur joueur, int nbManche, int tailleCombi, int nbTentatives, ModeJeu modeJeu) {
+    private final Joueur joueur;
+    private final List<Manche> manches = new ArrayList<>();
+    private final MastermindObserver observer;
+    public Partie(MastermindObserver observer, Joueur joueur, int nbManche, int tailleCombi, int nbTentatives, ModeJeu modeJeu) {
         this.joueur = joueur;
+        this.observer = observer;
         // Initialisation des manches
         for (int i = 0; i < nbManche; i++)
-            this.manches.add(new Manche(tailleCombi, nbTentatives,modeJeu));
+            this.manches.add(new Manche(observer, tailleCombi, nbTentatives,modeJeu));
     }
     public void lancerPartie() {
         for (Manche manche : manches) {
