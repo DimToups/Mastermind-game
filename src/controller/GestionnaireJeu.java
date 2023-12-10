@@ -1,66 +1,96 @@
-package controller;
+package src.controller;
 
-import model.*;
+import src.model.*;
 
 import java.util.Scanner;
 
 public class GestionnaireJeu {
-     private Joueur creerJoueur()
-     {
-         System.out.println("Veuillez entrer votre pseudo.");
-         Scanner in = new Scanner(System.in);
-         String mot = in.nextLine();
-         return new Joueur(mot);
-     }
-    private Integer getNbManche()
-    {
-        System.out.println("Veuillez entrer le nombre entre 3 et 6 de manches que vous voulez faire.");
-        Scanner in = new Scanner(System.in);
-        int nb = Integer.parseInt(in.nextLine());
-        if ((nb >= 3) && (nb <= 5))
-            return nb;
-        else {
-            System.out.println("valeur invalide");
-            return getNbManche();
+    public void demarrerPartie() {
+        Partie partie = new Partie(creerJoueur(), getNbManche(), getTailleCombi(), getNbTentatives(), getModeJeu());
+        partie.lancerPartie();
+    }
+    private Joueur creerJoueur() {
+        //Obtention du pseudo du joueur
+        String nom = "";
+        while(nom.isEmpty()) {
+            try {
+                System.out.println("Veuillez entrer votre pseudo.");
+                Scanner in = new Scanner(System.in);
+                if((nom = in.nextLine()).isEmpty())
+                    System.out.println("Votre pseudo ne peux pas être vide.");
+            }
+            catch (Exception e) {
+                System.out.println("Une erreur est survenue.");
+            }
         }
+
+        // Retour du nom du joueur
+        return new Joueur(nom);
+    }
+    private Integer getNbManche() {
+        int nb = 0;
+        while (nb < 3 || nb > 5){
+            try {
+                System.out.println("Veuillez entrer un nombre entre 3 et 5 de manches que vous voulez jouer.");
+                Scanner in = new Scanner(System.in);
+                nb = Integer.parseInt(in.nextLine().strip());
+            }
+            catch (Exception e) {
+                System.out.println("La valeur entrée n'est pas valide.");
+            }
+        }
+
+        return nb;
     }
     private Integer getTailleCombi() {
-        System.out.println("Veuillez entrer la taille entre 4 et 6 de la combinaison que vous voulez faire");
-        Scanner in = new Scanner(System.in);
-        int nb = Integer.parseInt(in.nextLine());
-        if ((nb >= 4) && ( nb <= 6))
-            return nb;
-        else {
-            System.out.println("valeur invalide");
-            return getTailleCombi();
+        int nb = 0;
+        while (nb < 4 || nb > 6){
+            try {
+                System.out.println("Veuillez entrer un nombre entre 4 et 6 de pions à placer par combinaison.");
+                Scanner in = new Scanner(System.in);
+                nb = Integer.parseInt(in.nextLine().strip());
+            }
+            catch (Exception e) {
+                System.out.println("La valeur entrée n'est pas valide.");
+            }
         }
+
+        return nb;
     }
-    private Integer getNbTentatives()
-    {
-        System.out.println("Veuillez entrer le nombre de tentatives entre 10 et 12 que vous voulez faire.");
-        Scanner in = new Scanner(System.in);
-        int nb = Integer.parseInt(in.nextLine());
-        if ((nb>=10)&&(nb<=12)) {
-            return nb;
+    private Integer getNbTentatives() {
+        int nb = 0;
+        while (nb < 10 || nb > 12){
+            try {
+                System.out.println("Veuillez entrer un nombre entre 10 et 12 de tentatives pour trouver la combinaison secrète.");
+                Scanner in = new Scanner(System.in);
+                nb = Integer.parseInt(in.nextLine().strip());
+            }
+            catch (Exception e) {
+                System.out.println("La valeur entrée n'est pas valide.");
+            }
         }
-        else {
-            System.out.println("Valeur invalide");
-            return getNbTentatives();
-        }
+
+        return nb;
     }
     private ModeJeu getModeJeu() {
-        System.out.println("Mode de jeu :\n1 : Classique\n2 : Numérique\n3 : Facile");
-        Scanner in = new Scanner(System.in);
-        int nb = Integer.parseInt(in.nextLine());
-        if (nb== 3)
+        int nb = 0;
+        while (nb < 1 || nb > 3){
+            try {
+                System.out.println("Veuillez choisir votre mode de jeu :\n - 1 : Facile\n - 2 : Classique\n - 3 : Numérique");
+                Scanner in = new Scanner(System.in);
+                nb = Integer.parseInt(in.nextLine().strip());
+            }
+            catch (Exception e) {
+                System.out.println("La valeur entrée n'est pas valide.");
+            }
+        }
+
+        //Retour du mode de jeu choisi
+        if(nb == 1)
             return new Facile();
-        else if (nb==2)
-            return new Numerique();
+        else if(nb == 2)
+            return new Classique();
         else
-            return  new Classique();
-    }
-    public void demarrerPartie() {
-        Partie partie = new Partie(creerJoueur(),getNbManche(),getTailleCombi(),getNbTentatives(),getModeJeu());
-        partie.lancerPartie();
+            return new Numerique();
     }
 }

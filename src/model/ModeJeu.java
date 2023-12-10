@@ -1,4 +1,4 @@
-package model;
+package src.model;
 public interface ModeJeu {
-    void afficherIndices(LigneIndice ligne, String titre);
+    void afficherIndices(LigneIndice ligne);
 }

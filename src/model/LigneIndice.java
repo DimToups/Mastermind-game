@@ -1,6 +1,6 @@
-package model;
+package src.model;
 
-import model.enums.Indice;
+import src.model.enums.Indice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,30 +8,20 @@ import java.util.List;
 public class LigneIndice {
     private final int tailleCombi;
     private List<Indice> indices = new ArrayList<>();
-
-    // Méthodes (Methods)
-
-    // Constructeur
     public LigneIndice(int tailleCombi) {
         this.tailleCombi = tailleCombi;
-        for (int i =0;i<tailleCombi;i++)
-        {
+        for (int i = 0; i < tailleCombi; i++)
             this.indices.add(Indice.ABSENT);
-        }
     }
     public int getTailleCombi() {
         return tailleCombi;
-    }
-    // Méthode pour obtenir l'indice à une position spécifique dans la ligne
-    public Indice getIndice(int index) {
-        return indices.get(index);
     }
     // Méthode pour définir l'indice à une position spécifique dans la ligne
     public void setIndice(Indice indice, int index) {
         indices.set(index, indice);
     }
     // Méthode pour obtenir tous les indices de la ligne
-    public int[] getIndices() {
+    public int[] getIntIndices() {
         int bien = 0;
         int mal = 0;
         for (Indice indice : indices) {
@@ -40,10 +30,13 @@ public class LigneIndice {
             else if (indice == Indice.BIEN_PLACE)
                 bien++;
         }
-        return new int[]{bien,mal};
+        return new int[] {bien, mal};
+    }
+    public List<Indice> getIndices() {
+        return this.indices;
     }
     public int calculerScore() {
-        int[] info = this.getIndices();
+        int[] info = this.getIntIndices();
         return (info[0] * 3) + info[1];
     }
 }

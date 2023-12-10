@@ -1,10 +1,9 @@
-package model;
+package src.model;
 
 public class Facile implements ModeJeu{
-    public  void afficherIndices(LigneIndice ligne, String titre) {
-        System.out.print(titre + " : ");
+    public  void afficherIndices(LigneIndice ligne) {
         for (int i = 0; i < ligne.getTailleCombi(); i++)
-            System.out.print(ligne.getIndice(i) + " ");
-        System.out.println(); // Pour passer à la ligne après l'affichage des couleurs
+            System.out.print(ligne.getIndices().get(i) + " | ");
+        System.out.println();
     }
 }

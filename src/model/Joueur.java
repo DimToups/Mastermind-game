@@ -1,4 +1,4 @@
-package model;
+package src.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ public class Joueur {
     public List<Integer> getScores() {
         return score;
     }
-    public void ajoutScorePartie(Integer score) {
+    public void ajouterScorePartie(int score) {
       this.score.add(score);
     }
 }

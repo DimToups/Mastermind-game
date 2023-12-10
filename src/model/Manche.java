@@ -1,20 +1,18 @@
-package model;
+package src.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Manche {
-    private int tentativeActuelle;
+    private int tentativeActuelle = 0;
     private final int nbTentatives;
-    private List<Tentative> tentatives;
+    private List<Tentative> tentatives = new ArrayList<>();
     private final Combinaison combinaisonSecrete ;
     public Manche(int tailleCombi, int nbTentatives, ModeJeu modeJeu) {
-        this.tentativeActuelle = 0;
         this.nbTentatives = nbTentatives;
-        this.tentatives = new ArrayList<>();
-        combinaisonSecrete = Combinaison.genererCombinaisonSecrete(tailleCombi);
-        combinaisonSecrete.afficherCouleurs("pour t'aider si ta la flemme de fair tt le  jeu et que tu veux voir si les classe fonctionne   Combinaison secret :" );
-        // Initialiser les tentatives
+        this.combinaisonSecrete = Combinaison.genererCombinaison(tailleCombi);
+
+        // Initialisation des tentatives
         for (int i = 0; i < nbTentatives; i++)
             this.tentatives.add(new Tentative(tailleCombi, modeJeu));
     }
@@ -24,29 +22,46 @@ public class Manche {
         while (!fini){
             Tentative tentative = tentatives.get(tentativeActuelle);
             tentative.lancerTentative();
-            if (tentative.evaluerTentative(combinaisonSecrete))
-                fini=true;
-            else if (tentativeActuelle > nbTentatives)
-                fini=true;
+
+            // Evaluation de la tentative
+            if (tentative.evaluerTentative(combinaisonSecrete)) {
+                fini = true;
+                System.out.println("Vous avez trouvé la combinaison, bravo !");
+            }
+            else if (tentativeActuelle > nbTentatives) {
+                fini = true;
+
+                System.out.println("Vous n'avez pas trouvé la combinaison secrète. La voici :");
+                for(int i = 0; i < combinaisonSecrete.getCombinaison().size(); i++)
+                    System.out.print(this.combinaisonSecrete.getCombinaison().get(i).name().substring(0, 1).toUpperCase()
+                            + this.combinaisonSecrete.getCombinaison().get(i).name().substring(1).toLowerCase()
+                            + "  | ");
+            }
             else
                 tentativeActuelle++;
         }
     }
     // Méthode pour calculer le score de la manche
     public int calculerScore() {
-        return tentatives.get(tentativeActuelle).calculerScore();
+        int score = 0;
+        for(Tentative tentative : tentatives)
+            score += tentative.calculerScore();
+        return score;
     }
 
-    // Méthode pour obtenir la combinaison secrète de la manche
     public Combinaison getCombinaisonSecrete() {
         return combinaisonSecrete;
     }
 
-    // Méthode pour obtenir une tentative spécifique
-    public Tentative getTentative(int index) {
-        if (index >= 0 && index < tentatives.size())
-            return tentatives.get(index);
-        else
-            return null; // Gérer l'erreur, par exemple, retourner null ou lever une exception
+    public int getNbTentatives() {
+        return nbTentatives;
+    }
+
+    public int getTentativeActuelle() {
+        return tentativeActuelle;
+    }
+
+    public List<Tentative> getTentatives() {
+        return tentatives;
     }
 }
