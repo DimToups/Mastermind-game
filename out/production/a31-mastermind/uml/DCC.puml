@@ -61,7 +61,7 @@ package src{
             - tentativeActuelle : Integer
             - nbTentatives : Integer
             ..Methods..
-            + <<create>> Manche(tailleCombi : Integer, nbTentatives : Integer, modeJeu : ModeJeu)
+            + <<create>> Manche(observer : MastermindObserver, tailleCombi : Integer, nbTentatives : Integer, modeJeu : ModeJeu)
             + jouerManche()
             + calculerScore() : Integer
             + getCombinaisonSecrete() : Combinaison
@@ -77,14 +77,14 @@ package src{
             ..Fields..
             - score : Integer
             ..Methods..
-            + <<create>> Partie(joueur : Joueur, nbManche : Integer, tailleCombi : Integer, nbTentatives : Integer, modeJeu : ModeJeu)
+            + <<create>> Partie(observer : MastermindObserver, joueur : Joueur, nbManche : Integer, tailleCombi : Integer, nbTentatives : Integer, modeJeu : ModeJeu)
             + lancerPartie()
             + getManches() : Manche[]
             + finirPartie()
         }
         class Tentative{
             ..Methods..
-            + <<create>> Tentative(taille : Integer, modeJeu : ModeJeu)
+            + <<create>> Tentative(observer : MastermindObserver, taille : Integer, modeJeu : ModeJeu)
             + lancerTentative()
             + ajoutCouleur(index : Integer, couleur : Couleur)
             + evaluerTentative(combinaisonSecrete : Combinaison) : Boolean
@@ -96,8 +96,10 @@ package src{
         interface MastermindObserver <<interface>>{
             ..Methods..
             + miseEnPlacePlateau()
-            + reagirChangementCouleur(index : Integer)
-            + reagirFinTentative(indices : Indices)
+            + affichageTentative(combinaison : Combinaison)
+            + afficherTentativeComplete() : Boolean
+            + changerCouleur(combinaison : Combinaison)
+            + afficherIndices(indices : LigneIndice)
             + creerJoueur() : Joueur
             + deciderNbManches() : Integer
             + deciderTailleCombinaison() : Integer
@@ -120,16 +122,18 @@ package src{
         }
         class AffichageConsole{
             ..Fields..
+            - in : Scanner {static}
             - tailleCombi : Integer
             - nbTentatives : Integer
             - tentativeActuelle : Integer
             ..Methods..
-            + <<create>> FenetreJeu(tailleCombi : Integer, nbTentatives : Integer)
             + miseEnPlacePlateau()
-            + reagirChangementCouleur(index : Integer)
-            + reagirFinTentative(indices : Indices)
+            + affichageTentative(combinaison : Combinaison)
+            + afficherTentativeComplete() : Boolean
+            + changerCouleur(combinaison : Combinaison)
+            + afficherIndices(indices : LigneIndice)
             + creerJoueur() : Joueur
-            + deciderNbManche() : Integer
+            + deciderNbManches() : Integer
             + deciderTailleCombinaison() : Integer
             + deciderNbTentatives() : Integer
             + deciderModeJeu() : ModeJeu
@@ -140,26 +144,22 @@ package src{
             - nbTentatives : Integer
             - tentativeActuelle : Integer
             ..Methods..
-            + <<create>> FenetreJeu(tailleCombi : Integer, nbTentatives : Integer)
             + miseEnPlacePlateau()
-            + reagirChangementCouleur(index : Integer)
-            + reagirFinTentative(indices : Indices)
-            - creerJoueur() : Joueur
-            - getNbManche() : Integer
-            - getTailleCombinaison() : Integer
-            - getNbTentatives() : Integer
-            - getModeJeu() : ModeJeu
+            + affichageTentative(combinaison : Combinaison)
+            + afficherTentativeComplete() : Boolean
+            + changerCouleur(combinaison : Combinaison)
+            + afficherIndices(indices : LigneIndice)
+            + creerJoueur() : Joueur
+            + deciderNbManches() : Integer
+            + deciderTailleCombinaison() : Integer
+            + deciderNbTentatives() : Integer
+            + deciderModeJeu() : ModeJeu
         }
     }
     package controller{
         class GestionnaireJeu{
             ..Methods..
             + demarrerPartie()
-            - creerJoueur() : Joueur
-            - getNbManche() : Integer
-            - getTailleCombinaison() : Integer
-            - getNbTentatives() : Integer
-            - getModeJeu() : ModeJeu
         }
     }
 }
@@ -173,6 +173,7 @@ src.model.LigneIndice "1" o--> "4..6" src.model.enums.Indice
 
 src.model.Manche "1" o--> "10..12" src.model.Tentative
 src.model.Manche "1" o--> "1" src.model.Combinaison
+src.model.Manche "1" o-> "1" src.model.MastermindObserver
 
 src.model.ModeJeu ...> src.model.LigneIndice : <<utilises>>
 src.model.ModeJeu <|.. src.view.Classique
@@ -180,15 +181,18 @@ src.model.ModeJeu <|.. src.view.Facile
 src.model.ModeJeu <|.. src.view.Numerique
 
 src.model.Partie "1" o-> "1" src.model.Joueur
+src.model.Partie "1" o-> "1" src.model.MastermindObserver
 src.model.Partie "1" o--> "3..5" src.model.Manche
 src.model.Partie .> src.model.ModeJeu
 
 src.model.Tentative "1" o--> "1" src.model.Combinaison
 src.model.Tentative "1" o--> "1" src.model.LigneIndice
 src.model.Tentative "1" o-> "1" src.model.ModeJeu
+src.model.Tentative "1" o-> "1" src.model.MastermindObserver
 
 
-src.view.FenetreJeu
+src.model.MastermindObserver <|.. src.view.AffichageConsole
+src.model.MastermindObserver <|.. src.view.FenetreJeu
 
 src.view.Classique ..> src.model.LigneIndice : <<utilises>>
 
