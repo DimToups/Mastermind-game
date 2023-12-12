@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Partie {
-    private int score = 0;
+    private int score = 0 ;
     private final Joueur joueur;
     private final List<Manche> manches = new ArrayList<>();
     private final MastermindObserver observer;
