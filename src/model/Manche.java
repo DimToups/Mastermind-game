@@ -44,12 +44,7 @@ public class Manche {
         }
     }
     // Méthode pour calculer le score de la manche
-    public int calculerScore() {
-        int score = 0;
-        for(Tentative tentative : tentatives)
-            score += tentative.calculerScore();
-        return score;
-    }
+    public int calculerScore() {return tentatives.get(tentativeActuelle).calculerScore();}
 
     public Combinaison getCombinaisonSecrete() {
         return combinaisonSecrete;
