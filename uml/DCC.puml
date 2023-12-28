@@ -20,7 +20,7 @@ package src{
             }
             enum Indice{
                 ..Values..
-                Bien_PLACE
+                BIEN_PLACE
                 MAL_PLACE
                 ABSENT
             }
@@ -62,8 +62,7 @@ package src{
             - nbTentatives : Integer
             ..Methods..
             + <<create>> Manche(tailleCombi : Integer, nbTentatives : Integer, modeJeu : ModeJeu)
-            + ajouterObservateurManche(observateur : ObservateurManche[])
-            + ajouterObservateurTentative(observateur : ObservateurTentative[])
+            + ajouterObservateurUI(observateur : ObservateurUI)
             + jouerManche()
             + calculerScore() : Integer
             + getCombinaisonSecrete() : Combinaison
@@ -80,9 +79,8 @@ package src{
             - score : Integer
             ..Methods..
             + <<create>> Partie()
-            + ajouterObservateurPartie(observateur : ObservateurPartie[])
-            + ajouterObservateurManche(observateur : ObservateurManche[])
-            + ajouterObservateurTentative(observateur : ObservateurTentative[])
+            + ajouterObservateurUI(observateur : ObservateurUI)
+            + initialisationPartie()
             + lancerPartie()
             + getManches() : Manche[]
             + finirPartie()
@@ -90,7 +88,7 @@ package src{
         class Tentative{
             ..Methods..
             + <<create>> Tentative(taille : Integer, modeJeu : ModeJeu)
-            + ajouterObservateurTentative(observateur : ObservateurTentative[])
+            + ajouterObservateurUI(observateur : ObservateurUI)
             + lancerTentative()
             + ajoutCouleur(index : Integer, couleur : Couleur)
             + evaluerTentative(combinaisonSecrete : Combinaison) : Boolean
@@ -98,6 +96,22 @@ package src{
             + getLigneIndice() : LigneIndice
             + calculBonus() : Integer
             + calculerScore() : Integer
+        }
+        interface ObservateurUI <<interface>>{
+            ..Methods..
+            + setPartie(partie : Partie)
+            + creerJoueur() : Joueur
+            + deciderNbManches() : Integer
+            + deciderTailleCombinaison() : Integer
+            + deciderNbTentatives() : Integer
+            + deciderModeJeu() : ModeJeu
+            + miseEnPlacePlateau()
+            + setManche(manche : Manche)
+            + demanderValidationTentative() : Boolean
+            + setTentative(tentative : Tentative)
+            + changerCouleur(combinaison : Combinaison)
+            + afficherIndices(indices : LigneIndice)
+            + affichageTentative(combinaison : Combinaison)
         }
         interface ObservateurPartie <<interface>>{
             ..Methods..
@@ -138,7 +152,7 @@ package src{
         class AffichageFenetre{
             ..Fields..
             - fenetre : JFrame
-            ..Methods..
+            ..Constructor..
             + <<create>> AffichageFenetre(gestionnaire : GestionnaireJeu)
             ..Partie..
             + setPartie(partie : Partie)
@@ -160,7 +174,7 @@ package src{
         class AffichageConsole{
             ..Fields..
             - in : Scanner {static}
-            ..Methods..
+            ..Constructor..
             + <<create>> AffichageFenetre(gestionnaire : GestionnaireJeu)
             ..Partie..
             + setPartie(partie : Partie)
@@ -183,12 +197,14 @@ package src{
     package controller{
         class GestionnaireJeu{
             ..Methods..
+            + setPartie(partie : Partie)
+            + setUI(ObservateurUI : ui)
             + demarrerPartie()
         }
     }
 }
 
-src.controller.GestionnaireJeu ..> src.model.Partie : <<utilises>>
+src.controller.GestionnaireJeu o--> src.model.Partie : <<joue avec>>
 
 
 src.model.Combinaison "1" o--> "4..6\n- combinaison" src.model.enums.Couleur
@@ -214,18 +230,18 @@ src.model.Tentative "1" o--> "1\n- ligneIndice" src.model.LigneIndice
 src.model.Tentative "1" o-> "1\n- modeJeu" src.model.ModeJeu
 src.model.Tentative "1" o-> "1\n- observateur" src.model.ObservateurTentative
 
+src.model.ObservateurPartie <|.. src.model.ObservateurUI
+src.model.ObservateurUI .l|> src.model.ObservateurManche
+src.model.ObservateurUI ..|> src.model.ObservateurTentative
+
 src.view.Classique ..> src.model.LigneIndice : <<utilises>>
 
 src.view.Facile ..> src.model.LigneIndice : <<utilises>>
 
 src.view.Numerique ..> src.model.LigneIndice : <<utilises>>
 
-src.view.AffichageConsole ..|> src.model.ObservateurPartie
-src.view.AffichageConsole ..|> src.model.ObservateurManche
-src.view.AffichageConsole ..|> src.model.ObservateurTentative
+src.view.AffichageConsole ..|> src.model.ObservateurUI
 
-src.model.ObservateurPartie <|.. src.view.AffichageFenetre
-src.model.ObservateurManche <|.. src.view.AffichageFenetre
-src.model.ObservateurTentative <|.. src.view.AffichageFenetre
+src.view.AffichageFenetre ..|> src.model.ObservateurUI
 
 @enduml
