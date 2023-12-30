@@ -7,9 +7,6 @@ import java.util.Scanner;
 
 public class AffichageConsole extends ObservateurUI {
     private static final Scanner in = new Scanner(System.in);
-    private int tailleCombi;
-    private int nbTentatives;
-    private int TentativeActuelle;
     private ModeJeu modeJeu;
 
     /**

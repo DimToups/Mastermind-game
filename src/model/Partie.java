@@ -48,6 +48,15 @@ public class Partie {
     }
 
     /**
+     * Renvoi les manches de la partie
+     *
+     * @return Les manches de la partie
+     */
+    public List<Manche> getManches() {
+        return this.manches;
+    }
+
+    /**
      * Défini le nombre de manches de la partie
      * Cette méthode réinitialise toutes les manches. Il est préférable d'utiliser cette méthode avant le début d'une partie pour éviter toute perte de données
      *
@@ -119,14 +128,5 @@ public class Partie {
         this.observateur = observer;
         for (Manche manche : this.manches)
             manche.setObservateurUI(observer);
-    }
-
-    /**
-     * Renvoi les manches de la partie
-     *
-     * @return Les manches de la partie
-     */
-    public List<Manche> getManches() {
-        return this.manches;
     }
 }

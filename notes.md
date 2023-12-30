@@ -2,6 +2,7 @@
 ## Bonus
 - Voir pour ajouter ces tests unitaires
   - Vérifier que l'observateur appelle bien le contrôleur
+  - Vérifier que tous les attributs comme tailleCombinaison respectent le [README](README.md)
 - Voir pour stocker les joueurs entre les lancements de l'application
 ## Affichage par fenêtre
 ### Menu

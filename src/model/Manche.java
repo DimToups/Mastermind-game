@@ -66,7 +66,7 @@ public class Manche {
      * @return Le score de la manche
      */
     public int calculerScore() {
-        return tentatives.get(tentativeActuelle).calculerScore();
+        return tentatives.get(tentativeActuelle).calculScore();
     }
 
     /**

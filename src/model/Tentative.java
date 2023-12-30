@@ -60,7 +60,7 @@ public class Tentative {
      *
      * @return Le score de la tentative
      */
-    public int calculerScore() {
+    public int calculScore() {
         return ligneIndice.calculerScore() + calculBonus();
     }
 
@@ -137,24 +137,6 @@ public class Tentative {
     }
 
     /**
-     * Renvoi la combinaison entrée
-     *
-     * @return La combinaison entrée
-     */
-    public Combinaison getCombinaisonEntree() {
-        return combinaisonEntree;
-    }
-
-    /**
-     * Renvoi les indices de la tentative
-     *
-     * @return Les indices de la tentative
-     */
-    public LigneIndice getLigneIndice() {
-        return ligneIndice;
-    }
-
-    /**
      * Renvoi l'observateur servant d'interface utilisateur
      *
      * @return L'observateur servant d'interface utilisateur
@@ -170,6 +152,24 @@ public class Tentative {
      */
     public void setObservateurUI(ObservateurTentative observateur) {
         this.observateur = observateur;
+    }
+
+    /**
+     * Renvoi la combinaison entrée
+     *
+     * @return La combinaison entrée
+     */
+    public Combinaison getCombinaisonEntree() {
+        return combinaisonEntree;
+    }
+
+    /**
+     * Renvoi les indices de la tentative
+     *
+     * @return Les indices de la tentative
+     */
+    public LigneIndice getLigneIndice() {
+        return ligneIndice;
     }
 
     /**
