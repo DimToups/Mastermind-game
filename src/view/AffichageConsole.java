@@ -148,9 +148,9 @@ public class AffichageConsole extends ObservateurUI {
     @Override
     public void deciderNbManches() {
         int n = 0;
-        while (n < 3 || n > 5){
+        while (n < 1 || n > 5){
             try {
-                System.out.println("Veuillez entrer un nombre entre 3 et 5 de manches que vous voulez jouer.");
+                System.out.println("Veuillez entrer un nombre entre 1 et 5 de manches que vous voulez jouer.");
                 Scanner in = new Scanner(System.in);
                 n = Integer.parseInt(in.nextLine().strip());
             }
@@ -168,9 +168,9 @@ public class AffichageConsole extends ObservateurUI {
     @Override
     public void deciderTailleCombinaison() {
         int n = 0;
-        while (n < 4 || n > 6){
+        while (n < 2 || n > 6){
             try {
-                System.out.println("Veuillez entrer un nombre entre 4 et 6 de pions à placer par combinaison.");
+                System.out.println("Veuillez entrer un nombre entre 2 et 6 de pions à placer par combinaison.");
                 Scanner in = new Scanner(System.in);
                 n = Integer.parseInt(in.nextLine().strip());
             }
@@ -188,9 +188,9 @@ public class AffichageConsole extends ObservateurUI {
     @Override
     public void deciderNbTentatives() {
         int n = 0;
-        while (n < 10 || n > 12){
+        while (n < 2 || n > 12){
             try {
-                System.out.println("Veuillez entrer un nombre entre 10 et 12 de tentatives pour trouver la combinaison secrète.");
+                System.out.println("Veuillez entrer un nombre entre 2 et 12 de tentatives pour trouver la combinaison secrète.");
                 Scanner in = new Scanner(System.in);
                 n = Integer.parseInt(in.nextLine().strip());
             }
