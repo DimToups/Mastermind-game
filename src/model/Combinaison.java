@@ -8,15 +8,33 @@ import java.util.Random;
 
 public class Combinaison {
     private final int tailleCombi;
-    private List<Couleur> combinaison = new ArrayList<>();
-    // Constructeur
+    private final List<Couleur> combinaison = new ArrayList<>();
+
+    /**
+     * Créé une instance de Combinaison
+     */
+    public Combinaison() {
+        this.tailleCombi = 4;
+        for (int i = 0; i < tailleCombi; i++)
+            this.combinaison.add(Couleur.ABSENT);
+    }
+    /**
+     * Créé une instance de Combinaison
+     *
+     * @param tailleCombi La taille de la combinaison
+     */
     public Combinaison(int tailleCombi) {
         this.tailleCombi = tailleCombi;
         for (int i = 0; i < tailleCombi; i++)
             this.combinaison.add(Couleur.ABSENT);
     }
 
-    //methode static pour pouvoir genere une combinaison secret
+    /**
+     * Génère une combinaison aléatoire selon une taille donnée
+     *
+     * @param taille La taille de la combinaison
+     * @return La combinaison générée
+     */
     public static Combinaison genererCombinaison(int taille) {
         Combinaison secret = new Combinaison(taille);
         Random r = new Random();
@@ -27,19 +45,40 @@ public class Combinaison {
         }
         return secret;
     }
-    // Méthode pour obtenir la couleur d'une position spécifique dans la combinaison
+
+    /**
+     * Renvoi les couleurs formant la combinaison
+     *
+     * @return Les couleurs de la combinaison
+     */
     public List<Couleur> getCombinaison() {
         return this.combinaison;
     }
-    // Méthode pour définir la couleur à une position spécifique dans la combinaison
+
+    /**
+     * Défini la couleur de la combinaison à un index donné
+     *
+     * @param index L'index de la combinaison à modifier
+     * @param couleur La couleur voulue
+     */
     public void setCouleur(int index, Couleur couleur) {
         combinaison.set(index, couleur);
     }
-    // Méthode pour obtenir la taille de la combinaison
+
+    /**
+     * Renvoi la taille de la combinaison
+     *
+     * @return La taille de la combinaison
+     */
     public int getTailleCombinaison() {
         return tailleCombi;
     }
-    // Méthode pour vérifier si la combinaison est complète
+
+    /**
+     * Renvoi l'état de la combinaison
+     *
+     * @return L'état de la combinaison (true pour complet et false pour incomplet
+     */
     public boolean estComplet() {
         for (Couleur couleur : combinaison)
             if (couleur == Couleur.ABSENT)

@@ -1,4 +1,8 @@
 # Notes
+## Bonus
+- Voir pour ajouter ces tests unitaires
+  - Vérifier que l'observateur appelle bien le contrôleur
+- Voir pour stocker les joueurs entre les lancements de l'application
 ## Affichage par fenêtre
 ### Menu
 - Demande du pseudo du joueur dans une zone de texte

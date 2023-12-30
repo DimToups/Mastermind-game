@@ -1,0 +1,33 @@
+package src.model;
+
+public interface ObservateurPartie {
+    /**
+     * Demande à l'utilisateur toutes les questions pour créer une instance de Joueur
+     */
+    void creerJoueur();
+
+    /**
+     * Demande à l'utilisateur le nombre de manches qu'il veut faire
+     */
+    void deciderNbManches();
+
+    /**
+     * Demande à l'utilisateur la taille des combinaisons à composer
+     */
+    void deciderTailleCombinaison();
+
+    /**
+     * Demande à l'utilisateur le nombre de tentatives qu'il veut pour ses manches
+     */
+    void deciderNbTentatives();
+
+    /**
+     * Demande à l'utilisateur le mode de jeu auquel il veut jouer
+     */
+    void deciderModeJeu();
+
+    /**
+     * Met fin à la partie
+     */
+    void finirPartie();
+}

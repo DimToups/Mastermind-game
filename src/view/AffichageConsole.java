@@ -1,19 +1,46 @@
 package src.view;
 
+import src.controller.GestionnaireJeu;
 import src.model.*;
 import src.model.enums.Couleur;
 import java.util.Scanner;
 
-public class AffichageConsole implements MastermindObserver {
+public class AffichageConsole extends ObservateurUI {
     private static final Scanner in = new Scanner(System.in);
     private int tailleCombi;
     private int nbTentatives;
     private int TentativeActuelle;
     private ModeJeu modeJeu;
+
+    /**
+     * Construit et initialise l'ObservateurUI
+     *
+     * @param gestionnaire L'instance contrôleuse du jeu
+     */
+    public AffichageConsole(GestionnaireJeu gestionnaire) {
+        super(gestionnaire);
+    }
+
     @Override
     public void miseEnPlacePlateau() {
 
     }
+
+    /**
+     * Demande à l'utilisateur s'il veut mettre fin à la tentative actuelle
+     *
+     * @return La réponse de l'utilisateur
+     */
+    @Override
+    public boolean demanderValidationTentative() {
+        return false;
+    }
+
+    /**
+     * Affiche le résumé d'une tentative
+     *
+     * @param combinaison La combinaison à afficher
+     */
     @Override
     public void affichageTentative(Combinaison combinaison) {
         System.out.println("\nVoici votre combinaison :");
@@ -25,8 +52,13 @@ public class AffichageConsole implements MastermindObserver {
         System.out.println();
     }
 
+    /**
+     * Demande à l'utilisateur s'il veut mettre fin à la tentative
+     *
+     * @return La réponse de l'utilisateur
+     */
     @Override
-    public boolean afficherTentativeComplete() {
+    public boolean demanderFinTentative() {
         String reponse = "";
         while(!reponse.equals("oui") && !reponse.equals("non")) {
             System.out.println("Votre combinaison est complète. Voulez vous la valider ?\n - oui\n - non");
@@ -36,12 +68,14 @@ public class AffichageConsole implements MastermindObserver {
             if(!reponse.equals("oui") && !reponse.equals("non"))
                 System.out.println("La valeur entrée est invalide.");
         }
-        if(reponse.equals("oui"))
-            return true;
-
-        return false;
+        return reponse.equals("oui");
     }
 
+    /**
+     * Permet de changer la couleur dans une combinaison
+     *
+     * @param combinaison La combinaison à modifier
+     */
     @Override
     public void changerCouleur(Combinaison combinaison) {
         int reponseInt = -1;
@@ -77,14 +111,22 @@ public class AffichageConsole implements MastermindObserver {
         }
     }
 
+    /**
+     * Affiche les indices passés en paramètres
+     *
+     * @param indices Les indices à afficher
+     */
     @Override
     public void afficherIndices(LigneIndice indices) {
         System.out.println("Voici les indices :");
         modeJeu.afficherIndices(indices);
     }
 
+    /**
+     * Demande à l'utilisateur toutes les questions pour créer une instance de Joueur
+     */
     @Override
-    public Joueur creerJoueur() {
+    public void creerJoueur() {
         //Obtention du pseudo du joueur
         String nom = "";
         while(nom.isEmpty()) {
@@ -100,62 +142,74 @@ public class AffichageConsole implements MastermindObserver {
         }
 
         // Retour du nom du joueur
-        return new Joueur(nom);
+        this.getGestionnaire().miseAJourJoueur(new Joueur(nom));
     }
 
+    /**
+     * Demande à l'utilisateur le nombre de manches qu'il veut faire
+     */
     @Override
-    public int deciderNbManches() {
-        int nb = 0;
-        while (nb < 3 || nb > 5){
+    public void deciderNbManches() {
+        int n = 0;
+        while (n < 3 || n > 5){
             try {
                 System.out.println("Veuillez entrer un nombre entre 3 et 5 de manches que vous voulez jouer.");
                 Scanner in = new Scanner(System.in);
-                nb = Integer.parseInt(in.nextLine().strip());
+                n = Integer.parseInt(in.nextLine().strip());
             }
             catch (Exception e) {
                 System.out.println("La valeur entrée n'est pas valide.");
             }
         }
 
-        return nb;
+        this.getGestionnaire().miseAJourNbManches(n);
     }
 
+    /**
+     * Demande à l'utilisateur la taille des combinaisons à composer
+     */
     @Override
-    public int deciderTailleCombinaison() {
-        int nb = 0;
-        while (nb < 4 || nb > 6){
+    public void deciderTailleCombinaison() {
+        int n = 0;
+        while (n < 4 || n > 6){
             try {
                 System.out.println("Veuillez entrer un nombre entre 4 et 6 de pions à placer par combinaison.");
                 Scanner in = new Scanner(System.in);
-                nb = Integer.parseInt(in.nextLine().strip());
+                n = Integer.parseInt(in.nextLine().strip());
             }
             catch (Exception e) {
                 System.out.println("La valeur entrée n'est pas valide.");
             }
         }
 
-        return nb;
+        this.getGestionnaire().miseAJourTailleCombinaison(n);
     }
 
+    /**
+     * Demande à l'utilisateur le nombre de tentatives qu'il veut pour ses manches
+     */
     @Override
-    public int deciderNbTentatives() {
-        int nb = 0;
-        while (nb < 10 || nb > 12){
+    public void deciderNbTentatives() {
+        int n = 0;
+        while (n < 10 || n > 12){
             try {
                 System.out.println("Veuillez entrer un nombre entre 10 et 12 de tentatives pour trouver la combinaison secrète.");
                 Scanner in = new Scanner(System.in);
-                nb = Integer.parseInt(in.nextLine().strip());
+                n = Integer.parseInt(in.nextLine().strip());
             }
             catch (Exception e) {
                 System.out.println("La valeur entrée n'est pas valide.");
             }
         }
 
-        return nb;
+        this.getGestionnaire().miseAJourNbTentatives(n);
     }
 
+    /**
+     * Demande à l'utilisateur le mode de jeu auquel il veut jouer
+     */
     @Override
-    public ModeJeu deciderModeJeu() {
+    public void deciderModeJeu() {
         int nb = 0;
         while (nb < 1 || nb > 3){
             try {
@@ -171,15 +225,23 @@ public class AffichageConsole implements MastermindObserver {
         //Retour du mode de jeu choisi
         if(nb == 1) {
             this.modeJeu = new Facile();
-            return new Facile();
+            this.getGestionnaire().miseAJourModeJeu(new Facile());
         }
         else if(nb == 2) {
             this.modeJeu = new Classique();
-            return new Classique();
+            this.getGestionnaire().miseAJourModeJeu(new Classique());
         }
         else {
             this.modeJeu = new Numerique();
-            return new Numerique();
+            this.getGestionnaire().miseAJourModeJeu(new Numerique());
         }
+    }
+
+    /**
+     * Met fin à la partie
+     */
+    @Override
+    public void finirPartie() {
+
     }
 }

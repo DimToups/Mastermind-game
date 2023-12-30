@@ -5,6 +5,11 @@ import src.model.ModeJeu;
 import src.model.enums.Indice;
 
 public class Classique implements ModeJeu {
+    /**
+     * Affiche les indices selon le mode de jeu
+     *
+     * @param ligne La ligne d'indices visée
+     */
     public void afficherIndices(LigneIndice ligne) {
         for (int i = 0; i < ligne.getIntIndices()[0]; i++)
             System.out.print(Indice.BIEN_PLACE + " | ");

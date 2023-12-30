@@ -7,16 +7,42 @@ import java.util.List;
 
 public class LigneIndice {
     private final int tailleCombinaison;
-    private List<Indice> indices = new ArrayList<>();
-    public LigneIndice(int tailleCombi) {
-        this.tailleCombinaison = tailleCombi;
-        for (int i = 0; i < tailleCombi; i++)
+    private final List<Indice> indices = new ArrayList<>();
+
+    /**
+     * Créé une instance de LigneIndice
+     */
+    public LigneIndice() {
+        this.tailleCombinaison = 4;
+        for (int i = 0; i < tailleCombinaison; i++)
             this.indices.add(Indice.ABSENT);
     }
+
+    /**
+     * Créé une instance de LigneIndice selon une taille de combinaison
+     *
+     * @param tailleCombinaison La taille de la combinaison
+     */
+    public LigneIndice(int tailleCombinaison) {
+        this.tailleCombinaison = tailleCombinaison;
+        for (int i = 0; i < tailleCombinaison; i++)
+            this.indices.add(Indice.ABSENT);
+    }
+
+    /**
+     * Renvoi la taille de la combinaison
+     *
+     * @return La taille de la combinaison
+     */
     public int getTailleCombinaison() {
         return tailleCombinaison;
     }
-    // Méthode pour obtenir tous les indices de la ligne
+
+    /**
+     * Renvoi les indices sous forme de nombres
+     *
+     * @return Les indices
+     */
     public int[] getIntIndices() {
         int bien = 0;
         int mal = 0;
@@ -28,9 +54,21 @@ public class LigneIndice {
         }
         return new int[] {bien, mal};
     }
+
+    /**
+     * Renvoi les indices
+     *
+     * @return Les indices
+     */
     public List<Indice> getIndices() {
         return this.indices;
     }
+
+    /**
+     * Calcule le score de la tentative
+     *
+     * @return Le score de la tentative
+     */
     public int calculerScore() {
         int[] info = this.getIntIndices();
         return (info[0] * 3) + info[1];
