@@ -104,7 +104,7 @@ package src{
             + affichageTentative(combinaison : Combinaison)
             + demanderFinTentative() : Boolean
         }
-        interface ObservateurUI <<interface>>{
+        abstract class ObservateurUI{
             ..Constructor..
             + <<create>> ObservateurUI(gestionnaire : GestionnaireJeu)
             ..Methods..

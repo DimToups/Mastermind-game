@@ -1,4 +1,14 @@
 # Notes
+## Décisions
+### Observateurs
+Il n'y a qu'un seul observateur pour chaque instance de Partie, de Manche et de Tentative parce que ce sont des vues qui demandent souvent à modifier des données. Il est préférable de n'avoir qu'un seul observateur pour éviter qu'ils ne se marchent dessus
+### Modes de jeu
+Il y a deux solutions principales pour intégrer les modes de jeux avec un lien aux sous-classes d'ObservateurUI :
+- Soit on abandonne le patron de conception de stratégie en greffant les trois méthodes d'affichages à l'ObservateurUI
+- Soit en convertissant les modes de jeux en classes abstraites et devant créer une sous-classe à chaque mode de jeu pour chaque classe implémentant ObservateurUI
+
+La première solution permettrait de contenir toutes les méthodes dans l'UI et obligerait le concepteur à écrire toutes les méthodes d'affichages de modes de jeux mais nous serons contraint à accepter la problématique du patron de conception des stratégies.
+La seconde solution conserve tous les patrons de conceptions mais cela demanderait à avoir un nombre démesuré de sous-classes de stratégies pour respecter les patrons de conceptions. Cela engendrerait une pollution excessive de minuscules classes 
 ## Bonus
 - Voir pour ajouter ces tests unitaires
   - Vérifier que l'observateur appelle bien le contrôleur
