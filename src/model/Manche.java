@@ -28,6 +28,7 @@ public class Manche {
      */
     public Manche(ObservateurUI observateur, int nbTentatives, int tailleCombinaison, ModeJeu modeJeu){
         this.observateur = observateur;
+        this.nbTentatives = nbTentatives;
         for(int i = 0; i < nbTentatives; i++)
             this.tentatives.add(new Tentative(observateur, tailleCombinaison, modeJeu));
     }
@@ -46,7 +47,7 @@ public class Manche {
                 fini = true;
                 System.out.println("Vous avez trouvé la combinaison, bravo !");
             }
-            else if (tentativeActuelle > nbTentatives) {
+            else if (tentativeActuelle >= nbTentatives - 1) {
                 fini = true;
 
                 System.out.println("Vous n'avez pas trouvé la combinaison secrète. La voici :");

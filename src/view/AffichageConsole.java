@@ -5,17 +5,18 @@ import src.model.*;
 import src.model.enums.Couleur;
 import java.util.Scanner;
 
-public class AffichageConsole extends ObservateurUI {
+public class AffichageConsole implements ObservateurUI {
     private static final Scanner in = new Scanner(System.in);
     private ModeJeu modeJeu;
+    private GestionnaireJeu jeu;
 
     /**
      * Construit et initialise l'ObservateurUI
      *
-     * @param gestionnaire L'instance contrôleuse du jeu
+     * @param jeu L'instance contrôleuse du jeu
      */
-    public AffichageConsole(GestionnaireJeu gestionnaire) {
-        super(gestionnaire);
+    public AffichageConsole(GestionnaireJeu jeu) {
+        this.jeu = jeu;
     }
 
     @Override
@@ -139,7 +140,7 @@ public class AffichageConsole extends ObservateurUI {
         }
 
         // Retour du nom du joueur
-        this.getGestionnaire().miseAJourJoueur(new Joueur(nom));
+        this.jeu.miseAJourJoueur(new Joueur(nom));
     }
 
     /**
@@ -159,7 +160,7 @@ public class AffichageConsole extends ObservateurUI {
             }
         }
 
-        this.getGestionnaire().miseAJourNbManches(n);
+        this.jeu.miseAJourNbManches(n);
     }
 
     /**
@@ -179,7 +180,7 @@ public class AffichageConsole extends ObservateurUI {
             }
         }
 
-        this.getGestionnaire().miseAJourTailleCombinaison(n);
+        this.jeu.miseAJourTailleCombinaison(n);
     }
 
     /**
@@ -199,7 +200,7 @@ public class AffichageConsole extends ObservateurUI {
             }
         }
 
-        this.getGestionnaire().miseAJourNbTentatives(n);
+        this.jeu.miseAJourNbTentatives(n);
     }
 
     /**
@@ -222,15 +223,15 @@ public class AffichageConsole extends ObservateurUI {
         //Retour du mode de jeu choisi
         if(nb == 1) {
             this.modeJeu = new Facile();
-            this.getGestionnaire().miseAJourModeJeu(new Facile());
+            this.jeu.miseAJourModeJeu(new Facile());
         }
         else if(nb == 2) {
             this.modeJeu = new Classique();
-            this.getGestionnaire().miseAJourModeJeu(new Classique());
+            this.jeu.miseAJourModeJeu(new Classique());
         }
         else {
             this.modeJeu = new Numerique();
-            this.getGestionnaire().miseAJourModeJeu(new Numerique());
+            this.jeu.miseAJourModeJeu(new Numerique());
         }
     }
 
