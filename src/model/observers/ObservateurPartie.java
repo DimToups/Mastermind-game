@@ -32,6 +32,11 @@ public interface ObservateurPartie {
     void deciderModeJeu();
 
     /**
+     * Demande à l'utilisateur s'il veut valider les paramètres de jeu
+     */
+    void demanderFinInitialisation();
+
+    /**
      * Met fin à la partie
      */
     void finirPartie();

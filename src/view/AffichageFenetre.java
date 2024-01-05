@@ -21,8 +21,8 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
     // Composants du menu
     //
 
-    // Composants de base
-    private final JButton jbMenu = new JButton("Lancer la partie");
+    // Composants de demande de fin d'initialisation
+    private final JButton jbFinInitialisation = new JButton("Lancer la partie");
 
     // Composants de création d'un joueur
     private final JLabel jlCreationJoueur = new JLabel("Veuillez entrer votre pseudo");
@@ -85,7 +85,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
         setLayout(new GridLayout(6,1));
 
         // Attribution des actions des composants de base
-        this.jbMenu.addActionListener(e -> {
+        this.jbFinInitialisation.addActionListener(e -> {
             if(initialisationRemplie()){
                 // Mise à jour de la partie
                 jeu.miseAJourJoueur(new Joueur(jtfCreationJoueur.getText().strip()));
@@ -99,9 +99,9 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
                     if(radioButton.isSelected())
                         jeu.miseAJourTailleCombinaison(Integer.parseInt(radioButton.getText()));
                 switch (jcbModeJeu.getSelectedIndex()){
-                    case 0 : jeu.miseAJourModeJeu(new Facile());
-                    case 1 : jeu.miseAJourModeJeu(new Classique());
-                    case 2 : jeu.miseAJourModeJeu(new Numerique());
+                    case 0 : jeu.miseAJourModeJeu(new Facile()); break;
+                    case 1 : jeu.miseAJourModeJeu(new Classique()); break;
+                    case 2 : jeu.miseAJourModeJeu(new Numerique()); break;
                 }
                 jeu.demarrerPartie();
             }
@@ -110,9 +110,6 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
                 System.out.println("Toutes les informations nécessaires pour commencer la partie n'ont pas été renseignées");
             }
         });
-
-        // Ajout des composants de base
-        add(jbMenu);
     }
 
     /**
@@ -197,6 +194,14 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
     }
 
     /**
+     * Demande à l'utilisateur s'il veut valider les paramètres de jeu
+     */
+    @Override
+    public void demanderFinInitialisation() {
+        add(jbFinInitialisation);
+    }
+
+    /**
      * Met fin à la partie
      */
     @Override
@@ -250,6 +255,6 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
      * @return L'état du formulaire
      */
     private boolean initialisationRemplie(){
-        return /*jcbModeJeu.getSelectedItem() != null &&*/ !jtfCreationJoueur.getText().isBlank();
+        return jcbModeJeu.getSelectedItem() != null && !jtfCreationJoueur.getText().isBlank();
     }
 }

@@ -28,6 +28,7 @@ public class Partie {
         this.observateur.deciderNbTentatives();
         this.observateur.deciderNbManches();
         this.observateur.deciderModeJeu();
+        this.observateur.demanderFinInitialisation();
     }
 
     /**

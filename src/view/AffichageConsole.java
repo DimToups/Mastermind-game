@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class AffichageConsole implements ObservateurUI {
     private static final Scanner in = new Scanner(System.in);
     private ModeJeu modeJeu;
-    private GestionnaireJeu jeu;
+    private final GestionnaireJeu jeu;
 
     /**
      * Construit et initialise l'ObservateurUI
@@ -221,7 +221,6 @@ public class AffichageConsole implements ObservateurUI {
         while (nb < 1 || nb > 3){
             try {
                 System.out.println("Veuillez choisir votre mode de jeu :\n - 1 : Facile\n - 2 : Classique\n - 3 : Numérique");
-                Scanner in = new Scanner(System.in);
                 nb = Integer.parseInt(in.nextLine().strip());
             }
             catch (Exception e) {
@@ -241,6 +240,22 @@ public class AffichageConsole implements ObservateurUI {
         else {
             this.modeJeu = new Numerique();
             this.jeu.miseAJourModeJeu(new Numerique());
+        }
+    }
+
+    /**
+     * Demande à l'utilisateur s'il veut valider les paramètres de jeu
+     */
+    @Override
+    public void demanderFinInitialisation() {
+        System.out.println("Valider les paramètres et commencer la partie ?\n - Oui\n - Non");
+        String reponse = "";
+        while(!reponse.equals("oui") && !reponse.equals("non")) {
+            reponse = in.nextLine().toLowerCase().strip();
+            if (reponse.equals("oui"))
+                jeu.demarrerPartie();
+            else if (reponse.equals("non"))
+                jeu.initialiserPartie();
         }
     }
 
