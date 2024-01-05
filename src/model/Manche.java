@@ -1,5 +1,8 @@
 package src.model;
 
+import src.model.observers.ObservateurManche;
+import src.model.observers.ObservateurUI;
+
 import java.util.ArrayList;
 import java.util.List;
 

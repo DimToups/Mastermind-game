@@ -1,5 +1,7 @@
 package src.model;
 
+import src.model.observers.ObservateurTentative;
+import src.model.observers.ObservateurUI;
 import src.model.enums.Couleur;
 import src.model.enums.Indice;
 import src.view.Classique;

@@ -2,6 +2,7 @@ package src.view;
 
 import src.controller.GestionnaireJeu;
 import src.model.*;
+import src.model.observers.ObservateurUI;
 import src.model.enums.Couleur;
 import java.util.Scanner;
 
@@ -118,6 +119,14 @@ public class AffichageConsole implements ObservateurUI {
     public void afficherIndices(LigneIndice indices) {
         System.out.println("Voici les indices :");
         modeJeu.afficherIndices(indices);
+    }
+
+    /**
+     * Fait entrer l'observateur en mode initialisation de partie
+     */
+    @Override
+    public void entrerModeInitialisation() {
+
     }
 
     /**

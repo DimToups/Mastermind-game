@@ -1,6 +1,11 @@
-package src.model;
+package src.model.observers;
 
 public interface ObservateurPartie {
+    /**
+     * Fait entrer l'observateur en mode initialisation de partie
+     */
+    void entrerModeInitialisation();
+
     /**
      * Demande à l'utilisateur toutes les questions pour créer une instance de Joueur
      */

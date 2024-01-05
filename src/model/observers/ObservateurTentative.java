@@ -1,4 +1,7 @@
-package src.model;
+package src.model.observers;
+
+import src.model.Combinaison;
+import src.model.LigneIndice;
 
 public interface ObservateurTentative {
     /**

@@ -1,5 +1,8 @@
 package src.model;
 
+import src.model.observers.ObservateurPartie;
+import src.model.observers.ObservateurUI;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +22,7 @@ public class Partie {
     }
 
     public void initialiser(){
+        this.observateur.entrerModeInitialisation();
         this.observateur.creerJoueur();
         this.observateur.deciderTailleCombinaison();
         this.observateur.deciderNbTentatives();

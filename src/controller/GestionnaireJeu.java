@@ -1,6 +1,7 @@
 package src.controller;
 
 import src.model.*;
+import src.model.observers.ObservateurUI;
 
 public class GestionnaireJeu {
     private Partie partie;
