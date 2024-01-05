@@ -1,4 +1,6 @@
 # Notes
+## Questions à creuser
+- Est-ce que les observateurs ne seraient pas des stratégies puisqu'elles sont uniques et nécessaires au fonctionnement du jeu ?
 ## Décisions
 ### Observateurs
 Il n'y a qu'un seul observateur pour chaque instance de Partie, de Manche et de Tentative parce que ce sont des vues qui demandent souvent à modifier des données. Il est préférable de n'avoir qu'un seul observateur pour éviter qu'ils ne se marchent dessus

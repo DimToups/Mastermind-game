@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
         GestionnaireJeu jeu = new GestionnaireJeu();
         jeu.setPartie(new Partie());
-        jeu.setUI(new AffichageConsole(jeu));
+        jeu.setUI(new AffichageFenetre(jeu));
         jeu.initialiserPartie();
     }
 }
