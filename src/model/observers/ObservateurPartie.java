@@ -39,5 +39,5 @@ public interface ObservateurPartie {
     /**
      * Met fin à la partie
      */
-    void finirPartie();
+    void finirPartie(int score);
 }

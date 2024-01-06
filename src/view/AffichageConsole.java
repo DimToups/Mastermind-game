@@ -300,7 +300,7 @@ public class AffichageConsole implements ObservateurUI {
      * Met fin à la partie
      */
     @Override
-    public void finirPartie() {
-
+    public void finirPartie(int score) {
+        System.out.println("La partie est terminée.\nScore final : " + score);
     }
 }

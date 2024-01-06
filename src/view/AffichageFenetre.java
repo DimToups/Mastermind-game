@@ -213,7 +213,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
      * Met fin à la partie
      */
     @Override
-    public void finirPartie() {
+    public void finirPartie(int score) {
 
     }
 

@@ -52,8 +52,7 @@ public class Partie {
      * Met fin à la partie
      */
     private void finirPartie() {
-        this.observateur.finirPartie();
-        System.out.println("La partie est terminée.\nScore final : " + score);
+        this.observateur.finirPartie(score);
         this.joueur.ajouterScorePartie(score);
     }
 
