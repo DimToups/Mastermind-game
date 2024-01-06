@@ -63,7 +63,11 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
      */
     @Override
     public void miseEnPlacePlateau() {
-
+        for(Component component : getContentPane().getComponents()){
+            component.setVisible(false);
+            remove(component);
+        }
+        setLayout(new GridLayout(1,2));
     }
 
     /**

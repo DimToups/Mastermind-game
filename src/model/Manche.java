@@ -44,34 +44,15 @@ public class Manche {
      */
     public void jouerManche() {
         tentativeActuelle++;
+        if(tentativeActuelle == 0)
+            this.observateur.miseEnPlacePlateau();
         if(tentativeActuelle < tentatives.size()) {
             tentatives.get(tentativeActuelle).jouerTentative(false);
         }
         else{
+            this.observateur.miseEnPlacePlateau();
             this.observateur.prochaineManche(this.combinaisonSecrete);
         }
-        /*boolean fini = false;
-        while (!fini){
-            Tentative tentative = tentatives.get(tentativeActuelle);
-            tentative.lancerTentative();
-
-            // Evaluation de la tentative
-            if (tentative.evaluerTentative(combinaisonSecrete)) {
-                fini = true;
-                System.out.println("Vous avez trouvé la combinaison, bravo !");
-            }
-            else if (tentativeActuelle >= nbTentatives - 1) {
-                fini = true;
-
-                System.out.println("Vous n'avez pas trouvé la combinaison secrète. La voici :");
-                for(int i = 0; i < combinaisonSecrete.getCombinaison().size(); i++)
-                    System.out.print(this.combinaisonSecrete.getCombinaison().get(i).name().substring(0, 1).toUpperCase()
-                            + this.combinaisonSecrete.getCombinaison().get(i).name().substring(1).toLowerCase()
-                            + "  | ");
-            }
-            else
-                tentativeActuelle++;
-        }*/
     }
 
     /**
