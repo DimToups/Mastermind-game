@@ -165,4 +165,20 @@ public class Manche {
     public List<Tentative> getTentatives() {
         return tentatives;
     }
+
+    /**
+     * Renvoi le contrôleur de la manche
+     * @return Le contrôleur de la manche
+     */
+    public GestionnaireJeu getGestionnaireJeu(){
+        return this.jeu;
+    }
+
+    /**
+     * Défini le contrôleur de la manche
+     * @param jeu Le contrôleur voulu
+     */
+    public void setGestionnaireJeu(GestionnaireJeu jeu){
+        this.jeu = jeu;
+    }
 }

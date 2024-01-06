@@ -146,4 +146,20 @@ public class Partie {
     public int getMancheActuelle() {
         return mancheActuelle;
     }
+
+    /**
+     * Renvoi le contrôleur de la partie
+     * @return Le contrôleur de la partie
+     */
+    public GestionnaireJeu getGestionnaireJeu(){
+        return this.jeu;
+    }
+
+    /**
+     * Défini le contrôleur de la partie
+     * @param jeu Le contrôleur voulu
+     */
+    public void setGestionnaireJeu(GestionnaireJeu jeu){
+        this.jeu = jeu;
+    }
 }

@@ -193,4 +193,20 @@ public class Tentative {
         this.combinaisonEntree = new Combinaison(tailleCombinaison);
         this.ligneIndice = new LigneIndice(tailleCombinaison);
     }
+
+    /**
+     * Renvoi le contrôleur de la tentative
+     * @return Le contrôleur de la tentative
+     */
+    public GestionnaireJeu getGestionnaireJeu(){
+        return this.jeu;
+    }
+
+    /**
+     * Défini le contrôleur de la tentative
+     * @param jeu Le contrôleur voulu
+     */
+    public void setGestionnaireJeu(GestionnaireJeu jeu){
+        this.jeu = jeu;
+    }
 }
