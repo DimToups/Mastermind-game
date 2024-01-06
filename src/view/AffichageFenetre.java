@@ -77,6 +77,14 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
     }
 
     /**
+     * Affiche les informations de la manche avant de passer à la prochaine
+     */
+    @Override
+    public void prochaineManche(Combinaison combinaisonSecrete) {
+
+    }
+
+    /**
      * Fait entrer l'observateur en mode initialisation de partie
      */
     @Override
@@ -103,7 +111,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
                     case 1 : jeu.miseAJourModeJeu(new Classique()); break;
                     case 2 : jeu.miseAJourModeJeu(new Numerique()); break;
                 }
-                jeu.demarrerPartie();
+                jeu.demarrerProchaineManche();
             }
             else{
                 //
@@ -241,12 +249,10 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
 
     /**
      * Demande à l'utilisateur s'il veut mettre fin à la tentative
-     *
-     * @return La réponse de l'utilisateur
      */
     @Override
-    public boolean demanderFinTentative() {
-        return false;
+    public void demanderFinTentative() {
+
     }
 
     /**
@@ -256,5 +262,23 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
      */
     private boolean initialisationRemplie(){
         return jcbModeJeu.getSelectedItem() != null && !jtfCreationJoueur.getText().isBlank();
+    }
+
+    /**
+     * Affiche une combinaison
+     *
+     * @param combinaison La combinaison à afficher
+     */
+    @Override
+    public void affichageCombinaison(Combinaison combinaison) {
+
+    }
+
+    /**
+     * Fini la manche suite à la réussite du joueur
+     */
+    @Override
+    public void finirManche() {
+
     }
 }

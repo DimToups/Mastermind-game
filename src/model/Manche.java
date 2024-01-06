@@ -1,5 +1,6 @@
 package src.model;
 
+import src.controller.GestionnaireJeu;
 import src.model.observers.ObservateurManche;
 import src.model.observers.ObservateurUI;
 
@@ -7,18 +8,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Manche {
-    private int tentativeActuelle = 0;
+    private int tentativeActuelle = -1;
     private int nbTentatives = 10;
     private List<Tentative> tentatives = new ArrayList<>();
     private Combinaison combinaisonSecrete;
     private ObservateurManche observateur;
+    private GestionnaireJeu jeu;
 
     /**
      * Créé une instance de Manche
      */
-    public Manche() {
+    public Manche(GestionnaireJeu jeu) {
+        this.jeu = jeu;
         for (int i = 0; i < 10; i++)
-            this.tentatives.add(new Tentative());
+            this.tentatives.add(new Tentative(this.jeu));
     }
 
     /**
@@ -40,7 +43,14 @@ public class Manche {
      * Joue la manche avec les paramètres choisis
      */
     public void jouerManche() {
-        boolean fini = false;
+        tentativeActuelle++;
+        if(tentativeActuelle < tentatives.size()) {
+            tentatives.get(tentativeActuelle).jouerTentative(false);
+        }
+        else{
+            this.observateur.prochaineManche(this.combinaisonSecrete);
+        }
+        /*boolean fini = false;
         while (!fini){
             Tentative tentative = tentatives.get(tentativeActuelle);
             tentative.lancerTentative();
@@ -61,7 +71,7 @@ public class Manche {
             }
             else
                 tentativeActuelle++;
-        }
+        }*/
     }
 
     /**

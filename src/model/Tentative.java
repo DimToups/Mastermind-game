@@ -1,5 +1,6 @@
 package src.model;
 
+import src.controller.GestionnaireJeu;
 import src.model.observers.ObservateurTentative;
 import src.model.observers.ObservateurUI;
 import src.model.enums.Couleur;
@@ -13,11 +14,13 @@ public class Tentative {
     private LigneIndice ligneIndice;
     private ModeJeu modeJeu;
     private ObservateurTentative observateur;
+    private GestionnaireJeu jeu;
 
     /**
      * Créé une Tentative
      */
-    public Tentative(){
+    public Tentative(GestionnaireJeu jeu){
+        this.jeu = jeu;
         this.combinaisonEntree = new Combinaison();
         this.ligneIndice = new LigneIndice();
     }
@@ -70,7 +73,6 @@ public class Tentative {
      * Evalue la tentative selon une combinaison de comparaison
      *
      * @param combinaisonSecrete La combinaison de comparaison
-     * @return L'état de la tentative (vrai si la tentative est exacte, sinon faux)
      */
     public boolean evaluerTentative(Combinaison combinaisonSecrete) {
         List<Couleur> resteCombiEntree = new ArrayList<>(combinaisonEntree.getCombinaison());
@@ -104,38 +106,27 @@ public class Tentative {
                 this.ligneIndice.getIndices().set(i, Indice.ABSENT);
 
         //Affichage de la combinaison
-        this.observateur.affichageTentative(combinaisonEntree);
+        this.observateur.affichageCombinaison(combinaisonEntree);
 
         //Affichage des indices
         this.observateur.afficherIndices(this.ligneIndice);
 
         //Vérification des indices
-        for(int i = 0; i < this.ligneIndice.getIndices().size(); i++){
+        for(int i = 0; i < this.ligneIndice.getIndices().size(); i++)
             if(!this.ligneIndice.getIndices().get(i).equals(Indice.BIEN_PLACE))
                 return false;
-        }
-
         return true;
     }
 
     /**
      * Donne l'attention à la tentative
      */
-    public void lancerTentative() {
-        boolean fini = false;
-
-        while (!fini) {
-            //Affichage de la combinaison entrée de la tentative
-            observateur.affichageTentative(combinaisonEntree);
-
-            //Gestion du cas où la combinaison est complète
-            if(this.combinaisonEntree.estComplet())
-                fini = this.observateur.demanderFinTentative();
-
-            //Gestion du cas où le joueur veut modifier sa combinaison
-            if(!fini)
-                this.observateur.changerCouleur(this.combinaisonEntree);
-        }
+    public void jouerTentative(boolean modificationVoulue) {
+        this.observateur.affichageTentative(this.combinaisonEntree);
+        if(!this.combinaisonEntree.estComplete() ^ modificationVoulue)
+            this.observateur.changerCouleur(this.combinaisonEntree);
+        else
+            this.observateur.demanderFinTentative();
     }
 
     /**

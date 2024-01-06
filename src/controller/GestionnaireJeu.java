@@ -32,10 +32,10 @@ public class GestionnaireJeu {
     }
 
     /**
-     * Lance la partie
+     * Lance la prochaine manche de la partie
      */
-    public void demarrerPartie() {
-        this.partie.lancerPartie();
+    public void demarrerProchaineManche() {
+        this.partie.lancerProchaineManche();
     }
 
     /**
@@ -88,5 +88,32 @@ public class GestionnaireJeu {
      */
     public void miseAJourJoueur(Joueur joueur){
         this.partie.setJoueur(joueur);
+    }
+
+    /**
+     * Appelle la méthode jouerTentative() de la tentative actuelle
+     */
+    public void modifierTentativeActuelle(boolean modificationVoulue){
+        Manche mancheActuelle = this.partie.getManches().get(partie.getMancheActuelle());
+        mancheActuelle.getTentatives().get(mancheActuelle.getTentativeActuelle()).jouerTentative(modificationVoulue);
+    }
+
+    /**
+     * Joue la prochaine tentative s'il en reste
+     */
+    public void passerProchaineTentative(){
+        Manche mancheActuelle = this.partie.getManches().get(partie.getMancheActuelle());
+
+        // Evaluation de la tentative
+        boolean partieFinie = mancheActuelle.getTentatives().get(mancheActuelle.getTentativeActuelle()).evaluerTentative(mancheActuelle.getCombinaisonSecrete());
+
+        // Passage à la prochaine tentative
+        if(mancheActuelle.getTentativeActuelle() < mancheActuelle.getTentatives().size() && !partieFinie)
+            mancheActuelle.jouerManche();
+        else
+            this.demarrerProchaineManche();
+    }
+    public Combinaison getCombinaisonSecreteActuelle(){
+        return this.partie.getManches().get(this.partie.getMancheActuelle()).getCombinaisonSecrete();
     }
 }

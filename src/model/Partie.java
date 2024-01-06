@@ -1,5 +1,6 @@
 package src.model;
 
+import src.controller.GestionnaireJeu;
 import src.model.observers.ObservateurPartie;
 import src.model.observers.ObservateurUI;
 
@@ -8,17 +9,20 @@ import java.util.List;
 
 public class Partie {
     private int score = 0 ;
+    private int mancheActuelle = -1;
     private Joueur joueur;
     private List<Manche> manches = new ArrayList<>();
     private ObservateurPartie observateur;
+    private GestionnaireJeu jeu;
 
     /**
      * Créé une instance de Partie
      */
-    public Partie() {
+    public Partie(GestionnaireJeu jeu) {
+        this.jeu = jeu;
         // Initialisation des manches
         for(int i = 0; i < 3; i++)
-            manches.add(new Manche());
+            manches.add(new Manche(this.jeu));
     }
 
     public void initialiser(){
@@ -32,15 +36,16 @@ public class Partie {
     }
 
     /**
-     * Lance la partie avec les paramètres de jeu choisis
+     * Lance la manche suivante. Si aucune manche n'a été lancé, la partie lancera automatiquement la première manche
      */
-    public void lancerPartie() {
-        for (Manche manche : manches) {
-            manche.setCombinaisonSecrete(Combinaison.genererCombinaison(this.manches.getFirst().getTentatives().getFirst().getCombinaisonEntree().getTailleCombinaison()));
-            manche.jouerManche();
-            score += manche.calculerScore();
+    public void lancerProchaineManche() {
+        mancheActuelle++;
+        if(mancheActuelle >= manches.size())
+            finirPartie();
+        else {
+            manches.get(mancheActuelle).setCombinaisonSecrete(Combinaison.genererCombinaison(this.manches.getFirst().getTentatives().getFirst().getCombinaisonEntree().getTailleCombinaison()));
+            manches.get(mancheActuelle).jouerManche();
         }
-        finirPartie();
     }
 
     /**
@@ -133,5 +138,13 @@ public class Partie {
         this.observateur = observer;
         for (Manche manche : this.manches)
             manche.setObservateurUI(observer);
+    }
+
+    /**
+     * Renvoi l'index de la manche actuelle
+     * @return L'index de la manche actuelle
+     */
+    public int getMancheActuelle() {
+        return mancheActuelle;
     }
 }

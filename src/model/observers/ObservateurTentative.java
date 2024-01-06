@@ -27,8 +27,18 @@ public interface ObservateurTentative {
 
     /**
      * Demande à l'utilisateur s'il veut mettre fin à la tentative
-     *
-     * @return La réponse de l'utilisateur
      */
-    boolean demanderFinTentative();
+    void demanderFinTentative();
+
+    /**
+     * Fini la manche suite à la réussite du joueur
+     */
+    void finirManche();
+
+    /**
+     * Affiche une combinaison
+     *
+     * @param combinaison La combinaison à afficher
+     */
+    void affichageCombinaison(Combinaison combinaison);
 }

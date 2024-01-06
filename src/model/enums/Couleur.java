@@ -12,7 +12,18 @@ public enum Couleur {
     ORANGE,
     VIOLET,
     TURQUOISE,
-    ROSE;
+    ROSE
+    ;
+
+    /**
+     * Retourne le nom de la couleur en minuscules et avec une majuscule au début du mot
+     *
+     * @param couleur La couleur à traiter
+     * @return Le nom de la couleur
+     */
+    public static String nomValide(Couleur couleur){
+        return couleur.name().toUpperCase().charAt(0) + couleur.name().toLowerCase().substring(1);
+    }
     public static List<Couleur> getVraiesCouleurs(){
         List<Couleur> vraiesCouleurs = new ArrayList<>();
         for (Couleur couleur : Couleur.values())

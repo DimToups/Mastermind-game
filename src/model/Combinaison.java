@@ -79,7 +79,7 @@ public class Combinaison {
      *
      * @return L'état de la combinaison (true pour complet et false pour incomplet
      */
-    public boolean estComplet() {
+    public boolean estComplete() {
         for (Couleur couleur : combinaison)
             if (couleur == Couleur.ABSENT)
                 return false;

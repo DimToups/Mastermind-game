@@ -1,5 +1,7 @@
 package src.model.observers;
 
+import src.model.Combinaison;
+
 public interface ObservateurManche {
     /**
      * Affiche le plateau de jeu
@@ -12,4 +14,9 @@ public interface ObservateurManche {
      * @return La réponse de l'utilisateur
      */
     boolean demanderValidationTentative();
+
+    /**
+     * Affiche les informations de la manche avant de passer à la prochaine
+     */
+    void prochaineManche(Combinaison combinaisonSecrete);
 }

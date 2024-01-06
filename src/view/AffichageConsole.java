@@ -36,13 +36,25 @@ public class AffichageConsole implements ObservateurUI {
     }
 
     /**
+     * Affiche les informations de la manche avant de passer à la prochaine
+     */
+    @Override
+    public void prochaineManche(Combinaison combinaisonSecrete) {
+        System.out.println("La manche est terminée ! Voici la combinaison secrète :");
+        this.affichageCombinaison(combinaisonSecrete);
+        System.out.println("Appuyez sur entrer pour passer à la prochaine manche.");
+        in.nextLine();
+        jeu.demarrerProchaineManche();
+    }
+
+    /**
      * Affiche le résumé d'une tentative
      *
      * @param combinaison La combinaison à afficher
      */
     @Override
     public void affichageTentative(Combinaison combinaison) {
-        System.out.println("\nVoici votre combinaison :");
+        System.out.print("Voici votre combinaison :\n| ");
         for(int i = 0; i < combinaison.getCombinaison().size(); i++)
             System.out.print(i + " : "
                     + combinaison.getCombinaison().get(i).name().substring(0, 1).toUpperCase()
@@ -52,12 +64,25 @@ public class AffichageConsole implements ObservateurUI {
     }
 
     /**
-     * Demande à l'utilisateur s'il veut mettre fin à la tentative
+     * Affiche une combinaison
      *
-     * @return La réponse de l'utilisateur
+     * @param combinaison La combinaison à afficher
      */
     @Override
-    public boolean demanderFinTentative() {
+    public void affichageCombinaison(Combinaison combinaison) {
+        System.out.print("| ");
+        for(int i = 0; i < combinaison.getCombinaison().size(); i++)
+            System.out.print(combinaison.getCombinaison().get(i).name().substring(0, 1).toUpperCase()
+                    + combinaison.getCombinaison().get(i).name().substring(1).toLowerCase()
+                    + "  | ");
+        System.out.println();
+    }
+
+    /**
+     * Demande à l'utilisateur s'il veut mettre fin à la tentative
+     */
+    @Override
+    public void demanderFinTentative() {
         String reponse = "";
         while(!reponse.equals("oui") && !reponse.equals("non")) {
             System.out.println("Votre combinaison est complète. Voulez vous la valider ?\n - oui\n - non");
@@ -67,7 +92,10 @@ public class AffichageConsole implements ObservateurUI {
             if(!reponse.equals("oui") && !reponse.equals("non"))
                 System.out.println("La valeur entrée est invalide.");
         }
-        return reponse.equals("oui");
+        if(reponse.equals("oui"))
+            jeu.passerProchaineTentative();
+        else
+            jeu.modifierTentativeActuelle(true);
     }
 
     /**
@@ -93,10 +121,8 @@ public class AffichageConsole implements ObservateurUI {
         boolean estPlace = false;
         while (!estPlace) {
             System.out.print("Quelle couleur voulez-vous placer ?\nCouleurs disponibles : \n");
-            for (Couleur couleurValides : Couleur.getVraiesCouleurs())
-                System.out.print(couleurValides.name().substring(0,1).toUpperCase()
-                        + couleurValides.name().substring(1).toLowerCase()
-                        + " | ");
+            for (Couleur couleurValide : Couleur.getVraiesCouleurs())
+                System.out.print(Couleur.nomValide(couleurValide) + " | ");
             System.out.println();
 
             try {
@@ -108,6 +134,7 @@ public class AffichageConsole implements ObservateurUI {
                 System.out.println("La valeur entrée est invalide.");
             }
         }
+        this.jeu.modifierTentativeActuelle(false);
     }
 
     /**
@@ -119,6 +146,16 @@ public class AffichageConsole implements ObservateurUI {
     public void afficherIndices(LigneIndice indices) {
         System.out.println("Voici les indices :");
         modeJeu.afficherIndices(indices);
+    }
+
+    /**
+     * Fini la manche suite à la réussite du joueur
+     */
+    @Override
+    public void finirManche(){
+        System.out.println("Vous avez trouvé la combinaison secrète !\n\nAppuyez sur entrer pour passer à la prochaine manche.");
+        in.nextLine();
+        jeu.demarrerProchaineManche();
     }
 
     /**
@@ -253,7 +290,7 @@ public class AffichageConsole implements ObservateurUI {
         while(!reponse.equals("oui") && !reponse.equals("non")) {
             reponse = in.nextLine().toLowerCase().strip();
             if (reponse.equals("oui"))
-                jeu.demarrerPartie();
+                jeu.demarrerProchaineManche();
             else if (reponse.equals("non"))
                 jeu.initialiserPartie();
         }
