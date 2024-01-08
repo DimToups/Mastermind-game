@@ -17,12 +17,46 @@ package src{
                 ROSE
                 ..Mehtods..
                 + getVraiesCouleurs() : Couleur[] {static}
+                + nomValide(couleur : Couleur) : String
             }
             enum Indice{
                 ..Values..
                 BIEN_PLACE
                 MAL_PLACE
                 ABSENT
+                ..Methods..
+                + nomValide(indice : Indice) : String
+            }
+        }
+        package observers{
+            interface ObservateurManche <<interface>>{
+                ..Methods..
+                + miseEnPlacePlateau()
+                + demanderValidationTentative() : Boolean
+                + prochaineManche(combinaisonSecrete : Combinaison)
+            }
+            interface ObservateurPartie <<interface>>{
+                ..Methods..
+                + entrerModeInitialisation()
+                + creerJoueur() : Joueur
+                + deciderNbManches() : Integer
+                + deciderTailleCombinaison() : Integer
+                + deciderNbTentatives() : Integer
+                + deciderModeJeu() : ModeJeu
+                + demanderFinInitialisation()
+                + finirPartie()
+            }
+            interface ObservateurTentative <<interface>>{
+                ..Methods..
+                + changerCouleur(combinaison : Combinaison)
+                + afficherIndices(indices : LigneIndice)
+                + affichageTentative(combinaison : Combinaison)
+                + demanderFinTentative() : Boolean
+            }
+            interface ObservateurUI <<interface>>{
+                ..Methods..
+                + getGestionnaire() : GestionnaireJeu
+                + setGestionnaire(gestionnaire : GestionnaireJeu)
             }
         }
         class Combinaison{
@@ -82,34 +116,6 @@ package src{
         interface ModeJeu <<interface>>{
             ..Methods..
             afficherIndices(ligne : LigneIndice)
-        }
-        interface ObservateurManche <<interface>>{
-            ..Methods..
-            + miseEnPlacePlateau()
-            + demanderValidationTentative() : Boolean
-        }
-        interface ObservateurPartie <<interface>>{
-            ..Methods..
-            + creerJoueur() : Joueur
-            + deciderNbManches() : Integer
-            + deciderTailleCombinaison() : Integer
-            + deciderNbTentatives() : Integer
-            + deciderModeJeu() : ModeJeu
-            + finirPartie()
-        }
-        interface ObservateurTentative <<interface>>{
-            ..Methods..
-            + changerCouleur(combinaison : Combinaison)
-            + afficherIndices(indices : LigneIndice)
-            + affichageTentative(combinaison : Combinaison)
-            + demanderFinTentative() : Boolean
-        }
-        abstract class ObservateurUI{
-            ..Constructor..
-            + <<create>> ObservateurUI(gestionnaire : GestionnaireJeu)
-            ..Methods..
-            + getGestionnaire() : GestionnaireJeu
-            + setGestionnaire(gestionnaire : GestionnaireJeu)
         }
         class Partie{
             ..Fields..

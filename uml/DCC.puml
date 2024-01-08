@@ -17,13 +17,45 @@ package src{
                 ROSE
                 ..Mehtods..
                 + getVraiesCouleurs() : Couleur[] {static}
+                + nomValide(couleur : Couleur) : String
             }
             enum Indice{
                 ..Values..
                 BIEN_PLACE
                 MAL_PLACE
                 ABSENT
+                ..Methods..
+                + nomValide(indice : Indice) : String
             }
+        }
+        package observers{
+            interface ObservateurManche <<interface>>{
+                ..Methods..
+                + miseEnPlacePlateau()
+                + demanderValidationTentative() : Boolean
+                + prochaineManche(combinaisonSecrete : Combinaison)
+            }
+            interface ObservateurPartie <<interface>>{
+                ..Methods..
+                + entrerModeInitialisation()
+                + creerJoueur() : Joueur
+                + deciderNbManches() : Integer
+                + deciderTailleCombinaison() : Integer
+                + deciderNbTentatives() : Integer
+                + deciderModeJeu() : ModeJeu
+                + demanderFinInitialisation()
+                + finirPartie()
+            }
+            interface ObservateurTentative <<interface>>{
+                ..Methods..
+                + changerCouleur(combinaison : Combinaison)
+                + afficherIndices(indices : LigneIndice)
+                + affichageTentative(combinaison : Combinaison)
+                + demanderFinTentative() : Boolean
+                + finirManche()
+                + affichageCombinaison(combinaison : Combinaison)
+            }
+            interface ObservateurUI <<interface>>
         }
         class Combinaison{
             ..Fields..
@@ -36,7 +68,7 @@ package src{
             + getCombinaison() : Couleur[]
             + setCouleur(index : Integer, couleur : Couleur)
             + getTailleCombinaison() : Integer
-            + estComplet() : Boolean
+            + estComplete() : Boolean
         }
         class Joueur{
             ..Fields..
@@ -65,7 +97,7 @@ package src{
             - tentativeActuelle : Integer
             - nbTentatives : Integer
             ..Constructors..
-            + <<create>> Manche()
+            + <<create>> Manche(jeu : GestionnaireJeu)
             + <<create>> Manche(observateur : ObservateurUI, nbTentatives : Integer, tailleCombinaison : Integer, modeJeu : ModeJeu)
             ..Methods..
             + jouerManche()
@@ -75,50 +107,25 @@ package src{
             + getCombinaisonSecrete() : Combinaison
             + setCombinaisonSecrete(combinaisonSecrete : Combinaison)
             + getNbTentatives() : Integer
-            + setNbTentatives(n : Integer)
+            + setNbTentatives(nbTentatives : Integer)
             + getTentativeActuelle() : Integer
             + getTentatives() : Tentative[]
+            + getGestionnaireJeu() : GestionnaireJeu
+            + setGestionnaireJeu(jeu : GestionnaireJeu)
         }
         interface ModeJeu <<interface>>{
             ..Methods..
             afficherIndices(ligne : LigneIndice)
         }
-        interface ObservateurManche <<interface>>{
-            ..Methods..
-            + miseEnPlacePlateau()
-            + demanderValidationTentative() : Boolean
-        }
-        interface ObservateurPartie <<interface>>{
-            ..Methods..
-            + creerJoueur() : Joueur
-            + deciderNbManches() : Integer
-            + deciderTailleCombinaison() : Integer
-            + deciderNbTentatives() : Integer
-            + deciderModeJeu() : ModeJeu
-            + finirPartie()
-        }
-        interface ObservateurTentative <<interface>>{
-            ..Methods..
-            + changerCouleur(combinaison : Combinaison)
-            + afficherIndices(indices : LigneIndice)
-            + affichageTentative(combinaison : Combinaison)
-            + demanderFinTentative() : Boolean
-        }
-        abstract class ObservateurUI{
-            ..Constructor..
-            + <<create>> ObservateurUI(gestionnaire : GestionnaireJeu)
-            ..Methods..
-            + getGestionnaire() : GestionnaireJeu
-            + setGestionnaire(gestionnaire : GestionnaireJeu)
-        }
         class Partie{
             ..Fields..
             - score : Integer
+            - mancheActuelle : Integer
             ..Constructor..
-            + <<create>> Partie()
+            + <<create>> Partie(jeu : GestionnaireJeu)
             ..Methods..
             + initialiser()
-            + lancerPartie()
+            + lancerProchaineManche()
             + finirPartie()
             + getManches() : Manche[]
             + setNbManches(n : Integer)
@@ -126,19 +133,21 @@ package src{
             + setScore(score : Integer)
             + getJoueur() : Joueur
             + setJoueur(joueur : Joueur)
-            + getObservateurUI() : ObservateurUI
+            + getUI() : ObservateurUI
             + setObservateurUI(observateur : ObservateurUI)
+            + getGestionnaireJeu() : GestionnaireJeu
+            + setGestionnaireJeu(jeu : GestionnaireJeu)
         }
         class Tentative{
             ..Constructors..
-            + <<create>> Tentative()
+            + <<create>> Tentative(jeu : GestionnaireJeu)
             + <<create>> Tentative(observateur : ObservateurUI, tailleCombinaison : Integer, modeJeu : ModeJeu)
             ..Methods..
             + ajoutCouleur(index : Integer, couleur : Couleur)
             + calculBonus() : Integer
             + calculScore() : Integer
             + evaluerTentative(combinaisonSecrete : Combinaison) : Boolean
-            + lancerTentative()
+            + jouerTentative()
             + getObservateurUI() : ObservateurUI
             + setObservateurUI(observateur : ObservateurUI)
             + getCombinaisonEntree() : Combinaison
@@ -146,46 +155,102 @@ package src{
             + getModeJeu() : ModeJeu
             + setModeJeu(modeJeu : ModeJeu)
             + setTailleCombinaison(tailleCombinaison : Integer)
+            + getGestionnaireJeu() : GestionnaireJeu
+            + setGestionnaireJeu(jeu : GestionnaireJeu)
         }
     }
     package view{
         class AffichageConsole{
             ..Constructor..
-            + <<create>> AffichageFenetre(gestionnaire : GestionnaireJeu)
+            + <<create>> AffichageFenetre(jeu : GestionnaireJeu)
             ..Partie..
-            + creerJoueur() : Joueur
-            + deciderNbManches() : Integer
-            + deciderTailleCombinaison() : Integer
-            + deciderNbTentatives() : Integer
-            + deciderModeJeu() : ModeJeu
+            + initialiser()
+            + lancerProchaineManche()
             + finirPartie()
+            + getManches() : Manche[]
+            + setNbManches(n : Integer)
+            + getScore() : Integer
+            + setScore(score : Integer)
+            + getJoueur() : Joueur
+            + setJoueur(joueur : Joueur)
+            + getUI() : ObservateurUI
+            + setObservateurUI(observateur : ObservateurUI)
+            + getGestionnaireJeu() : GestionnaireJeu
+            + setGestionnaireJeu(jeu : GestionnaireJeu)
             ..Manche..
-            + miseEnPlacePlateau()
-            + demanderValidationTentative() : Boolean
+            + jouerManche()
+            + calculerScore() : Integer
+            + getObservateurUI() : ObservateurUI
+            + setObservateurUI(observateur : ObservateurUI)
+            + getCombinaisonSecrete() : Combinaison
+            + setCombinaisonSecrete(combinaisonSecrete : Combinaison)
+            + getNbTentatives() : Integer
+            + setNbTentatives(nbTentatives : Integer)
+            + getTentativeActuelle() : Integer
+            + getTentatives() : Tentative[]
+            + getGestionnaireJeu() : GestionnaireJeu
+            + setGestionnaireJeu(jeu : GestionnaireJeu)
             ..Tentative..
-            + changerCouleur(combinaison : Combinaison)
-            + afficherIndices(indices : LigneIndice)
-            + affichageTentative(combinaison : Combinaison)
-            + demanderFinTentative() : Boolean
+            + ajoutCouleur(index : Integer, couleur : Couleur)
+            + calculBonus() : Integer
+            + calculScore() : Integer
+            + evaluerTentative(combinaisonSecrete : Combinaison) : Boolean
+            + jouerTentative()
+            + getObservateurUI() : ObservateurUI
+            + setObservateurUI(observateur : ObservateurUI)
+            + getCombinaisonEntree() : Combinaison
+            + getLigneIndice() : LigneIndice
+            + getModeJeu() : ModeJeu
+            + setModeJeu(modeJeu : ModeJeu)
+            + setTailleCombinaison(tailleCombinaison : Integer)
+            + getGestionnaireJeu() : GestionnaireJeu
+            + setGestionnaireJeu(jeu : GestionnaireJeu)
         }
         class AffichageFenetre{
             ..Constructor..
-            + <<create>> AffichageFenetre(gestionnaire : GestionnaireJeu)
+            + <<create>> AffichageFenetre(jeu : GestionnaireJeu)
             ..Partie..
-            + creerJoueur() : Joueur
-            + deciderNbManches() : Integer
-            + deciderTailleCombinaison() : Integer
-            + deciderNbTentatives() : Integer
-            + deciderModeJeu() : ModeJeu
+            + initialiser()
+            + lancerProchaineManche()
             + finirPartie()
+            + getManches() : Manche[]
+            + setNbManches(n : Integer)
+            + getScore() : Integer
+            + setScore(score : Integer)
+            + getJoueur() : Joueur
+            + setJoueur(joueur : Joueur)
+            + getUI() : ObservateurUI
+            + setObservateurUI(observateur : ObservateurUI)
+            + getGestionnaireJeu() : GestionnaireJeu
+            + setGestionnaireJeu(jeu : GestionnaireJeu)
             ..Manche..
-            + miseEnPlacePlateau()
-            + demanderValidationTentative() : Boolean
+            + jouerManche()
+            + calculerScore() : Integer
+            + getObservateurUI() : ObservateurUI
+            + setObservateurUI(observateur : ObservateurUI)
+            + getCombinaisonSecrete() : Combinaison
+            + setCombinaisonSecrete(combinaisonSecrete : Combinaison)
+            + getNbTentatives() : Integer
+            + setNbTentatives(nbTentatives : Integer)
+            + getTentativeActuelle() : Integer
+            + getTentatives() : Tentative[]
+            + getGestionnaireJeu() : GestionnaireJeu
+            + setGestionnaireJeu(jeu : GestionnaireJeu)
             ..Tentative..
-            + changerCouleur(combinaison : Combinaison)
-            + afficherIndices(indices : LigneIndice)
-            + affichageTentative(combinaison : Combinaison)
-            + demanderFinTentative() : Boolean
+            + ajoutCouleur(index : Integer, couleur : Couleur)
+            + calculBonus() : Integer
+            + calculScore() : Integer
+            + evaluerTentative(combinaisonSecrete : Combinaison) : Boolean
+            + jouerTentative()
+            + getObservateurUI() : ObservateurUI
+            + setObservateurUI(observateur : ObservateurUI)
+            + getCombinaisonEntree() : Combinaison
+            + getLigneIndice() : LigneIndice
+            + getModeJeu() : ModeJeu
+            + setModeJeu(modeJeu : ModeJeu)
+            + setTailleCombinaison(tailleCombinaison : Integer)
+            + getGestionnaireJeu() : GestionnaireJeu
+            + setGestionnaireJeu(jeu : GestionnaireJeu)
         }
         class Classique{
             ..Methods..
@@ -206,10 +271,13 @@ package src{
             + setPartie(partie : Partie)
             + setUI(ObservateurUI : ui)
             + initialiserPartie()
-            + demarrerPartie()
+            + demarrerProchaineManche()
             + miseAJourTailleCombinaison(n : Integer)
             + miseAJourModeJeu(mode : ModeJeu)
             + miseAJourJoueur(joueur : Joueur)
+            + modifierTentativeActuelle(modificationVoulue : Boolean)
+            + passerProchaineTentative()
+            + getCombinaisonActuelle() : Combinaison
         }
     }
 }
