@@ -14,6 +14,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
 
+/**
+ * Classe vue servant d'interface utilisateur utilisant uniquement Java Swing pour communiquer avec l'utilisateur
+ */
 public class AffichageFenetre extends JFrame implements ObservateurUI {
     private final GestionnaireJeu jeu;
 
@@ -48,6 +51,11 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
     private final JLabel jlDecisionModeJeu = new JLabel("Le mode de jeu initial");
     private final JComboBox<String> jcbModeJeu = new JComboBox<>(new Vector<>(List.of("Facile", "Classique", "Numerique")));
 
+    /**
+     * Crée une instance d'AffichageFenetre
+     *
+     * @param jeu Le contrôleur du jeu
+     */
     public AffichageFenetre(GestionnaireJeu jeu) {
         super("Mastermind");
         this.jeu = jeu;

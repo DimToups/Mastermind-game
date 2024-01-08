@@ -8,6 +8,9 @@ import src.model.userInterfaces.ObservateurUI;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe modèle représentant une manche d'une partie.
+ */
 public class Manche {
     private int tentativeActuelle = -1;
     private int nbTentatives = 10;
@@ -18,6 +21,8 @@ public class Manche {
 
     /**
      * Créé une instance de Manche
+     *
+     * @param jeu Le contrôleur du jeu
      */
     public Manche(GestionnaireJeu jeu) {
         this.jeu = jeu;
@@ -32,6 +37,7 @@ public class Manche {
      * @param nbTentatives Le nombre de tentatives de la manche
      * @param tailleCombinaison La taille des combinaisons
      * @param modeJeu Le mode de jeu de la partie
+     * @param jeu Le contrôleur du jeu
      */
     public Manche(ObservateurUI observateur, int nbTentatives, int tailleCombinaison, ModeJeu modeJeu, GestionnaireJeu jeu){
         this.observateur = observateur;

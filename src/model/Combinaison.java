@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Classe modèle représentant une combinaison de couleurs
+ */
 public class Combinaison {
     private final int tailleCombi;
     private final List<Couleur> combinaison = new ArrayList<>();

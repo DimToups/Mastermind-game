@@ -9,6 +9,9 @@ import src.model.userInterfaces.ObservateurUI;
 import src.model.enums.Couleur;
 import java.util.Scanner;
 
+/**
+ * Classe vue servant d'interface utilisateur utilisant uniquement la console pour communiquer avec l'utilisateur
+ */
 public class AffichageConsole implements ObservateurUI {
     private static final Scanner in = new Scanner(System.in);
     private ModeJeu modeJeu;

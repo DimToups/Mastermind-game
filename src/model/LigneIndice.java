@@ -5,6 +5,9 @@ import src.model.enums.Indice;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe modèle représentant l'ensemble des indices d'une tentative
+ */
 public class LigneIndice {
     private final int tailleCombinaison;
     private final List<Indice> indices = new ArrayList<>();

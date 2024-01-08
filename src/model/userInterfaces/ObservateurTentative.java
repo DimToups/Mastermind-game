@@ -4,6 +4,9 @@ import src.model.Combinaison;
 import src.model.LigneIndice;
 import src.model.enums.ModeJeu;
 
+/**
+ * Une interface modèle implémentant toutes les méthodes dont une tentative a besoin
+ */
 public interface ObservateurTentative {
     /**
      * Permet de changer la couleur dans une combinaison

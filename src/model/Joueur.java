@@ -3,6 +3,9 @@ package src.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe modèle représentant le profil d'un joueur
+ */
 public class Joueur {
     private final String nom;
     private List<Integer> score = new ArrayList<>(1);

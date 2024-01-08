@@ -2,6 +2,9 @@ package src.model.userInterfaces;
 
 import src.model.LigneIndice;
 
+/**
+ * Interface modèle servant de modèle pour les modes d'affichages selon le mode de jeu
+ */
 public interface AfficheurIndices {
     /**
      * Affiche les indices suivant le mode de jeu "Facile"

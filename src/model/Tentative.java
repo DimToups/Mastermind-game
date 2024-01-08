@@ -9,6 +9,9 @@ import src.model.enums.Indice;
 
 import java.util.*;
 
+/**
+ * Classe modèle représentant une tentative dans un plateau de Mastermind
+ */
 public class Tentative {
     private Combinaison combinaisonEntree;
     private LigneIndice ligneIndice;
@@ -18,6 +21,8 @@ public class Tentative {
 
     /**
      * Créé une Tentative
+     *
+     * @param jeu Le contrôleur du jeu
      */
     public Tentative(GestionnaireJeu jeu){
         this.jeu = jeu;
@@ -31,6 +36,7 @@ public class Tentative {
      * @param observateur L'observateur servant d'interface utilisateur
      * @param tailleCombinaison La taille des combinaisons
      * @param modeJeu Le mode de jeu
+     * @param jeu Le contrôleur du jeu
      */
     public Tentative(ObservateurUI observateur, int tailleCombinaison, ModeJeu modeJeu, GestionnaireJeu jeu){
         this.observateur = observateur;
@@ -74,6 +80,7 @@ public class Tentative {
      * Evalue la tentative selon une combinaison de comparaison
      *
      * @param combinaisonSecrete La combinaison de comparaison
+     * @return L'état de la manche suite à l'évaluation (true : combinaison secrète trouvée, false : le cas contraire)
      */
     public boolean evaluerTentative(Combinaison combinaisonSecrete) {
         List<Couleur> resteCombiEntree = new ArrayList<>(combinaisonEntree.getCombinaison());
@@ -121,6 +128,8 @@ public class Tentative {
 
     /**
      * Donne l'attention à la tentative
+     *
+     * @param modificationVoulue Un booléen obligeant la modification de la tentative
      */
     public void jouerTentative(boolean modificationVoulue) {
         this.observateur.affichageTentative(this.combinaisonEntree);

@@ -4,7 +4,16 @@ import src.model.*;
 import src.model.enums.ModeJeu;
 import src.model.userInterfaces.ObservateurUI;
 
+/**
+ * Classe contrôleuse manipulant le déroulement d'une partie
+ */
 public class GestionnaireJeu {
+    /**
+     * Créée une instance de GestionnaireJeu pour gérer une partie
+     */
+    public GestionnaireJeu(){
+
+    }
     private Partie partie;
 
     /**
@@ -93,6 +102,8 @@ public class GestionnaireJeu {
 
     /**
      * Appelle la méthode jouerTentative() de la tentative actuelle
+     *
+     * @param modificationVoulue Un booléen obligeant la modification de la tentative actuelle
      */
     public void modifierTentativeActuelle(boolean modificationVoulue){
         Manche mancheActuelle = this.partie.getManches().get(partie.getMancheActuelle());
@@ -114,6 +125,12 @@ public class GestionnaireJeu {
         else
             this.demarrerProchaineManche();
     }
+
+    /**
+     * Renvoi la combinaison secrète de la manche actuelle
+     *
+     * @return La combinaison secrète de la manche actuelle
+     */
     public Combinaison getCombinaisonSecreteActuelle(){
         return this.partie.getManches().get(this.partie.getMancheActuelle()).getCombinaisonSecrete();
     }

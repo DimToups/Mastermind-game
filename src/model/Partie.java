@@ -8,6 +8,9 @@ import src.model.userInterfaces.ObservateurUI;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe modèle représentant une partie de Mastermind
+ */
 public class Partie {
     private int score = 0 ;
     private int mancheActuelle = -1;
@@ -18,6 +21,8 @@ public class Partie {
 
     /**
      * Créé une instance de Partie
+     *
+     * @param jeu Le contrôleur du jeu
      */
     public Partie(GestionnaireJeu jeu) {
         this.jeu = jeu;
@@ -26,6 +31,9 @@ public class Partie {
             manches.add(new Manche(this.jeu));
     }
 
+    /**
+     * Initialise la partie à l'aide de l'interface utilisateur
+     */
     public void initialiser(){
         this.observateur.entrerModeInitialisation();
         this.observateur.creerJoueur();

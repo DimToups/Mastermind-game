@@ -1,5 +1,8 @@
 package src.model.userInterfaces;
 
+/**
+ * Une interface modèle implémentant toutes les méthodes dont une partie a besoin
+ */
 public interface ObservateurPartie {
     /**
      * Fait entrer l'observateur en mode initialisation de partie
@@ -38,6 +41,8 @@ public interface ObservateurPartie {
 
     /**
      * Met fin à la partie
+     *
+     * @param score Le score de la partie
      */
     void finirPartie(int score);
 }
