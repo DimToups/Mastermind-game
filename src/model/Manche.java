@@ -33,11 +33,12 @@ public class Manche {
      * @param tailleCombinaison La taille des combinaisons
      * @param modeJeu Le mode de jeu de la partie
      */
-    public Manche(ObservateurUI observateur, int nbTentatives, int tailleCombinaison, ModeJeu modeJeu){
+    public Manche(ObservateurUI observateur, int nbTentatives, int tailleCombinaison, ModeJeu modeJeu, GestionnaireJeu jeu){
         this.observateur = observateur;
         this.nbTentatives = nbTentatives;
+        this.jeu = jeu;
         for(int i = 0; i < nbTentatives; i++)
-            this.tentatives.add(new Tentative(observateur, tailleCombinaison, modeJeu));
+            this.tentatives.add(new Tentative(observateur, tailleCombinaison, modeJeu, jeu));
     }
 
     /**
@@ -126,7 +127,7 @@ public class Manche {
         // Mise à jour des tentatives
         this.tentatives = new ArrayList<>();
         for(int i = 0; i < nbTentatives; i++)
-            this.tentatives.add(new Tentative((ObservateurUI) this.observateur, tailleCombinaison, modeJeu));
+            this.tentatives.add(new Tentative((ObservateurUI) this.observateur, tailleCombinaison, modeJeu, jeu));
     }
 
     /**

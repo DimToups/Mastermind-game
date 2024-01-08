@@ -2,6 +2,7 @@ package src.model.userInterfaces;
 
 import src.model.Combinaison;
 import src.model.LigneIndice;
+import src.model.enums.ModeJeu;
 
 public interface ObservateurTentative {
     /**
@@ -41,4 +42,18 @@ public interface ObservateurTentative {
      * @param combinaison La combinaison à afficher
      */
     void affichageCombinaison(Combinaison combinaison);
+
+    /**
+     * Décide de la méthode d'affichage des indices
+     * @param ui L'interface utilisateur utilisée
+     * @param modeJeu Le mode de jeu de la partie
+     * @param indices Les indices de la tentative courrante
+     */
+    static void deciderMethodeAffichageIndices(ObservateurUI ui, ModeJeu modeJeu, LigneIndice indices){
+        switch(modeJeu){
+            case FACILE -> ui.afficherIndicesFacile(indices);
+            case CLASSIQUE -> ui.afficherIndicesClassique(indices);
+            case NUMERIQUE -> ui.afficherIndicesNumerique(indices);
+        }
+    }
 }

@@ -12,7 +12,7 @@ import java.util.*;
 public class Tentative {
     private Combinaison combinaisonEntree;
     private LigneIndice ligneIndice;
-    private src.model.enums.ModeJeu modeJeu;
+    private ModeJeu modeJeu;
     private ObservateurTentative observateur;
     private GestionnaireJeu jeu;
 
@@ -32,11 +32,12 @@ public class Tentative {
      * @param tailleCombinaison La taille des combinaisons
      * @param modeJeu Le mode de jeu
      */
-    public Tentative(ObservateurUI observateur, int tailleCombinaison, ModeJeu modeJeu){
+    public Tentative(ObservateurUI observateur, int tailleCombinaison, ModeJeu modeJeu, GestionnaireJeu jeu){
         this.observateur = observateur;
         this.combinaisonEntree = new Combinaison(tailleCombinaison);
         this.ligneIndice = new LigneIndice(tailleCombinaison);
         this.modeJeu = modeJeu;
+        this.jeu = jeu;
     }
 
     /**
@@ -55,7 +56,7 @@ public class Tentative {
      * @return Le bonus obtenu
      */
     private int calculBonus() {
-        if (true)
+        if (this.modeJeu != ModeJeu.FACILE)
             return 4;
         return 0;
     }

@@ -4,6 +4,7 @@ import src.controller.GestionnaireJeu;
 import src.model.*;
 import src.model.enums.Indice;
 import src.model.enums.ModeJeu;
+import src.model.userInterfaces.ObservateurTentative;
 import src.model.userInterfaces.ObservateurUI;
 import src.model.enums.Couleur;
 import java.util.Scanner;
@@ -147,7 +148,7 @@ public class AffichageConsole implements ObservateurUI {
     @Override
     public void afficherIndices(LigneIndice indices) {
         System.out.println("Voici les indices :");
-        ObservateurUI.deciderMethodeAffichageIndices(this, modeJeu, indices);
+        ObservateurTentative.deciderMethodeAffichageIndices(this, modeJeu, indices);
     }
 
     /**

@@ -81,7 +81,7 @@ public class Partie {
         // Réinitialisation des manches
         this.manches = new ArrayList<>();
         for(int i = 0; i < n; i++)
-            this.manches.add(new Manche((ObservateurUI) observateur, nbTentatives, tailleCombinaison, modeJeu));
+            this.manches.add(new Manche((ObservateurUI) this.observateur, nbTentatives, tailleCombinaison, modeJeu, this.jeu));
     }
 
     /**
