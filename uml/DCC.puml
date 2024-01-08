@@ -291,7 +291,7 @@ src.model.LigneIndice "1" o--> "4..6\n- indices" src.model.enums.Indice : <<est 
 
 src.model.Manche "1" o--> "10..12\n- tentatives" src.model.Tentative : <<est composé de>>
 src.model.Manche "1" o--> "1\n- combinaison" src.model.Combinaison : <<cache>>
-src.model.Manche "1" o-> "1\n- observateur" src.model.ObservateurManche : <<s'affiche avec>>
+src.model.Manche "1" o-> "1\n- observateur" src.model.observers.ObservateurManche : <<s'affiche avec>>
 
 src.model.ModeJeu ..> src.model.LigneIndice : <<utilises>>
 src.model.ModeJeu <|.. src.view.Classique
@@ -300,21 +300,21 @@ src.model.ModeJeu <|.. src.view.Numerique
 
 src.model.Partie "1" o-l> "1\n- joueur" src.model.Joueur : <<joue la partie>>
 src.model.Partie "1" o--> "3..5\n- manches" src.model.Manche : <<est composé de>>
-src.model.Partie "1" o-> "1\n- observateur" src.model.ObservateurPartie : <<s'affiche avec>>
+src.model.Partie "1" o-> "1\n- observateur" src.model.observers.ObservateurPartie : <<s'affiche avec>>
 src.model.Partie .> src.model.ModeJeu : <<utilise>>
 
 src.model.Tentative "1" o--> "1\n- combinaisonEntree" src.model.Combinaison : <<est définie par>>
 src.model.Tentative "1" o--> "1\n- ligneIndice" src.model.LigneIndice : <<donne les indices>>
 src.model.Tentative "1" o-> "1\n- modeJeu" src.model.ModeJeu : <<défini l'affichage des indices>>
-src.model.Tentative "1" o-> "1\n- observateur" src.model.ObservateurTentative : <<s'affiche avec>>
+src.model.Tentative "1" o-> "1\n- observateur" src.model.observers.ObservateurTentative : <<s'affiche avec>>
 
-src.model.ObservateurPartie <|.. src.model.ObservateurUI
-src.model.ObservateurUI .l|> src.model.ObservateurManche
-src.model.ObservateurUI ..|> src.model.ObservateurTentative
+src.model.observers.ObservateurPartie <|.. src.model.observers.ObservateurUI
+src.model.observers.ObservateurUI .l|> src.model.observers.ObservateurManche
+src.model.observers.ObservateurUI ..|> src.model.observers.ObservateurTentative
 
 
-src.view.AffichageConsole ..|> src.model.ObservateurUI
+src.view.AffichageConsole ..|> src.model.observers.ObservateurUI
 
-src.view.AffichageFenetre ..|> src.model.ObservateurUI
+src.view.AffichageFenetre ..|> src.model.observers.ObservateurUI
 
 @enduml
