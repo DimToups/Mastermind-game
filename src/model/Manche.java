@@ -1,8 +1,9 @@
 package src.model;
 
 import src.controller.GestionnaireJeu;
-import src.model.observers.ObservateurManche;
-import src.model.observers.ObservateurUI;
+import src.model.enums.ModeJeu;
+import src.model.userInterfaces.ObservateurManche;
+import src.model.userInterfaces.ObservateurUI;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -4,7 +4,8 @@ import src.controller.GestionnaireJeu;
 import src.model.Combinaison;
 import src.model.Joueur;
 import src.model.LigneIndice;
-import src.model.observers.ObservateurUI;
+import src.model.enums.ModeJeu;
+import src.model.userInterfaces.ObservateurUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
 
     // Composants de décision sur le mode de jeu
     private final JLabel jlDecisionModeJeu = new JLabel("Le mode de jeu initial");
-    private final JComboBox<String> jcbModeJeu = new JComboBox<>(new Vector<>(List.of("Facile", "Classique", "Numérique")));
+    private final JComboBox<String> jcbModeJeu = new JComboBox<>(new Vector<>(List.of("Facile", "Classique", "Numerique")));
 
     public AffichageFenetre(GestionnaireJeu jeu) {
         super("Mastermind");
@@ -111,9 +112,9 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
                     if(radioButton.isSelected())
                         jeu.miseAJourTailleCombinaison(Integer.parseInt(radioButton.getText()));
                 switch (jcbModeJeu.getSelectedIndex()){
-                    case 0 : jeu.miseAJourModeJeu(new Facile()); break;
-                    case 1 : jeu.miseAJourModeJeu(new Classique()); break;
-                    case 2 : jeu.miseAJourModeJeu(new Numerique()); break;
+                    case 0 : jeu.miseAJourModeJeu(ModeJeu.FACILE); break;
+                    case 1 : jeu.miseAJourModeJeu(ModeJeu.CLASSIQUE); break;
+                    case 2 : jeu.miseAJourModeJeu(ModeJeu.NUMERIQUE); break;
                 }
                 jeu.demarrerProchaineManche();
             }
@@ -283,6 +284,30 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
      */
     @Override
     public void finirManche() {
+
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void afficherIndicesFacile(LigneIndice indices) {
+
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void afficherIndicesClassique(LigneIndice indices) {
+
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void afficherIndicesNumerique(LigneIndice indices) {
 
     }
 }

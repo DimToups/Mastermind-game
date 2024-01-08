@@ -2,7 +2,9 @@ package src.view;
 
 import src.controller.GestionnaireJeu;
 import src.model.*;
-import src.model.observers.ObservateurUI;
+import src.model.enums.Indice;
+import src.model.enums.ModeJeu;
+import src.model.userInterfaces.ObservateurUI;
 import src.model.enums.Couleur;
 import java.util.Scanner;
 
@@ -145,7 +147,7 @@ public class AffichageConsole implements ObservateurUI {
     @Override
     public void afficherIndices(LigneIndice indices) {
         System.out.println("Voici les indices :");
-        modeJeu.afficherIndices(indices);
+        ObservateurUI.deciderMethodeAffichageIndices(this, modeJeu, indices);
     }
 
     /**
@@ -257,7 +259,7 @@ public class AffichageConsole implements ObservateurUI {
         int nb = 0;
         while (nb < 1 || nb > 3){
             try {
-                System.out.println("Veuillez choisir votre mode de jeu :\n - 1 : Facile\n - 2 : Classique\n - 3 : Numérique");
+                System.out.println("Veuillez choisir votre mode de jeu :\n - 1 : Facile\n - 2 : Classique\n - 3 : Numerique");
                 nb = Integer.parseInt(in.nextLine().strip());
             }
             catch (Exception e) {
@@ -267,16 +269,16 @@ public class AffichageConsole implements ObservateurUI {
 
         //Retour du mode de jeu choisi
         if(nb == 1) {
-            this.modeJeu = new Facile();
-            this.jeu.miseAJourModeJeu(new Facile());
+            this.modeJeu = ModeJeu.FACILE;
+            this.jeu.miseAJourModeJeu(ModeJeu.FACILE);
         }
         else if(nb == 2) {
-            this.modeJeu = new Classique();
-            this.jeu.miseAJourModeJeu(new Classique());
+            this.modeJeu = ModeJeu.CLASSIQUE;
+            this.jeu.miseAJourModeJeu(ModeJeu.CLASSIQUE);
         }
         else {
-            this.modeJeu = new Numerique();
-            this.jeu.miseAJourModeJeu(new Numerique());
+            this.modeJeu = ModeJeu.NUMERIQUE;
+            this.jeu.miseAJourModeJeu(ModeJeu.NUMERIQUE);
         }
     }
 
@@ -302,5 +304,43 @@ public class AffichageConsole implements ObservateurUI {
     @Override
     public void finirPartie(int score) {
         System.out.println("La partie est terminée.\nScore final : " + score);
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void afficherIndicesFacile(LigneIndice indices) {
+        if(!indices.getIndices().contains(Indice.BIEN_PLACE) && !indices.getIndices().contains(Indice.MAL_PLACE))
+            System.out.println("/");
+        for (int i = 0; i < indices.getTailleCombinaison(); i++)
+            System.out.print(Indice.nomValide(indices.getIndices().get(i)) + " | ");
+        System.out.println();
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void afficherIndicesClassique(LigneIndice indices) {
+        if(!indices.getIndices().contains(Indice.BIEN_PLACE) && !indices.getIndices().contains(Indice.MAL_PLACE))
+            System.out.println("/");
+        for (int i = 0; i < indices.getIntIndices()[0]; i++)
+            System.out.print(Indice.nomValide(Indice.BIEN_PLACE) + " | ");
+        for (int i = 0; i < indices.getIntIndices()[1]; i++)
+            System.out.print(Indice.nomValide(Indice.MAL_PLACE) + " | ");
+        System.out.println();
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void afficherIndicesNumerique(LigneIndice indices) {
+        System.out.println("Vous avez "
+                + indices.getIntIndices()[0]
+                + " pions bien placé(s) et "
+                + indices.getIntIndices()[1]
+                + " pions mal placé(s).");
     }
 }

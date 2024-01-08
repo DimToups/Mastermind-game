@@ -1,4 +1,4 @@
-package src.model.observers;
+package src.model.userInterfaces;
 
 public interface ObservateurPartie {
     /**

@@ -1,18 +1,18 @@
 package src.model;
 
 import src.controller.GestionnaireJeu;
-import src.model.observers.ObservateurTentative;
-import src.model.observers.ObservateurUI;
+import src.model.enums.ModeJeu;
+import src.model.userInterfaces.ObservateurTentative;
+import src.model.userInterfaces.ObservateurUI;
 import src.model.enums.Couleur;
 import src.model.enums.Indice;
-import src.view.Classique;
 
 import java.util.*;
 
 public class Tentative {
     private Combinaison combinaisonEntree;
     private LigneIndice ligneIndice;
-    private ModeJeu modeJeu;
+    private src.model.enums.ModeJeu modeJeu;
     private ObservateurTentative observateur;
     private GestionnaireJeu jeu;
 
@@ -55,7 +55,7 @@ public class Tentative {
      * @return Le bonus obtenu
      */
     private int calculBonus() {
-        if (modeJeu instanceof Classique)
+        if (true)
             return 4;
         return 0;
     }
