@@ -28,6 +28,15 @@ package src{
                 + nomValide(indice : Indice) : String
             }
         }
+        package modesJeu{
+            interface ModeJeu <<interface>>{
+                ..Methods..
+                afficherIndices(ligne : LigneIndice)
+            }
+            interface Classique <<interface>>
+            interface Facile <<interface>>
+            interface Numerique <<interface>>
+        }
         package observers{
             interface ObservateurManche <<interface>>{
                 ..Methods..
@@ -113,10 +122,6 @@ package src{
             + getGestionnaireJeu() : GestionnaireJeu
             + setGestionnaireJeu(jeu : GestionnaireJeu)
         }
-        interface ModeJeu <<interface>>{
-            ..Methods..
-            afficherIndices(ligne : LigneIndice)
-        }
         class Partie{
             ..Fields..
             - score : Integer
@@ -160,6 +165,32 @@ package src{
         }
     }
     package view{
+        package modesJeu{
+            class FacileFenetre{
+                ..Methods..
+                afficherIndices(ligne : LigneIndice)
+            }
+            class FacileConsole{
+                ..Methods..
+                afficherIndices(ligne : LigneIndice)
+            }
+            class ClassiqueFenetre{
+                ..Methods..
+                afficherIndices(ligne : LigneIndice)
+            }
+            class ClassiqueConsole{
+                ..Methods..
+                afficherIndices(ligne : LigneIndice)
+            }
+            class NumeriqueFenetre{
+                ..Methods..
+                afficherIndices(ligne : LigneIndice)
+            }
+            class NumeriqueConsole{
+                ..Methods..
+                afficherIndices(ligne : LigneIndice)
+            }
+        }
         class AffichageConsole{
             ..Constructor..
             + <<create>> AffichageFenetre(jeu : GestionnaireJeu)
@@ -252,18 +283,6 @@ package src{
             + getGestionnaireJeu() : GestionnaireJeu
             + setGestionnaireJeu(jeu : GestionnaireJeu)
         }
-        class Classique{
-            ..Methods..
-            afficherIndices(ligne : LigneIndice)
-        }
-        class Facile{
-            ..Methods..
-            afficherIndices(ligne : LigneIndice)
-        }
-        class Numerique{
-            ..Methods..
-            afficherIndices(ligne : LigneIndice)
-        }
     }
     package controller{
         class GestionnaireJeu{
@@ -293,10 +312,25 @@ src.model.Manche "1" o--> "10..12\n- tentatives" src.model.Tentative : <<est com
 src.model.Manche "1" o--> "1\n- combinaison" src.model.Combinaison : <<cache>>
 src.model.Manche "1" o-> "1\n- observateur" src.model.observers.ObservateurManche : <<s'affiche avec>>
 
-src.model.ModeJeu ..> src.model.LigneIndice : <<utilises>>
-src.model.ModeJeu <|.. src.view.Classique
-src.model.ModeJeu <|.. src.view.Facile
-src.model.ModeJeu <|.. src.view.Numerique
+
+src.model.modesJeu.ModeJeu ..> src.model.LigneIndice : <<utilises>>
+src.model.modesJeu.ModeJeu <|.. src.model.modesJeu.Classique
+src.model.modesJeu.ModeJeu <|.. src.model.modesJeu.Facile
+src.model.modesJeu.ModeJeu <|.. src.model.modesJeu.Numerique
+
+src.model.modesJeu.Facile <|.. src.view.modesJeu.FacileConsole
+src.model.modesJeu.Facile <|.. src.view.modesJeu.FacileFenetre
+
+src.model.modesJeu.Classique <|.. src.view.modesJeu.ClassiqueConsole
+src.model.modesJeu.Classique <|.. src.view.modesJeu.ClassiqueFenetre
+
+src.model.modesJeu.Numerique <|.. src.view.modesJeu.NumeriqueConsole
+src.model.modesJeu.Numerique <|.. src.view.modesJeu.NumeriqueFenetre
+
+src.model.observers.ObservateurPartie <|.. src.model.observers.ObservateurUI
+src.model.observers.ObservateurUI .l|> src.model.observers.ObservateurManche
+src.model.observers.ObservateurUI ..|> src.model.observers.ObservateurTentative
+
 
 src.model.Partie "1" o-l> "1\n- joueur" src.model.Joueur : <<joue la partie>>
 src.model.Partie "1" o--> "3..5\n- manches" src.model.Manche : <<est composé de>>
@@ -308,13 +342,12 @@ src.model.Tentative "1" o--> "1\n- ligneIndice" src.model.LigneIndice : <<donne 
 src.model.Tentative "1" o-> "1\n- modeJeu" src.model.ModeJeu : <<défini l'affichage des indices>>
 src.model.Tentative "1" o-> "1\n- observateur" src.model.observers.ObservateurTentative : <<s'affiche avec>>
 
-src.model.observers.ObservateurPartie <|.. src.model.observers.ObservateurUI
-src.model.observers.ObservateurUI .l|> src.model.observers.ObservateurManche
-src.model.observers.ObservateurUI ..|> src.model.observers.ObservateurTentative
 
 
 src.view.AffichageConsole ..|> src.model.observers.ObservateurUI
+src.view.AffichageConsole o--> src.model.modesJeu.ModeJeu
 
 src.view.AffichageFenetre ..|> src.model.observers.ObservateurUI
+src.view.AffichageFenetre o--> src.model.modesJeu.ModeJeu
 
 @enduml
