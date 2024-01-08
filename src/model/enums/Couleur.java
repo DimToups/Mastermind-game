@@ -15,6 +15,15 @@ public enum Couleur {
     ROSE
     ;
 
+    public static List<Couleur> getVraiesCouleurs(){
+        List<Couleur> vraiesCouleurs = new ArrayList<>();
+        for (Couleur couleur : Couleur.values())
+            if(couleur != Couleur.ABSENT)
+                vraiesCouleurs.add(couleur);
+
+        return vraiesCouleurs;
+    }
+
     /**
      * Retourne le nom de la couleur en minuscules et avec une majuscule au début du mot
      *
@@ -23,13 +32,5 @@ public enum Couleur {
      */
     public static String nomValide(Couleur couleur){
         return couleur.name().toUpperCase().charAt(0) + couleur.name().toLowerCase().substring(1);
-    }
-    public static List<Couleur> getVraiesCouleurs(){
-        List<Couleur> vraiesCouleurs = new ArrayList<>();
-        for (Couleur couleur : Couleur.values())
-            if(couleur != Couleur.ABSENT)
-                vraiesCouleurs.add(couleur);
-
-        return vraiesCouleurs;
     }
 }

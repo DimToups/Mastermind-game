@@ -46,9 +46,8 @@ public class Manche {
         tentativeActuelle++;
         if(tentativeActuelle == 0)
             this.observateur.miseEnPlacePlateau();
-        if(tentativeActuelle < tentatives.size()) {
+        if(tentativeActuelle < tentatives.size())
             tentatives.get(tentativeActuelle).jouerTentative(false);
-        }
         else{
             this.observateur.miseEnPlacePlateau();
             this.observateur.prochaineManche(this.combinaisonSecrete);
