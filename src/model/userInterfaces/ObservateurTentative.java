@@ -47,11 +47,18 @@ public interface ObservateurTentative {
     void affichageCombinaison(Combinaison combinaison);
 
     /**
-     * Remet à zéro la combinaison actuelle
+     * Demande à l'utilisateur s'il veut réinitialiser sa tentative
      *
      * @return Indique si la combinaison a été réinitialisée ou non à l'aide d'un booléen
      */
     boolean demanderRemiseAZero();
+
+    /**
+     * Demande à l'utilisateur s'il veut mettre fin à la manche
+     *
+     * @return La réponse de l'utilisateur (true : fin de la manche, false sinon)
+     */
+    boolean demanderFinManche();
 
     /**
      * Décide de la méthode d'affichage des indices

@@ -299,6 +299,16 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
     }
 
     /**
+     * Demande à l'utilisateur s'il veut mettre fin à la manche
+     *
+     * @return La réponse de l'utilisateur (true : fin de la manche, false sinon)
+     */
+    @Override
+    public boolean demanderFinManche() {
+        return false;
+    }
+
+    /**
      * Fini la manche suite à la réussite du joueur
      */
     @Override

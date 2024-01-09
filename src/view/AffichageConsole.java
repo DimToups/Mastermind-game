@@ -108,6 +108,29 @@ public class AffichageConsole implements ObservateurUI {
     }
 
     /**
+     * Demande à l'utilisateur s'il veut mettre fin à la manche
+     *
+     * @return La réponse de l'utilisateur (true : fin de la manche, false sinon)
+     */
+    @Override
+    public boolean demanderFinManche() {
+        String reponse = "";
+        while(!reponse.equals("oui") && !reponse.equals("non")){
+            System.out.println("Voulez-vous abandonner cette manche?\n - Oui\n - Non");
+            reponse = in.nextLine().strip().toLowerCase();
+
+            if(!reponse.equals("oui") && !reponse.equals("non"))
+                System.out.println("La valeur entrée n'est pas valide");
+        }
+
+        if(reponse.equals("oui")) {
+            jeu.demarrerProchaineManche();
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Demande à l'utilisateur s'il veut mettre fin à la tentative
      */
     @Override

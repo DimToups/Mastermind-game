@@ -73,6 +73,8 @@ public class Tentative {
      * @return Le score de la tentative
      */
     public int calculScore() {
+        if(this.combinaisonEntree.estVide())
+            return 0;
         return ligneIndice.calculerScore() + calculBonus();
     }
 
@@ -133,13 +135,15 @@ public class Tentative {
      */
     public void jouerTentative(boolean modificationVoulue) {
         this.observateur.affichageTentative(this.combinaisonEntree);
-        if(!this.combinaisonEntree.estVide())
-            if(this.observateur.demanderRemiseAZero())
-                this.observateur.affichageTentative(this.combinaisonEntree);
-        if(!this.combinaisonEntree.estComplete() ^ modificationVoulue)
-            this.observateur.changerCouleur(this.combinaisonEntree);
-        else
-            this.observateur.demanderFinTentative();
+        if(!this.observateur.demanderFinManche()) {
+            if (!this.combinaisonEntree.estVide())
+                if (this.observateur.demanderRemiseAZero())
+                    this.observateur.affichageTentative(this.combinaisonEntree);
+            if (!this.combinaisonEntree.estComplete() ^ modificationVoulue)
+                this.observateur.changerCouleur(this.combinaisonEntree);
+            else
+                this.observateur.demanderFinTentative();
+        }
     }
 
     /**
@@ -216,6 +220,7 @@ public class Tentative {
 
     /**
      * Renvoi le contrôleur de la tentative
+     *
      * @return Le contrôleur de la tentative
      */
     public GestionnaireJeu getGestionnaireJeu(){
@@ -224,6 +229,7 @@ public class Tentative {
 
     /**
      * Défini le contrôleur de la tentative
+     *
      * @param jeu Le contrôleur voulu
      */
     public void setGestionnaireJeu(GestionnaireJeu jeu){

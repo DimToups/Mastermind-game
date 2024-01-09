@@ -71,7 +71,7 @@ public class Manche {
         if(this.tentativeActuelle >= this.nbTentatives)
             return tentatives.get(this.nbTentatives - 1).calculScore();
         else
-            return tentatives.get(this.nbTentatives).calculScore();
+            return tentatives.get(this.tentativeActuelle).calculScore();
 
     }
 
