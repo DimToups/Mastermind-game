@@ -62,7 +62,7 @@ public class Tentative {
      * @return Le bonus obtenu
      */
     private int calculBonus() {
-        if (this.modeJeu != ModeJeu.FACILE)
+        if (this.modeJeu == ModeJeu.CLASSIQUE)
             return 4;
         return 0;
     }

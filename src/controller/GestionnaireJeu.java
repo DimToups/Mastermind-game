@@ -117,10 +117,10 @@ public class GestionnaireJeu {
         Manche mancheActuelle = this.partie.getManches().get(partie.getMancheActuelle());
 
         // Evaluation de la tentative
-        boolean partieFinie = mancheActuelle.getTentatives().get(mancheActuelle.getTentativeActuelle()).evaluerTentative(mancheActuelle.getCombinaisonSecrete());
+        boolean mancheFinie = mancheActuelle.getTentatives().get(mancheActuelle.getTentativeActuelle()).evaluerTentative(mancheActuelle.getCombinaisonSecrete());
 
         // Passage à la prochaine tentative
-        if(mancheActuelle.getTentativeActuelle() < mancheActuelle.getTentatives().size() && !partieFinie)
+        if(mancheActuelle.getTentativeActuelle() < mancheActuelle.getTentatives().size() && !mancheFinie)
             mancheActuelle.jouerManche();
         else
             this.demarrerProchaineManche();

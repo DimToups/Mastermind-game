@@ -68,7 +68,11 @@ public class Manche {
      * @return Le score de la manche
      */
     public int calculerScore() {
-        return tentatives.get(tentativeActuelle).calculScore();
+        if(this.tentativeActuelle >= this.nbTentatives)
+            return tentatives.get(this.nbTentatives - 1).calculScore();
+        else
+            return tentatives.get(this.nbTentatives).calculScore();
+
     }
 
     /**

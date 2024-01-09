@@ -61,6 +61,8 @@ public class Partie {
      * Met fin à la partie
      */
     private void finirPartie() {
+        for(Manche manche : manches)
+            score += manche.calculerScore();
         this.observateur.finirPartie(score);
         this.joueur.ajouterScorePartie(score);
     }
