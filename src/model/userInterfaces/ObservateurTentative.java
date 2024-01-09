@@ -47,6 +47,13 @@ public interface ObservateurTentative {
     void affichageCombinaison(Combinaison combinaison);
 
     /**
+     * Remet à zéro la combinaison actuelle
+     *
+     * @return Indique si la combinaison a été réinitialisée ou non à l'aide d'un booléen
+     */
+    boolean demanderRemiseAZero();
+
+    /**
      * Décide de la méthode d'affichage des indices
      * @param ui L'interface utilisateur utilisée
      * @param modeJeu Le mode de jeu de la partie

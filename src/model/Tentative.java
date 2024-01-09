@@ -133,10 +133,20 @@ public class Tentative {
      */
     public void jouerTentative(boolean modificationVoulue) {
         this.observateur.affichageTentative(this.combinaisonEntree);
+        if(!this.combinaisonEntree.estVide())
+            if(this.observateur.demanderRemiseAZero())
+                this.observateur.affichageTentative(this.combinaisonEntree);
         if(!this.combinaisonEntree.estComplete() ^ modificationVoulue)
             this.observateur.changerCouleur(this.combinaisonEntree);
         else
             this.observateur.demanderFinTentative();
+    }
+
+    /**
+     * Réinitialise la tentative avec les paramètres actuels
+     */
+    public void remiseAZero(){
+        this.combinaisonEntree = new Combinaison(this.combinaisonEntree.getTailleCombinaison());
     }
 
     /**

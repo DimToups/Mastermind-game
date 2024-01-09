@@ -288,6 +288,17 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
     }
 
     /**
+     * Remet à zéro la combinaison actuelle
+     *
+     * @return Indique si la combinaison a été réinitialisée ou non à l'aide d'un booléen
+     */
+    @Override
+    public boolean demanderRemiseAZero() {
+
+        return false;
+    }
+
+    /**
      * Fini la manche suite à la réussite du joueur
      */
     @Override
