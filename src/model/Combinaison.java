@@ -50,6 +50,23 @@ public class Combinaison {
     }
 
     /**
+     * Renvoi un booléen sur l'état de la combinaison
+     *
+     * @return Un booléen sur l'état de la combinaison (true : la combinaison est vide, false dans le cas contraire)
+     */
+    public boolean estVide(){
+        boolean estVide = true;
+        int i = 0;
+        while(estVide && i < combinaison.size()) {
+            if (combinaison.get(i) != Couleur.ABSENT)
+                estVide = false;
+            i++;
+        }
+
+        return estVide;
+    }
+
+    /**
      * Renvoi les couleurs formant la combinaison
      *
      * @return Les couleurs de la combinaison
