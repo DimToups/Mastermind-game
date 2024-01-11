@@ -127,6 +127,14 @@ public class GestionnaireJeu {
     }
 
     /**
+     * Réinitialise la tentative actuelle
+     */
+    public void remiseAZeroTentativeActuelle(){
+        Manche mancheActuelle = this.partie.getManches().get(partie.getMancheActuelle());
+        mancheActuelle.getTentatives().get(mancheActuelle.getTentativeActuelle()).remiseAZero();
+    }
+
+    /**
      * Renvoi la combinaison secrète de la manche actuelle
      *
      * @return La combinaison secrète de la manche actuelle
