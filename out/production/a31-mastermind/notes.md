@@ -29,7 +29,7 @@ La seconde solution conserve tous les patrons de conceptions mais cela demandera
 - Le plateau contient des tentatives de taille fixe et il sera placé au milieu de la fenêtre sur l'axe vertical
 - La tentative actuelle est indiquée par une flèche sur la gauche
 - Un menu déroulant est disponible pour changer le mode de jeu
-- Le numéro de la manche est affiché au dessus du plateau
+- Le numéro de la manche est affiché au-dessus du plateau
 - Un bouton pour passer la manche est disponible sur le haut du plateau
 - Le placement des couleurs sera fait en cliquant sur l'emplacement puis sur la couleur ou l'inverse. Une ombre sera affichée sur l'emplacement et sur la couleur lorsqu'elles sont cliquées
 - La fin de manche affiche la combinaison secrète et passera à la prochaine manche lorsque le bouton 'Manche suivante' est cliqué. Un menu déroulant est aussi disponible pour changer de mode de jeu pour la manche suivante

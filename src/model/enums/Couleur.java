@@ -38,7 +38,7 @@ public enum Couleur {
     /**
      * La couleur de case de combinaison turquoise
      */
-    TURQUOISE,
+    CYAN,
     /**
      * La couleur de case de combinaison rose
      */

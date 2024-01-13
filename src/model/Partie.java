@@ -49,22 +49,32 @@ public class Partie {
      */
     public void lancerProchaineManche() {
         mancheActuelle++;
-        if(mancheActuelle >= manches.size())
+
+        if(mancheActuelle >=manches.size())
             finirPartie();
         else {
+
+
             manches.get(mancheActuelle).setCombinaisonSecrete(Combinaison.genererCombinaison(this.manches.getFirst().getTentatives().getFirst().getCombinaisonEntree().getTailleCombinaison()));
-            manches.get(mancheActuelle).jouerManche();
+            lanceMancheObserv();
         }
     }
 
+    private void lanceMancheObserv()
+    {
+        this.observateur.initialisationManche(this.joueur.getNom(),mancheActuelle,manches.get(mancheActuelle).getNbTentatives(),manches.get(mancheActuelle).getTailleCombi());
+
+    }
     /**
      * Met fin à la partie
      */
     private void finirPartie() {
+
         for(Manche manche : manches)
             score += manche.calculerScore();
-        this.observateur.finirPartie(score);
+
         this.joueur.ajouterScorePartie(score);
+        this.observateur.finirPartie(score);
     }
 
     /**
@@ -82,17 +92,6 @@ public class Partie {
      *
      * @param n Le nombre de manches voulu
      */
-    public void setNbManches(int n){
-        // Sauvegarde des informations utiles
-        int nbTentatives = this.manches.getFirst().getNbTentatives();
-        int tailleCombinaison = this.manches.getFirst().getTentatives().getFirst().getCombinaisonEntree().getTailleCombinaison();
-        ModeJeu modeJeu = this.manches.getFirst().getTentatives().getFirst().getModeJeu();
-
-        // Réinitialisation des manches
-        this.manches = new ArrayList<>();
-        for(int i = 0; i < n; i++)
-            this.manches.add(new Manche((ObservateurUI) this.observateur, nbTentatives, tailleCombinaison, modeJeu, this.jeu));
-    }
 
     /**
      * Renvoi le score de la partie
@@ -172,5 +171,32 @@ public class Partie {
      */
     public void setGestionnaireJeu(GestionnaireJeu jeu){
         this.jeu = jeu;
+    }
+
+    public void setNbManches(int nbManche, int nbTentatives, int tailleCombinaison, ModeJeu modeJeu) {
+
+        // Sauvegarde des informations utiles
+
+
+        // Réinitialisation des manches
+        this.manches = new ArrayList<>();
+        for(int i = 0; i < nbManche; i++)
+            this.manches.add(new Manche((ObservateurUI) this.observateur, nbTentatives, tailleCombinaison, modeJeu, this.jeu));
+    }
+
+
+    public void resumerManche() {
+       Manche manche= manches.get(mancheActuelle);
+        Tentative b;
+       if (manche.getTentativeActuelle()!=manche.getNbTentatives())
+       {
+       b=manche.getTentatives().get(manche.getTentativeActuelle());}
+       else
+       {
+            b =manche.getTentatives().get(manche.getTentativeActuelle()-1);}
+
+
+       boolean a=b.evaluerTentative(manche.getCombinaisonSecrete());
+        observateur.resumerManche(getScore(),manche.getCombinaisonSecrete().getCouleurs(), a);
     }
 }

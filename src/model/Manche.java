@@ -12,7 +12,7 @@ import java.util.List;
  * Classe modèle représentant une manche d'une partie.
  */
 public class Manche {
-    private int tentativeActuelle = -1;
+    private int tentativeActuelle = 0;
     private int nbTentatives = 10;
     private List<Tentative> tentatives = new ArrayList<>();
     private Combinaison combinaisonSecrete;
@@ -172,5 +172,14 @@ public class Manche {
      */
     public void setGestionnaireJeu(GestionnaireJeu jeu){
         this.jeu = jeu;
+    }
+
+    public int getTailleCombi(){return tentatives.getFirst().getailleCombi();} {
+    }
+
+    public void TentativeSuivante() {
+        if (tentativeActuelle != nbTentatives) {
+            tentativeActuelle++;
+        }
     }
 }

@@ -2,6 +2,7 @@ package src.model.userInterfaces;
 
 import src.model.Combinaison;
 import src.model.LigneIndice;
+import src.model.enums.Couleur;
 import src.model.enums.ModeJeu;
 
 /**
@@ -14,6 +15,11 @@ public interface ObservateurTentative {
      * @param combinaison La combinaison à modifier
      */
     void changerCouleur(Combinaison combinaison);
+
+
+
+
+
 
     /**
      * Affiche les indices passés en paramètres
@@ -73,4 +79,9 @@ public interface ObservateurTentative {
             case NUMERIQUE -> ui.afficherIndicesNumerique(indices);
         }
     }
+
+
+
+    void updateCouleur(Couleur couleur , int indiex);
+
 }
