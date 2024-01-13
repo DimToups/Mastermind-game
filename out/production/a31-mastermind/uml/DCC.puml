@@ -14,6 +14,7 @@ package src{
             + miseAJourJoueur(joueur : Joueur)
             + modifierTentativeActuelle(modificationVoulue : Boolean)
             + passerProchaineTentative()
+            + remiseAZeroTentativeActuelle()
             + getCombinaisonActuelle() : Combinaison
         }
     }
@@ -82,6 +83,8 @@ package src{
                 + demanderFinTentative() : Boolean
                 + finirManche()
                 + affichageCombinaison(combinaison : Combinaison)
+                + demanderRemiseAZero() : Boolean
+                + demanderFinManche() : Boolean
             }
             interface ObservateurUI <<interface>>
         }
@@ -97,6 +100,7 @@ package src{
             + setCouleur(index : Integer, couleur : Couleur)
             + getTailleCombinaison() : Integer
             + estComplete() : Boolean
+            + estVide() : Boolean
         }
         class Joueur{
             ..Fields..
@@ -174,6 +178,7 @@ package src{
             + calculScore() : Integer
             + evaluerTentative(combinaisonSecrete : Combinaison) : Boolean
             + jouerTentative()
+            + remiseAZero()
             + getObservateurUI() : ObservateurUI
             + setObservateurUI(observateur : ObservateurUI)
             + getCombinaisonEntree() : Combinaison
@@ -190,93 +195,55 @@ package src{
             ..Constructor..
             + <<create>> AffichageFenetre(jeu : GestionnaireJeu)
             ..Partie..
-            + initialiser()
-            + lancerProchaineManche()
-            + finirPartie()
-            + getManches() : Manche[]
-            + setNbManches(n : Integer)
-            + getScore() : Integer
-            + setScore(score : Integer)
-            + getJoueur() : Joueur
-            + setJoueur(joueur : Joueur)
-            + getUI() : ObservateurUI
-            + setObservateurUI(observateur : ObservateurUI)
-            + getGestionnaireJeu() : GestionnaireJeu
-            + setGestionnaireJeu(jeu : GestionnaireJeu)
+            + entrerModeInitialisation()
+            + creerJoueur()
+            + deciderNbManches()
+            + deciderTailleCombinaison()
+            + deciderNbTentatives()
+            + deciderModeJeu()
+            + demanderFinInitialisation()
+            + finirPartie(score : Integer)
             ..Manche..
-            + jouerManche()
-            + calculerScore() : Integer
-            + getObservateurUI() : ObservateurUI
-            + setObservateurUI(observateur : ObservateurUI)
-            + getCombinaisonSecrete() : Combinaison
-            + setCombinaisonSecrete(combinaisonSecrete : Combinaison)
-            + getNbTentatives() : Integer
-            + setNbTentatives(nbTentatives : Integer)
-            + getTentativeActuelle() : Integer
-            + getTentatives() : Tentative[]
-            + getGestionnaireJeu() : GestionnaireJeu
-            + setGestionnaireJeu(jeu : GestionnaireJeu)
+            + miseEnPlacePlateau()
+            + demanderValidationTentative() : Boolean
+            + prochaineManche(combinaisonSecrete : Combinaison)
             ..Tentative..
-            + ajoutCouleur(index : Integer, couleur : Couleur)
-            + calculBonus() : Integer
-            + calculScore() : Integer
-            + evaluerTentative(combinaisonSecrete : Combinaison) : Boolean
-            + jouerTentative()
-            + getObservateurUI() : ObservateurUI
-            + setObservateurUI(observateur : ObservateurUI)
-            + getCombinaisonEntree() : Combinaison
-            + getLigneIndice() : LigneIndice
-            + getModeJeu() : ModeJeu
-            + setModeJeu(modeJeu : ModeJeu)
-            + setTailleCombinaison(tailleCombinaison : Integer)
-            + getGestionnaireJeu() : GestionnaireJeu
-            + setGestionnaireJeu(jeu : GestionnaireJeu)
+            + deciderMethodeAffichageIndices(ui : ObservateurUI, modeJeu : ModeJeu, indices : LigneIndice) {static}
+            + changerCouleur(combinaison : Combinaison)
+            + afficherIndices(indices : LigneIndice)
+            + affichageTentative(combinaison : Combinaison)
+            + demanderFinTentative() : Boolean
+            + finirManche()
+            + affichageCombinaison(combinaison : Combinaison)
+            + demanderRemiseAZero() : Boolean
+            + demanderFinManche() : Boolean
         }
         class AffichageFenetre{
             ..Constructor..
             + <<create>> AffichageFenetre(jeu : GestionnaireJeu)
             ..Partie..
-            + initialiser()
-            + lancerProchaineManche()
-            + finirPartie()
-            + getManches() : Manche[]
-            + setNbManches(n : Integer)
-            + getScore() : Integer
-            + setScore(score : Integer)
-            + getJoueur() : Joueur
-            + setJoueur(joueur : Joueur)
-            + getUI() : ObservateurUI
-            + setObservateurUI(observateur : ObservateurUI)
-            + getGestionnaireJeu() : GestionnaireJeu
-            + setGestionnaireJeu(jeu : GestionnaireJeu)
+            + entrerModeInitialisation()
+            + creerJoueur()
+            + deciderNbManches()
+            + deciderTailleCombinaison()
+            + deciderNbTentatives()
+            + deciderModeJeu()
+            + demanderFinInitialisation()
+            + finirPartie(score : Integer)
             ..Manche..
-            + jouerManche()
-            + calculerScore() : Integer
-            + getObservateurUI() : ObservateurUI
-            + setObservateurUI(observateur : ObservateurUI)
-            + getCombinaisonSecrete() : Combinaison
-            + setCombinaisonSecrete(combinaisonSecrete : Combinaison)
-            + getNbTentatives() : Integer
-            + setNbTentatives(nbTentatives : Integer)
-            + getTentativeActuelle() : Integer
-            + getTentatives() : Tentative[]
-            + getGestionnaireJeu() : GestionnaireJeu
-            + setGestionnaireJeu(jeu : GestionnaireJeu)
+            + miseEnPlacePlateau()
+            + demanderValidationTentative() : Boolean
+            + prochaineManche(combinaisonSecrete : Combinaison)
             ..Tentative..
-            + ajoutCouleur(index : Integer, couleur : Couleur)
-            + calculBonus() : Integer
-            + calculScore() : Integer
-            + evaluerTentative(combinaisonSecrete : Combinaison) : Boolean
-            + jouerTentative()
-            + getObservateurUI() : ObservateurUI
-            + setObservateurUI(observateur : ObservateurUI)
-            + getCombinaisonEntree() : Combinaison
-            + getLigneIndice() : LigneIndice
-            + getModeJeu() : ModeJeu
-            + setModeJeu(modeJeu : ModeJeu)
-            + setTailleCombinaison(tailleCombinaison : Integer)
-            + getGestionnaireJeu() : GestionnaireJeu
-            + setGestionnaireJeu(jeu : GestionnaireJeu)
+            + deciderMethodeAffichageIndices(ui : ObservateurUI, modeJeu : ModeJeu, indices : LigneIndice) {static}
+            + changerCouleur(combinaison : Combinaison)
+            + afficherIndices(indices : LigneIndice)
+            + affichageTentative(combinaison : Combinaison)
+            + demanderFinTentative() : Boolean
+            + finirManche()
+            + affichageCombinaison(combinaison : Combinaison)
+            + demanderRemiseAZero() : Boolean
+            + demanderFinManche() : Boolean
         }
     }
 }

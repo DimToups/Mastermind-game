@@ -14,7 +14,7 @@ La seconde solution conserve tous les patrons de conceptions mais cela demandera
 ## Bonus
 - Voir pour ajouter ces tests unitaires
   - Vérifier que l'observateur appelle bien le contrôleur
-  - Vérifier que tous les attributs comme tailleCombinaison respectent le [README](README.md)
+  - Vérifier que tous les attributs comme tailleCombinaison respectent le [README](ConsignesProjet)
 - Voir pour stocker les joueurs entre les lancements de l'application
 ## Affichage par fenêtre
 ### Menu
