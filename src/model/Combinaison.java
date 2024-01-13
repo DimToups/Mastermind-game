@@ -105,4 +105,8 @@ public class Combinaison {
                 return false;
         return true;
     }
+
+    public  List<Couleur>  getCouleurs() {
+        return combinaison;
+    }
 }

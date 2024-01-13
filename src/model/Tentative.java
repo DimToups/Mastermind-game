@@ -54,6 +54,11 @@ public class Tentative {
      */
     public void ajoutCouleur(int index, Couleur couleur) {
         combinaisonEntree.setCouleur(index,couleur);
+        notifyChnagerCouleur(index);
+    }
+
+    private void notifyChnagerCouleur(int index) {
+        this.observateur.updateCouleur(combinaisonEntree.getCombinaison().get(index),index );
     }
 
     /**
@@ -115,8 +120,6 @@ public class Tentative {
             if(this.ligneIndice.getIndices().get(i) == null)
                 this.ligneIndice.getIndices().set(i, Indice.ABSENT);
 
-        //Affichage de la combinaison
-        this.observateur.affichageCombinaison(combinaisonEntree);
 
         //Affichage des indices
         this.observateur.afficherIndices(this.ligneIndice);
@@ -234,5 +237,9 @@ public class Tentative {
      */
     public void setGestionnaireJeu(GestionnaireJeu jeu){
         this.jeu = jeu;
+    }
+
+    public int getailleCombi() {
+        return combinaisonEntree.getTailleCombinaison();
     }
 }

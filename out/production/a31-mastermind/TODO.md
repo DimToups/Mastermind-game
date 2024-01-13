@@ -2,7 +2,7 @@
 ## Développement
 ### Exigences globales
 - ~~Pouvoir remettre à zéro la combinaison~~
-- Pouvoir abandonner la manche courante
+- ~~Pouvoir abandonner la manche courante~~
 ### Développement de l'affichage fenêtre
 - Faire la structure de la page à l'aide d'une GridLayout et de Box
 - Dans un premier temps, faire apparaître les couleurs des combinaisons dans des carrés
