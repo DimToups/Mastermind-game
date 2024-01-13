@@ -1,11 +1,16 @@
 # Projet Mastermind
 ## Introduction
 ### Principe du projet
-a
+Le projet a été fait dans le cadre de la deuxième année de B.U.T. informatique à l'IUT Robert Schumman. Le but est de développer le jeu Mastermind à l'aide de Java Swing en respectant l'architecture MVC.
+
+L'ensemble des consignes données pour le projet sont disponibles dans le fichier [README.md](ConsignesProjet.md) original.
 # Technologies utilisées
 Pour réaliser ce projet, différentes technologies ont été utilisées. L'entièreté du code a été fait en **Java** et tout ce qui touche directement à la fenêtre a été fait avec **Java Swing**.
+
 La documentation a été faite à l'aide de **JavaDoc** et la conception a été faite avec **Plant UML**.
+
 Le projet a été fait avec **Git** pour pouvoir garder différentes versions du projet et pour collaborer.
+
 Les designs apparaissant dans l'application ont dans la majorité été produits avec le logiciel **Figma**, le reste des éléments graphiques sont les éléments de base générés par **Java Swing**.
 ## Installation et utilisation
 Toutes les instructions d'installation et d'utilisation sont disponibles dans le fichier [INSTALL.md](INSTALL.md) à la racine du projet.
@@ -18,6 +23,4 @@ a
 #### Les modes de jeux
 a
 #### Les types d'affichages
-a
-#### a
 a
