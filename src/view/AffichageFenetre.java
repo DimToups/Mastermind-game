@@ -550,27 +550,26 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
 
                 switch (indices.getIndices().get(i)) {
                     case BIEN_PLACE -> indice[tentativActuell][i].setBackground((Color.GREEN));
-                    case ABSENT -> indice[tentativActuell][i].setBackground((Color.WHITE));
                     case MAL_PLACE -> indice[tentativActuell][i].setBackground((Color.RED));
-                    default -> indice[tentativActuell][i].setBackground((Color.white));
+                    default -> indice[tentativActuell][i].setBackground((Color.WHITE));
                 }
 
             }
         } else if (mj==ModeJeu.CLASSIQUE) {
 
-            for (int i = 0; i < indices.getIntIndices()[1]; i++) {
+            for (int i = 0; i < indices.getIntIndices()[0]; i++) {
 
                 indice[tentativActuell][i].setBackground((Color.GREEN));
 
             }
-            for (int i = 0; i < indices.getIntIndices()[2]; i++) {
+            for (int i = 0; i < indices.getIntIndices()[1]; i++) {
                 indice[tentativActuell][i+indices.getIntIndices()[1]].setBackground((Color.GREEN));
 
             }
 
         }
         else {
-            mJNumerique[tentativActuell-1]=new JLabel("bien placé :"+indices.getIntIndices()[1]+"mal placé"+indices.getIntIndices()[2]);
+            mJNumerique[tentativActuell-1] = new JLabel("bien placé :" + indices.getIntIndices()[1] + "mal placé" + indices.getIntIndices()[2]);
         }
 
 
