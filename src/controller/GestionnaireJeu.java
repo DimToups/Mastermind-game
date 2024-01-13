@@ -142,9 +142,18 @@ public class GestionnaireJeu {
     }
 
 
-    public void setParamettre(String nomJoueur, String nbManches, String nbTentatives, String tailleCombinaison, String modeJeu) {
+    public void setParametres(String nomJoueur, String nbManches, String nbTentatives, String tailleCombinaison, String modeJeu) {
         this.partie.setJoueur(new Joueur(nomJoueur));
-        this.partie.setNbManches(Integer.parseInt(nbManches), Integer.parseInt(nbTentatives),Integer.parseInt(tailleCombinaison),ModeJeu.StringToMJ(modeJeu));
+        int intNbManches = 3;
+        if(!nbManches.isBlank())
+            intNbManches = Integer.parseInt(nbManches);
+        int intNbTentatives = 10;
+        if(!nbTentatives.isBlank())
+            intNbTentatives = Integer.parseInt(nbTentatives);
+        int intTailleCombinaison = 4;
+        if(!tailleCombinaison.isBlank())
+            intTailleCombinaison = Integer.parseInt(tailleCombinaison);
+        this.partie.setNbManches(intNbManches, intNbTentatives, intTailleCombinaison, ModeJeu.StringToMJ(modeJeu));
         this.partie.lancerProchaineManche();
 
     }
