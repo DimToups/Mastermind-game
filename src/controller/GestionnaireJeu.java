@@ -144,4 +144,7 @@ public class GestionnaireJeu {
     public void changerCouleur(Couleur couleur, int index) {
         this.partie.getManches().get(partie.getMancheActuelle()).getTentatives().get(this.partie.getManches().get(partie.getMancheActuelle()).getTentativeActuelle()).ajoutCouleur(index,couleur);
     }
+    public int getTentativeActuelle(){
+        return this.partie.getManches().get(this.partie.getMancheActuelle()).getTentativeActuelle();
+    }
 }

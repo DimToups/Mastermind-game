@@ -136,6 +136,7 @@ public class Tentative {
      */
     public void remiseAZero(){
         this.combinaisonEntree = new Combinaison(this.combinaisonEntree.getTailleCombinaison());
+        this.observateur.changerCouleur(combinaisonEntree);
     }
 
     /**

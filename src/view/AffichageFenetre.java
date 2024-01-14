@@ -108,7 +108,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
 
     // Composants de décision sur le mode de jeu
     private final JLabel jlDecisionModeJeu = new JLabel("Le mode de jeu initial");
-    private final JComboBox<String> jcbModeJeu = new JComboBox<>(new Vector<>(List.of("Facile", "Classique", "Numérique")));
+    private final JComboBox<String> jcbModeJeu = new JComboBox<>(new Vector<>(List.of("Facile", "Classique", "Numerique")));
     private ModeJeu mj;
 
     /**
@@ -401,9 +401,12 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
             }
         });
         JLabel topLabel = new JLabel(nomJoueur + ", vous êtes a la manche " + MancheActuelle);
+        JButton btnRemiseAZero = new JButton("Réinitialiser la combinaison");
+        btnRemiseAZero.addActionListener(l -> this.jeu.remiseAZeroTentativeActuelle());
 
         topBox.add(btnFinirManche);
         topBox.add(topLabel);
+        topBox.add(btnRemiseAZero);
         plateauZoneBox.add(topBox, BorderLayout.NORTH);
 
         // Box de plateau (englobe les Box de combinaison et d'indices)
@@ -615,7 +618,9 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
      */
     @Override
     public void changerCouleur(Combinaison combinaison) {
-
+        for(int i = 0; i < combinaison.getTailleCombinaison(); i++){
+            changeColor(cases[this.jeu.getTentativeActuelle()][i], combinaison.getCouleurs().get(i));
+        }
     }
 
     /**
