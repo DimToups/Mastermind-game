@@ -73,7 +73,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
     private JPanel[][] cases;
     private JButton[] buttons;
     JLabel[] mJNumerique;
-    private JPanel[][] indice;
+    private JPanel[][] indices;
     private int tentativeActuelle = 0;
     private int tailleCombi;
     private int nbTentatives;
@@ -385,9 +385,10 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
         // Box de haut de plateau
         JPanel topBox = new JPanel();
         // Ajout du bouton et du label
-        JButton topButton = new JButton("terminer la manche");
+        JButton btnFinirManche = new JButton("terminer la manche");
+        btnFinirManche.setSize(new Dimension(100,100));
 
-        topButton.addActionListener(e -> {
+        btnFinirManche.addActionListener(e -> {
             try {
                 jeu.resumerPartie();
             } catch (Exception ex) {
@@ -398,20 +399,22 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
                         JOptionPane.ERROR_MESSAGE);
             }
         });
-        JLabel topLabel = new JLabel("    " + nomJoueur + " Vous êtes a la manche : " + MancheActuelle);
+        JLabel topLabel = new JLabel(nomJoueur + ", vous êtes a la manche " + MancheActuelle);
 
-        topBox.add(topButton);
+        topBox.add(btnFinirManche);
         topBox.add(topLabel);
         plateauZoneBox.add(topBox, BorderLayout.NORTH);
 
         // Box de plateau (englobe les Box de combinaison et d'indices)
         JPanel plateauBox = new JPanel();
         plateauBox.setLayout(new BoxLayout(plateauBox, BoxLayout.Y_AXIS));
-        plateauBox.setPreferredSize(new Dimension(600, 200));
+        plateauBox.setSize(new Dimension(600, 200));
+
+        System.out.println(tailleCombi + tailleCombinaison % 4);
 
         cases = new JPanel[this.nbTentatives][tailleCombi];
         buttons = new JButton[tailleCombi];
-        indice = new JPanel[this.nbTentatives][tailleCombi];
+        indices = new JPanel[this.nbTentatives][tailleCombi + tailleCombinaison % 4];
         mJNumerique = new JLabel[this.nbTentatives];
 
         // Panneau principal avec BorderLayout
@@ -423,32 +426,37 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
         // Panneau pour les cases avec GridLayout
 
         // Panneau pour les boutons avec GridLayout
-        JPanel buttonPanel = new JPanel(new GridLayout(1, 6, 10, 10)); // 1 ligne, 6 colonnes
+        JPanel buttonPanel = new JPanel(new GridBagLayout());
         tentativePanel.add(buttonPanel);
 
         // Initialisation et ajout des cases
         for (int j = 0; j < this.nbTentatives; j++) {
             // Cases des combinaisons
-            JPanel casePanel = new JPanel(new GridLayout(1, tailleCombi)); // 1 ligne, tailleCombi colonnes
+            JPanel casePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
             for (int i = 0; i < tailleCombi; i++) {
                 cases[j][i] = new JPanel();
-                cases[j][i].setPreferredSize(new Dimension(100, 100));
-                cases[j][i].setBackground(Color.WHITE);
+                cases[j][i].setSize(new Dimension(336, 482));
+                changeColor(cases[j][i], Couleur.ABSENT);
                 casePanel.add(cases[j][i]);
             }
             tentativePanel.add(casePanel);
 
             // Cases des indices
-            JPanel indicePanel = new JPanel(new GridLayout(3, 3));
-            indicePanel.setPreferredSize(new Dimension(10, 10));
+            JPanel indicePanel = new JPanel(new GridLayout(1, tailleCombinaison / 4));
+            List<JPanel> casesIndices = new ArrayList<>();
+            for(int i = 0; i <= tailleCombinaison / 4 + tailleCombinaison % 4; i++) {
+                casesIndices.add(new JPanel(new GridLayout(2, 2)));
+                indicePanel.add(casesIndices.get(i));
+            }
+            indicePanel.setSize(new Dimension(336, 482));
 
             casePanel.add(indicePanel, BorderLayout.EAST);
 
-            for (int i = 0; i < tailleCombi; i++) {
-                indice[j][i] = new JPanel();
-                indice[j][i].setPreferredSize(new Dimension(10, 10));
-                indice[j][i].setBackground(Color.WHITE);
-                indicePanel.add(indice[j][i]);
+            for (int i = 0; i < tailleCombi + tailleCombi % 4; i++) {
+                indices[j][i] = new JPanel();
+                indices[j][i].setSize(new Dimension(indicePanel.getWidth() / 2, indicePanel.getHeight() / 2));
+                changerIndice(indices[j][i], Indice.ABSENT);
+                casesIndices.get(i / 4).add(indices[j][i]);
             }
         }
         // Liste de couleurs
@@ -458,7 +466,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
         for (int i = 0; i < tailleCombi; i++) {
             buttons[i] = new JButton("Case " + (i + 1));
             // Réduisez les valeurs de largeur et de hauteur ici pour rendre les boutons plus petits
-            buttons[i].setPreferredSize(new Dimension(10, 10)); // Taille réduite par exemple
+            buttons[i].setSize(new Dimension(336, 482)); // Taille réduite par exemple
             int caseIndex = i; // Indice de la case pour l'utilisation dans l'expression lambda
             buttons[i].addActionListener(e -> {
                 try {
@@ -475,9 +483,9 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
             buttonPanel.add(buttons[i]);
         }
 
-        JButton bouton = new JButton("Valider Tentative");
-        bouton.setPreferredSize(new Dimension(50, 50));
-        bouton.addActionListener(e -> {
+        JButton btnProchaineTentative = new JButton("Valider Tentative");
+        btnProchaineTentative.setSize(new Dimension(336, 482));
+        btnProchaineTentative.addActionListener(e -> {
             try {
                 if ((tentativeActuelle == nbTentatives - 1)) {
                     if (estRemplit(cases[tentativeActuelle])) {
@@ -503,7 +511,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
 
         defaultColor(cases[0]);
 
-        buttonPanel.add(bouton); // Ajouter la Box de plateau au centre de la Box de zone de plateau
+        buttonPanel.add(btnProchaineTentative); // Ajouter la Box de plateau au centre de la Box de zone de plateau
 
 
         // Ajout de la liste de couleurs
@@ -521,6 +529,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
         pack();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize);
+
 
     }
 
@@ -544,6 +553,13 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
         changeColor(cases[tentativeActuelle][index], couleur);
     }
 
+    private void changerIndice(JPanel panel, Indice indice){
+        switch (indice){
+            case BIEN_PLACE -> panel.setBackground(Color.WHITE);
+            case MAL_PLACE -> panel.setBackground(Color.BLACK);
+            default -> panel.setBackground(Color.GRAY);
+        }
+    }
     private void changeColor(JPanel panel, Couleur couleur) {
         switch (couleur) {
             case Couleur.BLEU :
@@ -619,14 +635,14 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
 
         for (int i = 0; i < tailleCombi; i++) {
             combinaisonSecret[i] = new JPanel();
-            combinaisonSecret[i].setPreferredSize(new Dimension(100, 100));
+            combinaisonSecret[i].setSize(new Dimension(100, 100));
             changeColor(combinaisonSecret[i], couleurs.get(i));
             caseCombinaison.add(combinaisonSecret[i]);
         }
         getContentPane().add(caseCombinaison); // Ajoute le JLabel à la fenêtre
 
         JButton btnProchaineManche = new JButton("Continuer");
-        btnProchaineManche.setPreferredSize(new Dimension(50, 50));
+        btnProchaineManche.setSize(new Dimension(50, 50));
         btnProchaineManche.addActionListener(e -> {
             try {
                 jeu.mancheSuivante();
@@ -738,9 +754,9 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
     public void afficherIndicesFacile(LigneIndice indices) {
         for (int i = 0; i < indices.getTailleCombinaison(); i++) {
             switch (indices.getIndices().get(i)) {
-                case BIEN_PLACE -> indice[tentativeActuelle][i].setBackground((Color.GREEN));
-                case MAL_PLACE -> indice[tentativeActuelle][i].setBackground((Color.RED));
-                default -> indice[tentativeActuelle][i].setBackground((Color.WHITE));
+                case BIEN_PLACE -> changerIndice(this.indices[tentativeActuelle][prochainIndexIndice(i)], Indice.BIEN_PLACE);
+                case MAL_PLACE -> changerIndice(this.indices[tentativeActuelle][prochainIndexIndice(i)], Indice.MAL_PLACE);
+                default -> changerIndice(this.indices[tentativeActuelle][prochainIndexIndice(i)], Indice.ABSENT);
             }
         }
     }
@@ -750,10 +766,20 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
      */
     @Override
     public void afficherIndicesClassique(LigneIndice indices) {
-        for (int i = 0; i < indices.getIntIndices()[0]; i++)
-            indice[tentativeActuelle][i].setBackground((Color.GREEN));
-        for (int i = 0; i < indices.getIntIndices()[1]; i++)
-            indice[tentativeActuelle][i+indices.getIntIndices()[1]].setBackground((Color.GREEN));
+        int index = 0;
+        for (int i = 0; i < indices.getIntIndices()[0]; i++) {
+            System.out.println("prochain emplacement : " + prochainIndexIndice(index));
+            this.indices[tentativeActuelle][prochainIndexIndice(index)].setBackground((Color.GREEN));
+            index++;
+        }
+        for (int i = 0; i < indices.getIntIndices()[1]; i++) {
+            System.out.println("prochain emplacement : " + prochainIndexIndice(index));
+            this.indices[tentativeActuelle][prochainIndexIndice(index)].setBackground((Color.GREEN));
+            index++;
+        }
+    }
+    private int prochainIndexIndice(int i){
+        return i / ((tailleCombi + tailleCombi % 4) / 4) * (tailleCombi + tailleCombi % 4) / 2 / ((tailleCombi + tailleCombi % 4) / 2) + i % 2;
     }
 
     /**
@@ -761,6 +787,6 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
      */
     @Override
     public void afficherIndicesNumerique(LigneIndice indices) {
-
+        ;
     }
 }
