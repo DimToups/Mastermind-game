@@ -222,7 +222,7 @@ public class Tentative {
         this.jeu = jeu;
     }
 
-    public int geTailleCombinaison() {
+    public int getTailleCombinaison() {
         return combinaisonEntree.getTailleCombinaison();
     }
 }

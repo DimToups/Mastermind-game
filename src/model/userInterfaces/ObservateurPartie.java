@@ -49,9 +49,6 @@ public interface ObservateurPartie {
      * @param score Le score de la partie
      */
     void finirPartie(int score);
-
     void initialisationManche(String nomJoueur, int MancheActuelle, int nbTentatives, int tailleCombinaison);
-
-
     void resumerManche(int score, List<Couleur> couleurs, boolean b);
 }

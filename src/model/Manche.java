@@ -160,7 +160,7 @@ public class Manche {
     }
 
     public int getTailleCombi(){
-        return tentatives.getFirst().geTailleCombinaison();
+        return tentatives.getFirst().getTailleCombinaison();
     }
 
     public void TentativeSuivante() {
