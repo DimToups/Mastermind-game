@@ -6,6 +6,7 @@ import src.model.LigneIndice;
 import src.model.enums.Couleur;
 import src.model.enums.Indice;
 import src.model.enums.ModeJeu;
+import src.model.userInterfaces.ObservateurTentative;
 import src.model.userInterfaces.ObservateurUI;
 
 import java.awt.image.BufferedImage;
@@ -107,7 +108,6 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
     // Composants de décision sur le mode de jeu
     private final JLabel jlDecisionModeJeu = new JLabel("Le mode de jeu initial");
     private final JComboBox<String> jcbModeJeu = new JComboBox<>(new Vector<>(List.of("Facile", "Classique", "Numérique")));
-
     private ModeJeu mj;
 
     /**
@@ -593,34 +593,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
      */
     @Override
     public void afficherIndices(LigneIndice indices) {
-        if (mj == ModeJeu.FACILE) {
-            for (int i = 0; i < indices.getTailleCombinaison(); i++) {
-
-                switch (indices.getIndices().get(i)) {
-                    case BIEN_PLACE -> indice[tentativeActuelle][i].setBackground((Color.GREEN));
-                    case MAL_PLACE -> indice[tentativeActuelle][i].setBackground((Color.RED));
-                    default -> indice[tentativeActuelle][i].setBackground((Color.WHITE));
-                }
-
-            }
-        } else if (mj==ModeJeu.CLASSIQUE) {
-
-            for (int i = 0; i < indices.getIntIndices()[0]; i++) {
-
-                indice[tentativeActuelle][i].setBackground((Color.GREEN));
-
-            }
-            for (int i = 0; i < indices.getIntIndices()[1]; i++) {
-                indice[tentativeActuelle][i+indices.getIntIndices()[1]].setBackground((Color.GREEN));
-
-            }
-
-        }
-        else {
-            mJNumerique[tentativeActuelle-1] = new JLabel("bien placé :" + indices.getIntIndices()[1] + "mal placé" + indices.getIntIndices()[2]);
-        }
-
-
+        ObservateurTentative.deciderMethodeAffichageIndices(this, mj, indices);
     }
 
     public void resumerManche(int score, List<Couleur> couleurs, boolean b) {
@@ -642,7 +615,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
         JLabel MessageFinal = new JLabel("Votre combinaison est : " + SwingConstants.SOUTH); // Crée un JLabel avec le message
         getContentPane().add(MessageFinal);
 
-        JPanel caseCombinaison = new JPanel(new GridLayout(1, 6, 10, 10)); // 1 ligne, 6 colonnes
+        JPanel caseCombinaison = new JPanel(new GridLayout(1, 6));
 
         for (int i = 0; i < tailleCombi; i++) {
             combinaisonSecret[i] = new JPanel();
@@ -763,7 +736,13 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
      */
     @Override
     public void afficherIndicesFacile(LigneIndice indices) {
-
+        for (int i = 0; i < indices.getTailleCombinaison(); i++) {
+            switch (indices.getIndices().get(i)) {
+                case BIEN_PLACE -> indice[tentativeActuelle][i].setBackground((Color.GREEN));
+                case MAL_PLACE -> indice[tentativeActuelle][i].setBackground((Color.RED));
+                default -> indice[tentativeActuelle][i].setBackground((Color.WHITE));
+            }
+        }
     }
 
     /**
@@ -771,7 +750,10 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
      */
     @Override
     public void afficherIndicesClassique(LigneIndice indices) {
-
+        for (int i = 0; i < indices.getIntIndices()[0]; i++)
+            indice[tentativeActuelle][i].setBackground((Color.GREEN));
+        for (int i = 0; i < indices.getIntIndices()[1]; i++)
+            indice[tentativeActuelle][i+indices.getIntIndices()[1]].setBackground((Color.GREEN));
     }
 
     /**
