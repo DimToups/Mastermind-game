@@ -805,6 +805,15 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
      */
     @Override
     public void afficherIndicesNumerique(LigneIndice indices) {
-        ;
+        for(Component component : this.indices[tentativeActuelle][0].getComponents()) {
+            component.setVisible(false);
+            this.indices[tentativeActuelle][0].remove(component);
+        }
+        for(Component component : this.indices[tentativeActuelle][1].getComponents()) {
+            component.setVisible(false);
+            this.indices[tentativeActuelle][1].remove(component);
+        }
+        this.indices[tentativeActuelle][0].add(new JLabel(String.valueOf(indices.getIntIndices()[0])));
+        this.indices[tentativeActuelle][1].add(new JLabel(String.valueOf(indices.getIntIndices()[1])));
     }
 }
