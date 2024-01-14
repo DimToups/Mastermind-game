@@ -70,7 +70,7 @@ public interface ObservateurTentative {
      * Décide de la méthode d'affichage des indices
      * @param ui L'interface utilisateur utilisée
      * @param modeJeu Le mode de jeu de la partie
-     * @param indices Les indices de la tentative courrante
+     * @param indices Les indices de la tentative courante
      */
     static void deciderMethodeAffichageIndices(ObservateurUI ui, ModeJeu modeJeu, LigneIndice indices){
         switch(modeJeu){
@@ -80,8 +80,5 @@ public interface ObservateurTentative {
         }
     }
 
-
-
-    void updateCouleur(Couleur couleur , int indiex);
-
+    void updateCouleur(Couleur couleur , int index);
 }

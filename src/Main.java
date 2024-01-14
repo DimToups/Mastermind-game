@@ -14,16 +14,8 @@ public class Main {
      * @param args Les arguments de lancement du programme
      */
     public static void main(String[] args) {
-
-
-
-         GestionnaireJeu jeu = new GestionnaireJeu();
+        GestionnaireJeu jeu = new GestionnaireJeu();
         jeu.setPartie(new Partie(jeu));
         jeu.setUI(new AffichageFenetre(jeu));
-        jeu.initialiserPartie();
-
-        // */
-
-
     }
 }

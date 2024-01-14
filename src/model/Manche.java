@@ -48,21 +48,6 @@ public class Manche {
     }
 
     /**
-     * Joue la manche avec les paramètres choisis
-     */
-    public void jouerManche() {
-        tentativeActuelle++;
-        if(tentativeActuelle == 0)
-            this.observateur.miseEnPlacePlateau();
-        if(tentativeActuelle < tentatives.size())
-            tentatives.get(tentativeActuelle).jouerTentative(false);
-        else{
-            this.observateur.miseEnPlacePlateau();
-            this.observateur.prochaineManche(this.combinaisonSecrete);
-        }
-    }
-
-    /**
      * Calcule le score de la manche
      *
      * @return Le score de la manche
@@ -174,7 +159,8 @@ public class Manche {
         this.jeu = jeu;
     }
 
-    public int getTailleCombi(){return tentatives.getFirst().getailleCombi();} {
+    public int getTailleCombi(){
+        return tentatives.getFirst().getTailleCombinaison();
     }
 
     public void TentativeSuivante() {
