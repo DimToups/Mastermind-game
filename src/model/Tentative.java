@@ -54,6 +54,11 @@ public class Tentative {
      */
     public void ajoutCouleur(int index, Couleur couleur) {
         combinaisonEntree.setCouleur(index,couleur);
+        notifyChangerCouleur(index);
+    }
+
+    private void notifyChangerCouleur(int index) {
+        this.observateur.updateCouleur(combinaisonEntree.getCombinaison().get(index),index );
     }
 
     /**
@@ -115,8 +120,6 @@ public class Tentative {
             if(this.ligneIndice.getIndices().get(i) == null)
                 this.ligneIndice.getIndices().set(i, Indice.ABSENT);
 
-        //Affichage de la combinaison
-        this.observateur.affichageCombinaison(combinaisonEntree);
 
         //Affichage des indices
         this.observateur.afficherIndices(this.ligneIndice);
@@ -129,28 +132,11 @@ public class Tentative {
     }
 
     /**
-     * Donne l'attention à la tentative
-     *
-     * @param modificationVoulue Un booléen obligeant la modification de la tentative
-     */
-    public void jouerTentative(boolean modificationVoulue) {
-        this.observateur.affichageTentative(this.combinaisonEntree);
-        if(!this.observateur.demanderFinManche()) {
-            if (!this.combinaisonEntree.estVide())
-                if (this.observateur.demanderRemiseAZero())
-                    this.observateur.affichageTentative(this.combinaisonEntree);
-            if (!this.combinaisonEntree.estComplete() ^ modificationVoulue)
-                this.observateur.changerCouleur(this.combinaisonEntree);
-            else
-                this.observateur.demanderFinTentative();
-        }
-    }
-
-    /**
      * Réinitialise la tentative avec les paramètres actuels
      */
     public void remiseAZero(){
         this.combinaisonEntree = new Combinaison(this.combinaisonEntree.getTailleCombinaison());
+        this.observateur.changerCouleur(combinaisonEntree);
     }
 
     /**
@@ -234,5 +220,9 @@ public class Tentative {
      */
     public void setGestionnaireJeu(GestionnaireJeu jeu){
         this.jeu = jeu;
+    }
+
+    public int getTailleCombinaison() {
+        return combinaisonEntree.getTailleCombinaison();
     }
 }
