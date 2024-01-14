@@ -177,6 +177,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
         getRootPane().getContentPane().removeAll();
         setLayout(new GridLayout(6, 1));
 
+
         // Attribution des actions des composants de base
         this.jbFinInitialisation.addActionListener(e -> {
             if (initialisationRemplie()) {
