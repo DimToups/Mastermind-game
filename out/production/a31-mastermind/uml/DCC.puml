@@ -1,0 +1,306 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package src{
+    package controller{
+        class GestionnaireJeu{
+            ..Methods..
+            + setPartie(partie : Partie)
+            + setUI(ObservateurUI : ui)
+            + initialiserPartie()
+            + demarrerProchaineManche()
+            + miseAJourTailleCombinaison(n : Integer)
+            + miseAJourModeJeu(mode : ModeJeu)
+            + miseAJourJoueur(joueur : Joueur)
+            + modifierTentativeActuelle(modificationVoulue : Boolean)
+            + passerProchaineTentative()
+            + remiseAZeroTentativeActuelle()
+            + getCombinaisonActuelle() : Combinaison
+        }
+    }
+    package model{
+        package enums{
+            enum Couleur{
+                ..Values..
+                ABSENT
+                BLEU
+                JAUNE
+                ROUGE
+                VERT
+                ORANGE
+                VIOLET
+                TURQUOISE
+                ROSE
+                ..Mehtods..
+                + getVraiesCouleurs() : Couleur[] {static}
+                + nomValide(couleur : Couleur) : String
+            }
+            enum Indice{
+                ..Values..
+                BIEN_PLACE
+                MAL_PLACE
+                ABSENT
+                ..Methods..
+                + nomValide(indice : Indice) : String
+            }
+            enum ModeJeu{
+                ..Values..
+                FACILE
+                CLASSIQUE
+                NUMERIQUE
+            }
+        }
+        package userInterfaces{
+            interface AfficheurIndices <<interface>>{
+                ..Methods..
+                + afficherIndicesFacile(indices : LigneIndice)
+                + afficherIndicesClassique(indices : LigneIndice)
+                + afficherIndicesNumerique(indices : LigneIndice)
+            }
+            interface ObservateurManche <<interface>>{
+                ..Methods..
+                + miseEnPlacePlateau()
+                + demanderValidationTentative() : Boolean
+                + prochaineManche(combinaisonSecrete : Combinaison)
+            }
+            interface ObservateurPartie <<interface>>{
+                ..Methods..
+                + entrerModeInitialisation()
+                + creerJoueur()
+                + deciderNbManches()
+                + deciderTailleCombinaison()
+                + deciderNbTentatives()
+                + deciderModeJeu()
+                + demanderFinInitialisation()
+                + finirPartie(score : Integer)
+            }
+            interface ObservateurTentative <<interface>>{
+                ..Methods..
+                + deciderMethodeAffichageIndices(ui : ObservateurUI, modeJeu : ModeJeu, indices : LigneIndice) {static}
+                + changerCouleur(combinaison : Combinaison)
+                + afficherIndices(indices : LigneIndice)
+                + affichageTentative(combinaison : Combinaison)
+                + demanderFinTentative() : Boolean
+                + finirManche()
+                + affichageCombinaison(combinaison : Combinaison)
+                + demanderRemiseAZero() : Boolean
+                + demanderFinManche() : Boolean
+            }
+            interface ObservateurUI <<interface>>
+        }
+        class Combinaison{
+            ..Fields..
+            - tailleCombi : Integer
+            ..Constructors..
+            + <<create>> Combinaison()
+            + <<create>> Combinaison(tailleCombi : Integer)
+            ..Methods..
+            + genererCombinaison(taille : Integer) : Combinaison {static}
+            + getCombinaison() : Couleur[]
+            + setCouleur(index : Integer, couleur : Couleur)
+            + getTailleCombinaison() : Integer
+            + estComplete() : Boolean
+            + estVide() : Boolean
+        }
+        class Joueur{
+            ..Fields..
+            - nom : String
+            - score : Integer[]
+            ..Constructor..
+            + <<create>> Joueur(nom : String)
+            ..Methods..
+            + getNom() : String
+            + getScores() : Integer[]
+            + ajouterScorePartie(score : Integer)
+        }
+        class LigneIndice{
+            ..Fields..
+            - tailleCombi : Integer
+            ..Constructors..
+            + <<create>> LigneIndice()
+            + <<create>> LigneIndice(tailleCombi : Integer)
+            ..Methods..
+            + getTailleCombinaison() : Integer
+            + getIntIndices() : Integer[]
+            + getIndices() : Indice[]
+            + calculerScore() : Integer
+        }
+        class Manche{
+            ..Fields..
+            - tentativeActuelle : Integer
+            - nbTentatives : Integer
+            ..Constructors..
+            + <<create>> Manche(jeu : GestionnaireJeu)
+            + <<create>> Manche(observateur : ObservateurUI, nbTentatives : Integer, tailleCombinaison : Integer, modeJeu : ModeJeu, jeu : GestionnaireJeu)
+            ..Methods..
+            + jouerManche()
+            + calculerScore() : Integer
+            + getObservateurUI() : ObservateurUI
+            + setObservateurUI(observateur : ObservateurUI)
+            + getCombinaisonSecrete() : Combinaison
+            + setCombinaisonSecrete(combinaisonSecrete : Combinaison)
+            + getNbTentatives() : Integer
+            + setNbTentatives(nbTentatives : Integer)
+            + getTentativeActuelle() : Integer
+            + getTentatives() : Tentative[]
+            + getGestionnaireJeu() : GestionnaireJeu
+            + setGestionnaireJeu(jeu : GestionnaireJeu)
+        }
+        class Partie{
+            ..Fields..
+            - score : Integer
+            - mancheActuelle : Integer
+            ..Constructor..
+            + <<create>> Partie(jeu : GestionnaireJeu)
+            ..Methods..
+            + initialiser()
+            + lancerProchaineManche()
+            + finirPartie()
+            + getManches() : Manche[]
+            + setNbManches(n : Integer)
+            + getScore() : Integer
+            + setScore(score : Integer)
+            + getJoueur() : Joueur
+            + setJoueur(joueur : Joueur)
+            + getUI() : ObservateurUI
+            + setObservateurUI(observateur : ObservateurUI)
+            + getMancheActuelle() : Integer
+            + getGestionnaireJeu() : GestionnaireJeu
+            + setGestionnaireJeu(jeu : GestionnaireJeu)
+        }
+        class Tentative{
+            ..Constructors..
+            + <<create>> Tentative(jeu : GestionnaireJeu)
+            + <<create>> Tentative(observateur : ObservateurUI, tailleCombinaison : Integer, modeJeu : ModeJeu, jeu : GestionnaireJeu)
+            ..Methods..
+            + ajoutCouleur(index : Integer, couleur : Couleur)
+            + calculBonus() : Integer
+            + calculScore() : Integer
+            + evaluerTentative(combinaisonSecrete : Combinaison) : Boolean
+            + jouerTentative()
+            + remiseAZero()
+            + getObservateurUI() : ObservateurUI
+            + setObservateurUI(observateur : ObservateurUI)
+            + getCombinaisonEntree() : Combinaison
+            + getLigneIndice() : LigneIndice
+            + getModeJeu() : ModeJeu
+            + setModeJeu(modeJeu : ModeJeu)
+            + setTailleCombinaison(tailleCombinaison : Integer)
+            + getGestionnaireJeu() : GestionnaireJeu
+            + setGestionnaireJeu(jeu : GestionnaireJeu)
+        }
+    }
+    package view{
+        class AffichageConsole{
+            ..Constructor..
+            + <<create>> AffichageFenetre(jeu : GestionnaireJeu)
+            ..Partie..
+            + entrerModeInitialisation()
+            + creerJoueur()
+            + deciderNbManches()
+            + deciderTailleCombinaison()
+            + deciderNbTentatives()
+            + deciderModeJeu()
+            + demanderFinInitialisation()
+            + finirPartie(score : Integer)
+            ..Manche..
+            + miseEnPlacePlateau()
+            + demanderValidationTentative() : Boolean
+            + prochaineManche(combinaisonSecrete : Combinaison)
+            ..Tentative..
+            + deciderMethodeAffichageIndices(ui : ObservateurUI, modeJeu : ModeJeu, indices : LigneIndice) {static}
+            + changerCouleur(combinaison : Combinaison)
+            + afficherIndices(indices : LigneIndice)
+            + affichageTentative(combinaison : Combinaison)
+            + demanderFinTentative() : Boolean
+            + finirManche()
+            + affichageCombinaison(combinaison : Combinaison)
+            + demanderRemiseAZero() : Boolean
+            + demanderFinManche() : Boolean
+        }
+        class AffichageFenetre{
+            ..Constructor..
+            + <<create>> AffichageFenetre(jeu : GestionnaireJeu)
+            ..Partie..
+            + entrerModeInitialisation()
+            + creerJoueur()
+            + deciderNbManches()
+            + deciderTailleCombinaison()
+            + deciderNbTentatives()
+            + deciderModeJeu()
+            + demanderFinInitialisation()
+            + finirPartie(score : Integer)
+            ..Manche..
+            + miseEnPlacePlateau()
+            + demanderValidationTentative() : Boolean
+            + prochaineManche(combinaisonSecrete : Combinaison)
+            ..Tentative..
+            + deciderMethodeAffichageIndices(ui : ObservateurUI, modeJeu : ModeJeu, indices : LigneIndice) {static}
+            + changerCouleur(combinaison : Combinaison)
+            + afficherIndices(indices : LigneIndice)
+            + affichageTentative(combinaison : Combinaison)
+            + demanderFinTentative() : Boolean
+            + finirManche()
+            + affichageCombinaison(combinaison : Combinaison)
+            + demanderRemiseAZero() : Boolean
+            + demanderFinManche() : Boolean
+        }
+    }
+}
+
+src.controller.GestionnaireJeu o--> src.model.Partie : <<joue avec>>
+src.controller.GestionnaireJeu "1\n- jeu" <--o "1" src.model.Partie : <<délègue à>>
+src.controller.GestionnaireJeu "1\n- jeu" <---o "1" src.model.Manche : <<délègue à>>
+src.controller.GestionnaireJeu "1\n- jeu" <----o "1" src.model.Tentative : <<délègue à>>
+src.controller.GestionnaireJeu ..> src.model : <<utilise>>
+src.controller.GestionnaireJeu ..> src.model.enums.ModeJeu : <<utilise>>
+src.controller.GestionnaireJeu ..> src.model.userInterfaces.ObservateurUI : <<utilise>>
+
+
+src.model.userInterfaces.ObservateurPartie <|.. src.model.userInterfaces.ObservateurUI
+src.model.userInterfaces.ObservateurUI .l|> src.model.userInterfaces.ObservateurManche
+src.model.userInterfaces.ObservateurUI ..|> src.model.userInterfaces.ObservateurTentative
+src.model.userInterfaces.ObservateurUI ...|> src.model.userInterfaces.AfficheurIndices
+
+src.model.userInterfaces.AfficheurIndices .> src.model.LigneIndice : <<utilise>>
+
+src.model.userInterfaces.ObservateurManche ..> src.model.Combinaison : <<utilise>>
+
+src.model.userInterfaces.ObservateurPartie ...> src.model.Combinaison : <<utilise>>
+src.model.userInterfaces.ObservateurPartie ...> src.model.LigneIndice : <<utilise>>
+src.model.userInterfaces.ObservateurPartie ....> src.model.enums.ModeJeu : <<utilise>>
+
+
+src.model.Combinaison "1" o--> "4..6\n- combinaison" src.model.enums.Couleur : <<est représenté avec>>
+
+src.model.LigneIndice "1" o--> "4..6\n- indices" src.model.enums.Indice : <<est représenté avec>>
+
+src.model.Manche "1" o--> "10..12\n- tentatives" src.model.Tentative : <<est composé de>>
+src.model.Manche "1" o--> "1\n- combinaison" src.model.Combinaison : <<cache>>
+src.model.Manche "1" o-> "1\n- observateur" src.model.userInterfaces.ObservateurManche : <<s'affiche avec>>
+
+src.model.Partie "1" o-l> "1\n- joueur" src.model.Joueur : <<joue la partie>>
+src.model.Partie "1" o--> "3..5\n- manches" src.model.Manche : <<est composé de>>
+src.model.Partie "1" o-> "1\n- observateur" src.model.userInterfaces.ObservateurPartie : <<s'affiche avec>>
+src.model.Partie .> src.model.enums.ModeJeu : <<utilise>>
+
+src.model.Tentative "1" o--> "1\n- combinaisonEntree" src.model.Combinaison : <<est définie par>>
+src.model.Tentative "1" o--> "1\n- ligneIndice" src.model.LigneIndice : <<donne les indices>>
+src.model.Tentative "1" o-> "1\n- modeJeu" src.model.enums.ModeJeu : <<défini l'affichage des indices>>
+src.model.Tentative "1" o-> "1\n- observateur" src.model.userInterfaces.ObservateurTentative : <<s'affiche avec>>
+
+
+src.view.AffichageConsole ..|> src.model.userInterfaces.ObservateurUI
+src.controller.GestionnaireJeu <.. src.view.AffichageConsole : <<utilise>>
+src.view.AffichageConsole ....> src.model.enums : <<utilise>>
+src.view.AffichageConsole ..> src.model : <<utilise>>
+
+src.view.AffichageFenetre ..|> src.model.userInterfaces.ObservateurUI
+src.controller.GestionnaireJeu <.. src.view.AffichageFenetre : <<utilise>>
+src.view.AffichageFenetre ....> src.model.Combinaison : <<utilise>>
+src.view.AffichageFenetre .> src.model.Joueur : <<utilise>>
+src.view.AffichageFenetre ....> src.model.LigneIndice : <<utilise>>
+src.view.AffichageFenetre .....> src.model.enums.ModeJeu : <<utilise>>
+
+
+@enduml
