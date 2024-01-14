@@ -17,6 +17,5 @@ public class Main {
         GestionnaireJeu jeu = new GestionnaireJeu();
         jeu.setPartie(new Partie(jeu));
         jeu.setUI(new AffichageFenetre(jeu));
-        jeu.initialiserPartie();
     }
 }

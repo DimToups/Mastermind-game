@@ -7,13 +7,12 @@ import src.model.enums.Couleur;
 import src.model.enums.ModeJeu;
 import src.model.userInterfaces.ObservateurUI;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 import java.util.Vector;
 
 /**
@@ -21,6 +20,13 @@ import java.util.Vector;
  */
 public class AffichageFenetre extends JFrame implements ObservateurUI {
     private final GestionnaireJeu jeu;
+    private JPanel[][] cases;
+    private JButton[] buttons;
+    JLabel[] mJNumerique;
+    private JPanel[][] indice;
+    private int tentativeActuelle = 0;
+    private int tailleCombi;
+    private int nbTentatives;
 
 
     //
@@ -51,7 +57,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
 
     // Composants de décision sur le mode de jeu
     private final JLabel jlDecisionModeJeu = new JLabel("Le mode de jeu initial");
-    private final JComboBox<String> jcbModeJeu = new JComboBox<>(new Vector<>(List.of("Facile", "Classique", "Numerique")));
+    private final JComboBox<String> jcbModeJeu = new JComboBox<>(new Vector<>(List.of("Facile", "Classique", "Numérique")));
 
     private ModeJeu mj;
 
@@ -69,6 +75,15 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
         setLayout(new GridLayout(1, 1));
+
+        // ;
+        this.entrerModeInitialisation();
+        this.creerJoueur();
+        this.deciderTailleCombinaison();
+        this.deciderNbTentatives();
+        this.deciderNbManches();
+        this.deciderModeJeu();
+        this.demanderFinInitialisation();
     }
 
     /**
@@ -138,7 +153,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
 
                 // Affichage des données
 
-                mj = ModeJeu.StringToMJ(modeJeu);
+                mj = ModeJeu.StringToMJ(Objects.requireNonNull(modeJeu));
                 jeu.setParametres(nomJoueur, nbManches, nbTentatives, tailleCombinaison, modeJeu);
 
             } else {
@@ -253,24 +268,13 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
         repaint(); // Repaint la fenêtre pour s'assurer que tout est bien affiché
     }
 
-    private JPanel[][] cases;
-    private JButton[] buttons;
-    JLabel mJNumerique[] ;
-
-    private JPanel[][] indice;
-    private int tentativActuell = 0;
-
-    private int tailleCombi;
-    private int nbTentatives;
-
-
     public void initialisationManche(String nomJoueur, int MancheActuelle, int nbTentatives, int tailleCombinaison) {
         setTitle("mastermind");
 
 
         getRootPane().getContentPane().removeAll();
         tailleCombi = (tailleCombinaison);
-        tentativActuell = 0;
+        tentativeActuelle = 0;
 
         this.nbTentatives = (nbTentatives);
 
@@ -300,24 +304,20 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
         // Ajout du bouton et du label
         JButton topButton = new JButton("terminer la manche");
 
-        topButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
+        topButton.addActionListener(e -> {
+            try {
 
-                    jeu.resumerGame();
+                jeu.resumerPartie();
 
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    // Gestion de l'exception (affichage d'un message d'erreur, etc.)
-                    JOptionPane.showMessageDialog(AffichageFenetre.this,
-                            "Une erreur est survenue : " + ex.getMessage(),
-                            "Erreur",
-                            JOptionPane.ERROR_MESSAGE);
-                }
+            } catch (Exception ex) {
+                // Gestion de l'exception (affichage d'un message d'erreur, etc.)
+                JOptionPane.showMessageDialog(AffichageFenetre.this,
+                        "Une erreur est survenue : " + ex.getMessage(),
+                        "Erreur",
+                        JOptionPane.ERROR_MESSAGE);
             }
         });
-        JLabel topLabel = new JLabel("    " + nomJoueur + " Vous etes a la manche : " + MancheActuelle);
+        JLabel topLabel = new JLabel("    " + nomJoueur + " Vous êtes a la manche : " + MancheActuelle);
 
         topBox.add(topButton);
         topBox.add(topLabel);
@@ -331,7 +331,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
         cases = new JPanel[this.nbTentatives][tailleCombi];
         buttons = new JButton[tailleCombi];
         indice = new JPanel[this.nbTentatives][tailleCombi];
-        mJNumerique=new JLabel[this.nbTentatives];
+        mJNumerique = new JLabel[this.nbTentatives];
 
         // Panneau principal avec BorderLayout
         JPanel tentativePanel = new JPanel();
@@ -387,79 +387,62 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
             // Réduisez les valeurs de largeur et de hauteur ici pour rendre les boutons plus petits
             buttons[i].setPreferredSize(new Dimension(50, 50)); // Taille réduite par exemple
             int caseIndex = i; // Indice de la case pour l'utilisation dans l'expression lambda
-            buttons[i].addActionListener(new ActionListener() {
-
-                public void actionPerformed(ActionEvent e) {
-                    try {
-
-                        Couleur couleur = Couleur.valueOf((colorList.getSelectedValue().toUpperCase()));
-
-                        jeu.ChangerCouleur(couleur, caseIndex);
-
-                        //  changeColor(cases[tentativActuell][caseIndex], colorList.getSelectedValue());
-
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                        // Gestion de l'exception (affichage d'un message d'erreur, etc.)
-                        JOptionPane.showMessageDialog(AffichageFenetre.this,
-                                "Une erreur est survenue : " + ex.getMessage(),
-                                "Erreur",
-                                JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            });
-            buttonPanel.add(buttons[i]);
-        }
-        final boolean[] a = {true};
-
-        JButton buton = new JButton("Valider Tentative");
-        buton.setPreferredSize(new Dimension(50, 50));
-        buton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+            buttons[i].addActionListener(e -> {
                 try {
-                    if ((!a[0])) {
-                    } else if ((tentativActuell == nbTentatives - 1) && (a[0])) {
-                        if (estRemplit(cases[tentativActuell])) {
 
-                            jeu.passerProchaineTentative();
-                            jeu.resumerGame();
-                            a[0] = false;
-                        }
+                    Couleur couleur = Couleur.valueOf((colorList.getSelectedValue().toUpperCase()));
 
+                    jeu.changerCouleur(couleur, caseIndex);
 
-                    } else {
-                        if (estRemplit(cases[tentativActuell])) {
+                    //  changeColor(cases[tentativeActuelle][caseIndex], colorList.getSelectedValue());
 
-                            jeu.passerProchaineTentative();
-
-                            tentativActuell++;
-                            defaultColor(cases[tentativActuell]);
-
-                        }
-                    }
                 } catch (Exception ex) {
-                    ex.printStackTrace();
                     // Gestion de l'exception (affichage d'un message d'erreur, etc.)
                     JOptionPane.showMessageDialog(AffichageFenetre.this,
                             "Une erreur est survenue : " + ex.getMessage(),
                             "Erreur",
                             JOptionPane.ERROR_MESSAGE);
                 }
+            });
+            buttonPanel.add(buttons[i]);
+        }
+
+        JButton bouton = new JButton("Valider Tentative");
+        bouton.setPreferredSize(new Dimension(50, 50));
+        bouton.addActionListener(e -> {
+            try {
+                if ((tentativeActuelle == nbTentatives - 1)) {
+                    if (estRemplit(cases[tentativeActuelle])) {
+                        jeu.passerProchaineTentative();
+                        jeu.resumerPartie();
+                    }
+                } else {
+                    if (estRemplit(cases[tentativeActuelle])) {
+                        jeu.passerProchaineTentative();
+
+                        tentativeActuelle++;
+                        defaultColor(cases[tentativeActuelle]);
+                    }
+                }
+            } catch (Exception ex) {
+                // Gestion de l'exception (affichage d'un message d'erreur, etc.)
+                JOptionPane.showMessageDialog(AffichageFenetre.this,
+                        "Une erreur est survenue : " + ex.getMessage(),
+                        "Erreur",
+                        JOptionPane.ERROR_MESSAGE);
             }
         });
 
         defaultColor(cases[0]);
 
-        buttonPanel.add(buton); // Ajouter la Box de plateau au centre de la Box de zone de plateau
+        buttonPanel.add(bouton); // Ajouter la Box de plateau au centre de la Box de zone de plateau
 
 
         // Ajout de la liste de couleurs
-        //  tentativePanel.add(colorList, BorderLayout.EAST);
         plateauBox.add(tentativePanel);
 
 
-        // Ajout du innerPanel à la Box de zone de plateau
+        // Ajout de l'InnerPanel à la Box de zone de plateau
         plateauZoneBox.add(plateauBox, BorderLayout.CENTER);
 
         rightPanel.add(plateauZoneBox);
@@ -484,14 +467,13 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
 
 
     private void defaultColor(JPanel[] aCase) {
-        for (int i = 0; i < aCase.length; i++) {
-            changeColor(aCase[i], "");
-        }
+        for (JPanel jPanel : aCase)
+            changeColor(jPanel, "");
     }
 
 
-    public void updateCouleur(Couleur couleur, int indiex) {
-        changeColor(cases[tentativActuell][indiex], couleur.name());
+    public void updateCouleur(Couleur couleur, int index) {
+        changeColor(cases[tentativeActuelle][index], couleur.name());
     }
 
     private void changeColor(JPanel panel, String colorName) {
@@ -544,14 +526,13 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
      */
     @Override
     public void afficherIndices(LigneIndice indices) {
-
-        if (mj==ModeJeu.FACILE) {
+        if (mj == ModeJeu.FACILE) {
             for (int i = 0; i < indices.getTailleCombinaison(); i++) {
 
                 switch (indices.getIndices().get(i)) {
-                    case BIEN_PLACE -> indice[tentativActuell][i].setBackground((Color.GREEN));
-                    case MAL_PLACE -> indice[tentativActuell][i].setBackground((Color.RED));
-                    default -> indice[tentativActuell][i].setBackground((Color.WHITE));
+                    case BIEN_PLACE -> indice[tentativeActuelle][i].setBackground((Color.GREEN));
+                    case MAL_PLACE -> indice[tentativeActuelle][i].setBackground((Color.RED));
+                    default -> indice[tentativeActuelle][i].setBackground((Color.WHITE));
                 }
 
             }
@@ -559,45 +540,39 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
 
             for (int i = 0; i < indices.getIntIndices()[0]; i++) {
 
-                indice[tentativActuell][i].setBackground((Color.GREEN));
+                indice[tentativeActuelle][i].setBackground((Color.GREEN));
 
             }
             for (int i = 0; i < indices.getIntIndices()[1]; i++) {
-                indice[tentativActuell][i+indices.getIntIndices()[1]].setBackground((Color.GREEN));
+                indice[tentativeActuelle][i+indices.getIntIndices()[1]].setBackground((Color.GREEN));
 
             }
 
         }
         else {
-            mJNumerique[tentativActuell-1] = new JLabel("bien placé :" + indices.getIntIndices()[1] + "mal placé" + indices.getIntIndices()[2]);
+            mJNumerique[tentativeActuelle-1] = new JLabel("bien placé :" + indices.getIntIndices()[1] + "mal placé" + indices.getIntIndices()[2]);
         }
 
 
     }
 
-
     public void resumerManche(int score, List<Couleur> couleurs, boolean b) {
-
-
-        setTitle("mastermind");
-
-
         getRootPane().getContentPane().removeAll();
 
         getContentPane().removeAll(); // Efface tous les composants de la fenêtre
         getContentPane().setLayout(new GridLayout(4, 0, 10, 10)); // Définit le gestionnaire de disposition
 
         JPanel[] combinaisonSecret = new JPanel[tailleCombi];
-        String ressumer;
+        String resume;
         if (b) {
-            ressumer = "vous avez reussi a trouver";
+            resume = "vous avez réussi a trouver";
         } else {
-            ressumer = "vous n'avez malheureusement pas trouver ";
+            resume = "vous n'avez malheureusement pas trouvé";
         }
-        JLabel messageLabel = new JLabel(ressumer + "              votre score et de " + score, SwingConstants.CENTER); // Crée un JLabel avec le message
+        JLabel messageLabel = new JLabel(resume + " votre score et de " + score, SwingConstants.CENTER); // Crée un JLabel avec le message
         getContentPane().add(messageLabel);
 
-        JLabel MessageFinal = new JLabel("votre combinaison est : " + SwingConstants.SOUTH); // Crée un JLabel avec le message
+        JLabel MessageFinal = new JLabel("Votre combinaison est : " + SwingConstants.SOUTH); // Crée un JLabel avec le message
         getContentPane().add(MessageFinal);
 
         JPanel caseCombinaison = new JPanel(new GridLayout(1, 6, 10, 10)); // 1 ligne, 6 colonnes
@@ -610,33 +585,24 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
         }
         getContentPane().add(caseCombinaison); // Ajoute le JLabel à la fenêtre
 
-
-        JButton buton = new JButton("Continuer");
-        buton.setPreferredSize(new Dimension(50, 50));
-        buton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    jeu.mancheSuivant();
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    // Gestion de l'exception (affichage d'un message d'erreur, etc.)
-                    JOptionPane.showMessageDialog(AffichageFenetre.this,
-                            "Une erreur est survenue : " + ex.getMessage(),
-                            "Erreur",
-                            JOptionPane.ERROR_MESSAGE);
-                }
+        JButton btnProchaineManche = new JButton("Continuer");
+        btnProchaineManche.setPreferredSize(new Dimension(50, 50));
+        btnProchaineManche.addActionListener(e -> {
+            try {
+                jeu.mancheSuivante();
+            } catch (Exception ex) {
+                // Gestion de l'exception (affichage d'un message d'erreur, etc.)
+                JOptionPane.showMessageDialog(AffichageFenetre.this,
+                        "Une erreur est survenue : " + ex.getMessage(),
+                        "Erreur",
+                        JOptionPane.ERROR_MESSAGE);
             }
         });
 
-        getContentPane().add(buton); // Ajoute le JLabel à la fenêtre
-
+        getContentPane().add(btnProchaineManche); // Ajoute le JLabel à la fenêtre
 
         revalidate(); // Rafraîchit la fenêtre pour afficher les changements
         repaint(); // Repaint la fenêtre pour s'assurer que tout est bien affiché
-
-
     }
 
 

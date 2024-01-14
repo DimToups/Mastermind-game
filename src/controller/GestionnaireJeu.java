@@ -9,13 +9,13 @@ import src.model.userInterfaces.ObservateurUI;
  * Classe contrôleuse manipulant le déroulement d'une partie
  */
 public class GestionnaireJeu {
+    private Partie partie;
     /**
      * Créée une instance de GestionnaireJeu pour gérer une partie
      */
     public GestionnaireJeu(){
 
     }
-    private Partie partie;
 
     /**
      * Défini la partie avec laquelle l'instance va jouer
@@ -36,25 +36,11 @@ public class GestionnaireJeu {
     }
 
     /**
-     * Initialise la partie en utilisant l'interface utilisateur
-     */
-    public void initialiserPartie(){
-        this.partie.initialiser();
-    }
-
-    /**
      * Lance la prochaine manche de la partie
      */
     public void demarrerProchaineManche() {
         this.partie.lancerProchaineManche();
     }
-
-    /**
-     * Met à jour la partie pour qu'il y ait le bon nombre de manches
-     * Cette méthode réinitialise toutes les manches. Il est préférable d'utiliser cette méthode avant le début d'une partie pour éviter toute perte de données
-     *
-     * @param n Le nombre de manches voulu
-     */
 
     /**
      * Met à jour toutes les combinaisons pour qu'elles aient la taille voulue
@@ -99,16 +85,6 @@ public class GestionnaireJeu {
     }
 
     /**
-     * Appelle la méthode jouerTentative() de la tentative actuelle
-     *
-     * @param modificationVoulue Un booléen obligeant la modification de la tentative actuelle
-     */
-    public void modifierTentativeActuelle(boolean modificationVoulue){
-        Manche mancheActuelle = this.partie.getManches().get(partie.getMancheActuelle());
-        mancheActuelle.getTentatives().get(mancheActuelle.getTentativeActuelle()).jouerTentative(modificationVoulue);
-    }
-
-    /**
      * Joue la prochaine tentative s'il en reste
      */
     public void passerProchaineTentative(){
@@ -141,9 +117,8 @@ public class GestionnaireJeu {
         return this.partie.getManches().get(this.partie.getMancheActuelle()).getCombinaisonSecrete();
     }
 
-
     public void setParametres(String nomJoueur, String nbManches, String nbTentatives, String tailleCombinaison, String modeJeu) {
-        this.partie.setJoueur(new Joueur(nomJoueur));
+        this.miseAJourJoueur(new Joueur(nomJoueur));
         int intNbManches = 3;
         if(!nbManches.isBlank())
             intNbManches = Integer.parseInt(nbManches);
@@ -153,27 +128,20 @@ public class GestionnaireJeu {
         int intTailleCombinaison = 4;
         if(!tailleCombinaison.isBlank())
             intTailleCombinaison = Integer.parseInt(tailleCombinaison);
-        this.partie.setNbManches(intNbManches, intNbTentatives, intTailleCombinaison, ModeJeu.StringToMJ(modeJeu));
+        this.partie.setParametres(intNbManches, intNbTentatives, intTailleCombinaison, ModeJeu.StringToMJ(modeJeu));
         this.partie.lancerProchaineManche();
 
     }
 
-
-    public void mancheSuivant()
-    {
+    public void mancheSuivante() {
         partie.lancerProchaineManche();
-
     }
 
-    public void resumerGame() {
+    public void resumerPartie() {
         partie.resumerManche();
     }
 
-    public void ChangerCouleur(Couleur couleur, int index) {
-
+    public void changerCouleur(Couleur couleur, int index) {
         this.partie.getManches().get(partie.getMancheActuelle()).getTentatives().get(this.partie.getManches().get(partie.getMancheActuelle()).getTentativeActuelle()).ajoutCouleur(index,couleur);
-
     }
-
-
 }
