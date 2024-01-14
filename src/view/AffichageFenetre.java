@@ -28,6 +28,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
     // Variables globales
     //
     private final GestionnaireJeu jeu;
+    private int coefficient = 10;
 
     //
     // Images utilisées
@@ -435,7 +436,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
             JPanel casePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
             for (int i = 0; i < tailleCombi; i++) {
                 cases[j][i] = new JPanel();
-                cases[j][i].setSize(new Dimension(336, 482));
+                cases[j][i].setPreferredSize(new Dimension(biPlateauCaseCombinaison.getWidth() / coefficient, biPlateauCaseCombinaison.getHeight() / coefficient));
                 changeColor(cases[j][i], Couleur.ABSENT);
                 casePanel.add(cases[j][i]);
             }
@@ -446,6 +447,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
             List<JPanel> casesIndices = new ArrayList<>();
             for(int i = 0; i <= tailleCombinaison / 4 + tailleCombinaison % 4; i++) {
                 casesIndices.add(new JPanel(new GridLayout(2, 2)));
+                casesIndices.get(i).setPreferredSize(new Dimension(biPlateauCaseCombinaison.getWidth() / coefficient, biPlateauCaseCombinaison.getHeight() / coefficient));
                 indicePanel.add(casesIndices.get(i));
             }
             indicePanel.setSize(new Dimension(336, 482));
@@ -529,8 +531,6 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
         pack();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize);
-
-
     }
 
     private boolean estRemplit(JPanel[] aCase) {
@@ -554,40 +554,56 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
     }
 
     private void changerIndice(JPanel panel, Indice indice){
+        for(Component component : panel.getComponents()){
+            component.setVisible(false);
+            panel.remove(component);
+        }
+        //panel.add(new JLabel(new ImageIcon(biPlateauCaseIndice.getScaledInstance(biPlateauCaseIndice.getWidth() / coefficient, biPlateauCaseIndice.getHeight() / coefficient, Image.SCALE_SMOOTH))));
         switch (indice){
-            case BIEN_PLACE -> panel.setBackground(Color.WHITE);
-            case MAL_PLACE -> panel.setBackground(Color.BLACK);
-            default -> panel.setBackground(Color.GRAY);
+            case BIEN_PLACE :
+                panel.add(new JLabel(new ImageIcon(biIndiceBlanc.getScaledInstance(biIndiceBlanc.getWidth() / coefficient, biIndiceBlanc.getHeight() / coefficient, Image.SCALE_SMOOTH))));
+                break;
+            case MAL_PLACE :
+                panel.add(new JLabel(new ImageIcon(biIndiceNoir.getScaledInstance(biIndiceNoir.getWidth() / coefficient, biIndiceNoir.getHeight() / coefficient, Image.SCALE_SMOOTH))));
+                break;
+            default :
+                panel.add(new JLabel(new ImageIcon(biIndiceAbsent.getScaledInstance(biIndiceAbsent.getWidth() / coefficient, biIndiceAbsent.getHeight() / coefficient, Image.SCALE_SMOOTH))));
+                break;
         }
     }
     private void changeColor(JPanel panel, Couleur couleur) {
+        for(Component component : panel.getComponents()) {
+            component.setVisible(false);
+            panel.remove(component);
+        }
+        //panel.add(new JLabel(new ImageIcon(biPlateauCaseCombinaison.getScaledInstance(biPlateauCaseCombinaison.getWidth() / coefficient, biPlateauCaseCombinaison.getHeight() / coefficient, Image.SCALE_SMOOTH))));
         switch (couleur) {
             case Couleur.BLEU :
-                panel.setBackground(Color.BLUE);
+                panel.add(new JLabel(new ImageIcon(biPionBleu.getScaledInstance(biPionBleu.getWidth() / coefficient, biPionBleu.getHeight() / coefficient, Image.SCALE_SMOOTH))));
                 break;
             case Couleur.JAUNE :
-                panel.setBackground(Color.YELLOW);
+                panel.add(new JLabel(new ImageIcon(biPionJaune.getScaledInstance(biPionJaune.getWidth() / coefficient, biPionJaune.getHeight() / coefficient, Image.SCALE_SMOOTH))));
                 break;
             case Couleur.ROUGE :
-                panel.setBackground(Color.RED);
+                panel.add(new JLabel(new ImageIcon(biPionRouge.getScaledInstance(biPionRouge.getWidth() / coefficient, biPionRouge.getHeight() / coefficient, Image.SCALE_SMOOTH))));
                 break;
             case Couleur.VERT :
-                panel.setBackground(Color.GREEN);
+                panel.add(new JLabel(new ImageIcon(biPionVert.getScaledInstance(biPionVert.getWidth() / coefficient, biPionVert.getHeight() / coefficient, Image.SCALE_SMOOTH))));
                 break;
             case Couleur.ORANGE :
-                panel.setBackground(Color.ORANGE);
+                panel.add(new JLabel(new ImageIcon(biPionOrange.getScaledInstance(biPionOrange.getWidth() / coefficient, biPionOrange.getHeight() / coefficient, Image.SCALE_SMOOTH))));
                 break;
             case Couleur.VIOLET :
-                panel.setBackground(Color.MAGENTA);
+                panel.add(new JLabel(new ImageIcon(biPionViolet.getScaledInstance(biPionViolet.getWidth() / coefficient, biPionViolet.getHeight() / coefficient, Image.SCALE_SMOOTH))));
                 break;
             case Couleur.CYAN :
-                panel.setBackground(Color.CYAN);
+                panel.add(new JLabel(new ImageIcon(biPionCyan.getScaledInstance(biPionCyan.getWidth() / coefficient, biPionCyan.getHeight() / coefficient, Image.SCALE_SMOOTH))));
                 break;
             case Couleur.ROSE :
-                panel.setBackground(Color.PINK);
+                panel.add(new JLabel(new ImageIcon(biPionRose.getScaledInstance(biPionRose.getWidth() / coefficient, biPionRose.getHeight() / coefficient, Image.SCALE_SMOOTH))));
                 break;
             default:
-                panel.setBackground(Color.GRAY);
+                panel.add(new JLabel(new ImageIcon(biPionAbsent.getScaledInstance(biPionAbsent.getWidth() / coefficient, biPionAbsent.getHeight() / coefficient, Image.SCALE_SMOOTH))));
         }
     }
 
@@ -753,6 +769,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
     @Override
     public void afficherIndicesFacile(LigneIndice indices) {
         for (int i = 0; i < indices.getTailleCombinaison(); i++) {
+            System.out.println("i = " + i + "\nprochain emplacement : " + prochainIndexIndice(i));
             switch (indices.getIndices().get(i)) {
                 case BIEN_PLACE -> changerIndice(this.indices[tentativeActuelle][prochainIndexIndice(i)], Indice.BIEN_PLACE);
                 case MAL_PLACE -> changerIndice(this.indices[tentativeActuelle][prochainIndexIndice(i)], Indice.MAL_PLACE);
@@ -769,17 +786,18 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
         int index = 0;
         for (int i = 0; i < indices.getIntIndices()[0]; i++) {
             System.out.println("prochain emplacement : " + prochainIndexIndice(index));
-            this.indices[tentativeActuelle][prochainIndexIndice(index)].setBackground((Color.GREEN));
+            changerIndice(this.indices[tentativeActuelle][prochainIndexIndice(index)], Indice.BIEN_PLACE);
             index++;
         }
         for (int i = 0; i < indices.getIntIndices()[1]; i++) {
             System.out.println("prochain emplacement : " + prochainIndexIndice(index));
-            this.indices[tentativeActuelle][prochainIndexIndice(index)].setBackground((Color.GREEN));
+            changerIndice(this.indices[tentativeActuelle][prochainIndexIndice(index)], Indice.MAL_PLACE);
             index++;
         }
     }
     private int prochainIndexIndice(int i){
-        return i / ((tailleCombi + tailleCombi % 4) / 4) * (tailleCombi + tailleCombi % 4) / 2 / ((tailleCombi + tailleCombi % 4) / 2) + i % 2;
+        return i;
+        //return (i / ((tailleCombi + tailleCombi % 4) / 4)) % ((tailleCombi + tailleCombi % 4) / 2) * (tailleCombi + tailleCombi % 4) / 2 + i % 2;
     }
 
     /**
