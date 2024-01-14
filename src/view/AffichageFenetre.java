@@ -4,6 +4,7 @@ import src.controller.GestionnaireJeu;
 import src.model.Combinaison;
 import src.model.LigneIndice;
 import src.model.enums.Couleur;
+import src.model.enums.Indice;
 import src.model.enums.ModeJeu;
 import src.model.userInterfaces.ObservateurUI;
 
@@ -356,23 +357,21 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
         }
     }
     public void initialisationManche(String nomJoueur, int MancheActuelle, int nbTentatives, int tailleCombinaison) {
-                getRootPane().getContentPane().removeAll();
+        getRootPane().getContentPane().removeAll();
         tailleCombi = (tailleCombinaison);
         tentativeActuelle = 0;
 
         this.nbTentatives = (nbTentatives);
 
-        getContentPane().setLayout(new GridLayout(1, 2, 10, 10));  // Espacement entre les composants
+        getContentPane().setLayout(new GridLayout(1, 2));
         JPanel mainPanel = new JPanel(new BorderLayout());
 
         // Panneau de gauche pour la sélection de couleurs
         DefaultListModel<String> colorModel = new DefaultListModel<>();
 
-
         for (Couleur couleurValide : Couleur.getVraiesCouleurs())
-            colorModel.addElement(Couleur.nomValide(couleurValide));
+            colorModel.addElement(couleurValide.name());
         JList<String> colorList = new JList<>(colorModel);
-
 
         mainPanel.add(new JScrollPane(colorList), BorderLayout.WEST);
 
@@ -390,9 +389,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
 
         topButton.addActionListener(e -> {
             try {
-
                 jeu.resumerPartie();
-
             } catch (Exception ex) {
                 // Gestion de l'exception (affichage d'un message d'erreur, etc.)
                 JOptionPane.showMessageDialog(AffichageFenetre.this,
@@ -425,14 +422,14 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
 
         // Panneau pour les cases avec GridLayout
 
-
         // Panneau pour les boutons avec GridLayout
         JPanel buttonPanel = new JPanel(new GridLayout(1, 6, 10, 10)); // 1 ligne, 6 colonnes
         tentativePanel.add(buttonPanel);
 
         // Initialisation et ajout des cases
         for (int j = 0; j < this.nbTentatives; j++) {
-            JPanel casePanel = new JPanel(new GridLayout(1, tailleCombi, 10, 10)); // 1 ligne, tailleCombi colonnes
+            // Cases des combinaisons
+            JPanel casePanel = new JPanel(new GridLayout(1, tailleCombi)); // 1 ligne, tailleCombi colonnes
             for (int i = 0; i < tailleCombi; i++) {
                 cases[j][i] = new JPanel();
                 cases[j][i].setPreferredSize(new Dimension(100, 100));
@@ -441,45 +438,32 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
             }
             tentativePanel.add(casePanel);
 
-            JPanel indicPanel = new JPanel(new GridLayout(3, 3, 10, 10)); // 1 ligne, 6 colonnes
-            indicPanel.setPreferredSize(new Dimension(10, 10));
+            // Cases des indices
+            JPanel indicePanel = new JPanel(new GridLayout(3, 3));
+            indicePanel.setPreferredSize(new Dimension(10, 10));
 
-            casePanel.add(indicPanel, BorderLayout.EAST);
+            casePanel.add(indicePanel, BorderLayout.EAST);
 
-            if (mj==ModeJeu.NUMERIQUE)
-            {
-                mJNumerique[j]=new JLabel();
-                indicPanel.add(mJNumerique[j]);
+            for (int i = 0; i < tailleCombi; i++) {
+                indice[j][i] = new JPanel();
+                indice[j][i].setPreferredSize(new Dimension(10, 10));
+                indice[j][i].setBackground(Color.WHITE);
+                indicePanel.add(indice[j][i]);
             }
-            else {
-                for (int i = 0; i < tailleCombi; i++) {
-                    indice[j][i] = new JPanel();
-                    indice[j][i].setPreferredSize(new Dimension(10, 10));
-                    indice[j][i].setBackground(Color.WHITE);
-                    indicPanel.add(indice[j][i]);
-                }
-            }
-
         }
         // Liste de couleurs
 
 
         // Initialisation et ajout des boutons
-        // Initialisation et ajout des boutons
         for (int i = 0; i < tailleCombi; i++) {
             buttons[i] = new JButton("Case " + (i + 1));
             // Réduisez les valeurs de largeur et de hauteur ici pour rendre les boutons plus petits
-            buttons[i].setPreferredSize(new Dimension(50, 50)); // Taille réduite par exemple
+            buttons[i].setPreferredSize(new Dimension(10, 10)); // Taille réduite par exemple
             int caseIndex = i; // Indice de la case pour l'utilisation dans l'expression lambda
             buttons[i].addActionListener(e -> {
                 try {
-
-                    Couleur couleur = Couleur.valueOf((colorList.getSelectedValue().toUpperCase()));
-
+                    Couleur couleur = Couleur.valueOf(colorList.getSelectedValue());
                     jeu.changerCouleur(couleur, caseIndex);
-
-                    //  changeColor(cases[tentativeActuelle][caseIndex], colorList.getSelectedValue());
-
                 } catch (Exception ex) {
                     // Gestion de l'exception (affichage d'un message d'erreur, etc.)
                     JOptionPane.showMessageDialog(AffichageFenetre.this,
@@ -552,41 +536,40 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
 
     private void defaultColor(JPanel[] aCase) {
         for (JPanel jPanel : aCase)
-            changeColor(jPanel, "");
+            changeColor(jPanel, Couleur.ABSENT);
     }
 
 
     public void updateCouleur(Couleur couleur, int index) {
-        changeColor(cases[tentativeActuelle][index], couleur.name());
+        changeColor(cases[tentativeActuelle][index], couleur);
     }
 
-    private void changeColor(JPanel panel, String colorName) {
-        switch (colorName.toLowerCase()) {
-            case "bleu":
+    private void changeColor(JPanel panel, Couleur couleur) {
+        switch (couleur) {
+            case Couleur.BLEU :
                 panel.setBackground(Color.BLUE);
                 break;
-            case "jaune":
+            case Couleur.JAUNE :
                 panel.setBackground(Color.YELLOW);
                 break;
-            case "rouge":
+            case Couleur.ROUGE :
                 panel.setBackground(Color.RED);
                 break;
-            case "vert":
+            case Couleur.VERT :
                 panel.setBackground(Color.GREEN);
                 break;
-            case "orange":
+            case Couleur.ORANGE :
                 panel.setBackground(Color.ORANGE);
                 break;
-            case "violet":
+            case Couleur.VIOLET :
                 panel.setBackground(Color.MAGENTA);
                 break;
-            case "cyan":
+            case Couleur.CYAN :
                 panel.setBackground(Color.CYAN);
                 break;
-            case "rose":
+            case Couleur.ROSE :
                 panel.setBackground(Color.PINK);
                 break;
-
             default:
                 panel.setBackground(Color.GRAY);
         }
@@ -664,7 +647,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
         for (int i = 0; i < tailleCombi; i++) {
             combinaisonSecret[i] = new JPanel();
             combinaisonSecret[i].setPreferredSize(new Dimension(100, 100));
-            changeColor(combinaisonSecret[i], couleurs.get(i).name());
+            changeColor(combinaisonSecret[i], couleurs.get(i));
             caseCombinaison.add(combinaisonSecret[i]);
         }
         getContentPane().add(caseCombinaison); // Ajoute le JLabel à la fenêtre
@@ -687,6 +670,26 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
 
         revalidate(); // Rafraîchit la fenêtre pour afficher les changements
         repaint(); // Repaint la fenêtre pour s'assurer que tout est bien affiché
+    }
+    private BufferedImage getImagePion(Couleur couleur){
+        return switch (couleur) {
+            case BLEU -> biPionBleu;
+            case JAUNE -> biPionJaune;
+            case ROUGE -> biPionRouge;
+            case VERT -> biPionVert;
+            case ORANGE -> biPionOrange;
+            case VIOLET -> biPionViolet;
+            case CYAN -> biPionCyan;
+            case ROSE -> biPionRose;
+            case null, default -> biPionAbsent;
+        };
+    }
+    private BufferedImage getImageIndice(Indice indice){
+        return switch (indice){
+            case BIEN_PLACE -> biIndiceBlanc;
+            case MAL_PLACE -> biIndiceNoir;
+            default -> biIndiceAbsent;
+        };
     }
 
 
