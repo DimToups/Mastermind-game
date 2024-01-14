@@ -7,9 +7,12 @@ import src.model.enums.Couleur;
 import src.model.enums.ModeJeu;
 import src.model.userInterfaces.ObservateurUI;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
@@ -19,7 +22,52 @@ import java.util.Vector;
  * Classe vue servant d'interface utilisateur utilisant uniquement Java Swing pour communiquer avec l'utilisateur
  */
 public class AffichageFenetre extends JFrame implements ObservateurUI {
+    //
+    // Variables globales
+    //
     private final GestionnaireJeu jeu;
+
+    //
+    // Images utilisées
+    //
+
+    // Pions
+    BufferedImage biPionAbsent;
+    BufferedImage biPionBleu;
+    BufferedImage biPionJaune;
+    BufferedImage biPionRouge;
+    BufferedImage biPionVert;
+    BufferedImage biPionOrange;
+    BufferedImage biPionViolet;
+    BufferedImage biPionCyan;
+    BufferedImage biPionRose;
+
+    // Indices
+    BufferedImage biIndiceAbsent;
+    BufferedImage biIndiceBlanc;
+    BufferedImage biIndiceNoir;
+
+    // Plateau
+    BufferedImage biPlateauCaseCombinaison;
+    BufferedImage biPlateauCaseMilieu;
+    BufferedImage biPlateauCaseIndice;
+    BufferedImage biPlateauCaseCombinaisonSecrete;
+    BufferedImage biPlateauBordHautIndice;
+    BufferedImage biPlateauBordGauche;
+    BufferedImage biPlateauBordDroit;
+    BufferedImage biPlateauBordHautGauche;
+    BufferedImage biPlateauBordHautDroit;
+    BufferedImage biPlateauBordBas;
+    BufferedImage biPlateauBordBasMilieu;
+    BufferedImage biPlateauBordBasGauche;
+    BufferedImage biPlateauBordBasDroit;
+
+
+    //
+    // Composants du plateau
+    //
+
+    //
     private JPanel[][] cases;
     private JButton[] buttons;
     JLabel[] mJNumerique;
@@ -76,7 +124,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
         setVisible(true);
         setLayout(new GridLayout(1, 1));
 
-        // ;
+        // Initialisation de la partie
         this.entrerModeInitialisation();
         this.creerJoueur();
         this.deciderTailleCombinaison();
@@ -84,6 +132,9 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
         this.deciderNbManches();
         this.deciderModeJeu();
         this.demanderFinInitialisation();
+
+        // Attribution des images aux bufferedImages
+        initialisationImages();
     }
 
     /**
@@ -268,11 +319,44 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
         repaint(); // Repaint la fenêtre pour s'assurer que tout est bien affiché
     }
 
+    private void initialisationImages(){
+        try {
+            // Pions
+            biPionAbsent = ImageIO.read(new File("ressources/img/pions/absent.png"));
+            biPionBleu = ImageIO.read(new File("ressources/img/pions/pion_bleu.png"));
+            biPionJaune = ImageIO.read(new File("ressources/img/pions/pion_jaune.png"));
+            biPionRouge = ImageIO.read(new File("ressources/img/pions/pion_rouge.png"));
+            biPionVert = ImageIO.read(new File("ressources/img/pions/pion_vert.png"));
+            biPionOrange = ImageIO.read(new File("ressources/img/pions/pion_orange.png"));
+            biPionViolet = ImageIO.read(new File("ressources/img/pions/pion_violet.png"));
+            biPionCyan = ImageIO.read(new File("ressources/img/pions/pion_cyan.png"));
+            biPionRose = ImageIO.read(new File("ressources/img/pions/pion_rose.png"));
+
+            // Indices
+            biIndiceAbsent = ImageIO.read(new File("ressources/img/indices/absent.png"));
+            biIndiceBlanc = ImageIO.read(new File("ressources/img/indices/indice_blanc.png"));
+            biIndiceNoir = ImageIO.read(new File("ressources/img/indices/indice_noir.png"));
+
+            // Plateau
+            biPlateauCaseCombinaison = ImageIO.read(new File("ressources/img/plateau/case_combinaison.png"));
+            biPlateauCaseMilieu = ImageIO.read(new File("ressources/img/plateau/case_milieu.png"));
+            biPlateauCaseIndice = ImageIO.read(new File("ressources/img/plateau/case_indice.png"));
+            biPlateauCaseCombinaisonSecrete = ImageIO.read(new File("ressources/img/plateau/bord_haut_combinaison.png"));
+            biPlateauBordHautIndice = ImageIO.read(new File("ressources/img/plateau/bord_haut_indice.png"));
+            biPlateauBordGauche = ImageIO.read(new File("ressources/img/plateau/bord_combinaison_gauche.png"));
+            biPlateauBordDroit = ImageIO.read(new File("ressources/img/plateau/bord_combinaison_droit.png"));
+            biPlateauBordHautGauche = ImageIO.read(new File("ressources/img/plateau/bord_haut_gauche.png"));
+            biPlateauBordHautDroit = ImageIO.read(new File("ressources/img/plateau/bord_haut_droit.png"));
+            biPlateauBordBas = ImageIO.read(new File("ressources/img/plateau/bord_bas_combinaison_indice.png"));
+            biPlateauBordBasMilieu = ImageIO.read(new File("ressources/img/plateau/bord_bas_milieu.png"));
+            biPlateauBordBasGauche = ImageIO.read(new File("ressources/img/plateau/bord_bas_gauche.png"));
+            biPlateauBordBasDroit = ImageIO.read(new File("ressources/img/plateau/bord_bas_droit.png"));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
     public void initialisationManche(String nomJoueur, int MancheActuelle, int nbTentatives, int tailleCombinaison) {
-        setTitle("mastermind");
-
-
-        getRootPane().getContentPane().removeAll();
+                getRootPane().getContentPane().removeAll();
         tailleCombi = (tailleCombinaison);
         tentativeActuelle = 0;
 
