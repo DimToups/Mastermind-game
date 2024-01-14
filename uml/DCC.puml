@@ -182,64 +182,64 @@ package src{
 
         class AffichageFenetre{
             - jeu: GestionnaireJeu
-                             - coefficient: Integer
-                             - biPionAbsent, biPionBleu, ..., biPionRose: BufferedImage
-                             - biIndiceAbsent, biIndiceBlanc, biIndiceNoir: BufferedImage
-                             - biPlateauCaseCombinaison, ..., biPlateauBordBasDroit: BufferedImage
-                             - cases: JPanel[][]
-                             - buttons: JButton[]
-                             - mJNumerique: JLabel[]
-                             - indices: JPanel[][]
-                             - tentativeActuelle: Integer
-                             - tailleCombi: Integer
-                             - nbTentatives: Integer
-                             - jbFinInitialisation: JButton
-                             - jlCreationJoueur: JLabel
-                             - jtfCreationJoueur: JTextField
-                             - jlNbManches: JLabel
-                             -jlNbTentatives: JLabel
-                             -jlTailleCombinaison: JLabel
-                             - jrbListNbManches: List<JRadioButton>
-                             -jrbListNbTentatives: List<JRadioButton>
-                             -jrbListTailleCombi: List<JRadioButton>
-                             - bgNbManches
-                             -bgNbTentatives : ButtonGroup
-                             -bgTailleCombi: ButtonGroup
-                             - jlDecisionModeJeu: JLabel
-                             - jcbModeJeu: JComboBox<String>
-                             - mj: ModeJeu
-                             + AffichageFenetre(jeu: GestionnaireJeu)
-                             + miseEnPlacePlateau()
-                             + demanderValidationTentative(): boolean
-                             + prochaineManche(combinaisonSecrete: Combinaison)
-                             + entrerModeInitialisation()
-                             + creerJoueur()
-                             + deciderNbManches()
-                             + deciderTailleCombinaison()
-                             + deciderNbTentatives()
-                             + deciderModeJeu()
-                             + demanderFinInitialisation()
-                             + finirPartie(score: Integer)
-                             + initialisationImages()
-                             + initialisationManche(nomJoueur: String, MancheActuelle: Integer, nbTentatives: Integer, tailleCombinaison: Integer)
-                             + updateCouleur(couleur: Couleur, index: Integer)
-                             + changerIndice(panel: JPanel, indice: Indice)
-                             + changeColor(panel: JPanel, couleur: Couleur)
-                             + changerCouleur(combinaison: Combinaison)
-                             + afficherIndices(indices: LigneIndice)
-                             + resumerManche(score: Integer, couleurs: List<Couleur>, b: boolean)
-                             + getImagePion(couleur: Couleur): BufferedImage
-                             + getImageIndice(indice: Indice): BufferedImage
-                             + affichageTentative(combinaison: Combinaison)
-                             + demanderFinTentative()
-                             + initialisationRemplie(): boolean
-                             + affichageCombinaison(combinaison: Combinaison)
-                             + demanderRemiseAZero(): boolean
-                             + demanderFinManche(): boolean
-                             + finirManche()
-                             + afficherIndicesFacile(indices: LigneIndice)
-                             + afficherIndicesClassique(indices: LigneIndice)
-                             + afficherIndicesNumerique(indices: LigneIndice)
+            - coefficient: Integer
+            - biPionAbsent, biPionBleu, ..., biPionRose: BufferedImage
+            - biIndiceAbsent, biIndiceBlanc, biIndiceNoir: BufferedImage
+            - biPlateauCaseCombinaison, ..., biPlateauBordBasDroit: BufferedImage
+            - cases: JPanel[][]
+            - buttons: JButton[]
+            - mJNumerique: JLabel[]
+            - indices: JPanel[][]
+            - tentativeActuelle: Integer
+            - tailleCombi: Integer
+            - nbTentatives: Integer
+            - jbFinInitialisation: JButton
+            - jlCreationJoueur: JLabel
+            - jtfCreationJoueur: JTextField
+            - jlNbManches: JLabel
+            -jlNbTentatives: JLabel
+            -jlTailleCombinaison: JLabel
+            - jrbListNbManches: List<JRadioButton>
+            -jrbListNbTentatives: List<JRadioButton>
+            -jrbListTailleCombi: List<JRadioButton>
+            - bgNbManches
+            -bgNbTentatives : ButtonGroup
+            -bgTailleCombi: ButtonGroup
+            - jlDecisionModeJeu: JLabel
+            - jcbModeJeu: JComboBox<String>
+            - mj: ModeJeu
+            + AffichageFenetre(jeu: GestionnaireJeu)
+            + miseEnPlacePlateau()
+            + demanderValidationTentative(): boolean
+            + prochaineManche(combinaisonSecrete: Combinaison)
+            + entrerModeInitialisation()
+            + creerJoueur()
+            + deciderNbManches()
+            + deciderTailleCombinaison()
+            + deciderNbTentatives()
+            + deciderModeJeu()
+            + demanderFinInitialisation()
+            + finirPartie(score: Integer)
+            + initialisationImages()
+            + initialisationManche(nomJoueur: String, MancheActuelle: Integer, nbTentatives: Integer, tailleCombinaison: Integer)
+            + updateCouleur(couleur: Couleur, index: Integer)
+            + changerIndice(panel: JPanel, indice: Indice)
+            + changeColor(panel: JPanel, couleur: Couleur)
+            + changerCouleur(combinaison: Combinaison)
+            + afficherIndices(indices: LigneIndice)
+            + resumerManche(score: Integer, couleurs: List<Couleur>, b: boolean)
+            + getImagePion(couleur: Couleur): BufferedImage
+            + getImageIndice(indice: Indice): BufferedImage
+            + affichageTentative(combinaison: Combinaison)
+            + demanderFinTentative()
+            + initialisationRemplie(): boolean
+            + affichageCombinaison(combinaison: Combinaison)
+            + demanderRemiseAZero(): boolean
+            + demanderFinManche(): boolean
+            + finirManche()
+            + afficherIndicesFacile(indices: LigneIndice)
+            + afficherIndicesClassique(indices: LigneIndice)
+            + afficherIndicesNumerique(indices: LigneIndice)
         }
     }
     package controller{
