@@ -213,7 +213,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
                 JOptionPane.showMessageDialog(this,
                         "Toutes les informations nécessaires pour commencer la partie n'ont pas été renseignées",
                         "Erreur",
-                        JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         });
     }
@@ -476,11 +476,7 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
                     Couleur couleur = Couleur.valueOf(colorList.getSelectedValue());
                     jeu.changerCouleur(couleur, caseIndex);
                 } catch (Exception ex) {
-                    // Gestion de l'exception (affichage d'un message d'erreur, etc.)
-                    JOptionPane.showMessageDialog(AffichageFenetre.this,
-                            "Une erreur est survenue : " + ex.getMessage(),
-                            "Erreur",
-                            JOptionPane.ERROR_MESSAGE);
+
                 }
             });
             buttonPanel.add(buttons[i]);
