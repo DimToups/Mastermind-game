@@ -414,8 +414,6 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
         plateauBox.setLayout(new BoxLayout(plateauBox, BoxLayout.Y_AXIS));
         plateauBox.setSize(new Dimension(600, 200));
 
-        System.out.println(tailleCombi + tailleCombinaison % 4);
-
         cases = new JPanel[this.nbTentatives][tailleCombi];
         buttons = new JButton[tailleCombi];
         indices = new JPanel[this.nbTentatives][tailleCombi + tailleCombinaison % 4];
@@ -774,7 +772,6 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
     @Override
     public void afficherIndicesFacile(LigneIndice indices) {
         for (int i = 0; i < indices.getTailleCombinaison(); i++) {
-            System.out.println("i = " + i + "\nprochain emplacement : " + prochainIndexIndice(i));
             switch (indices.getIndices().get(i)) {
                 case BIEN_PLACE -> changerIndice(this.indices[tentativeActuelle][prochainIndexIndice(i)], Indice.BIEN_PLACE);
                 case MAL_PLACE -> changerIndice(this.indices[tentativeActuelle][prochainIndexIndice(i)], Indice.MAL_PLACE);
@@ -790,12 +787,10 @@ public class AffichageFenetre extends JFrame implements ObservateurUI {
     public void afficherIndicesClassique(LigneIndice indices) {
         int index = 0;
         for (int i = 0; i < indices.getIntIndices()[0]; i++) {
-            System.out.println("prochain emplacement : " + prochainIndexIndice(index));
             changerIndice(this.indices[tentativeActuelle][prochainIndexIndice(index)], Indice.BIEN_PLACE);
             index++;
         }
         for (int i = 0; i < indices.getIntIndices()[1]; i++) {
-            System.out.println("prochain emplacement : " + prochainIndexIndice(index));
             changerIndice(this.indices[tentativeActuelle][prochainIndexIndice(index)], Indice.MAL_PLACE);
             index++;
         }
